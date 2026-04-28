@@ -252,8 +252,11 @@
         </div>
     </div>
 
+    <!-- Sidebar Overlay -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/50 z-40 hidden opacity-0 transition-opacity" onclick="toggleSidebar()"></div>
+    
     <!-- Sidebar Left -->
-    <aside class="w-[260px] bg-[#141731] flex flex-col shrink-0">
+    <aside id="main-sidebar" class="w-[260px] bg-[#141731] flex flex-col shrink-0 fixed inset-y-0 left-0 z-50 transform -translate-x-full lg:translate-x-0 lg:static transition-transform duration-300">
         <div class="p-8">
             <div class="flex items-center gap-3">
                 <div
@@ -338,7 +341,10 @@
     <main class="flex-1 flex flex-col h-full bg-[#f8fafc] overflow-hidden">
 
         <!-- Header Top -->
-        <header class="h-20 bg-white border-b border-slate-100 flex items-center justify-between px-10 shrink-0">
+        <header class="h-16 md:h-20 bg-white border-b border-slate-100 flex items-center justify-between px-4 md:px-10 shrink-0">
+            <button onclick="toggleSidebar()" class="lg:hidden mr-4 text-slate-500 hover:text-purple-600">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
             <div class="w-full max-w-2xl">
                 <div class="relative group">
                     <i
@@ -375,8 +381,13 @@
 
         <div class="flex-1 flex overflow-hidden">
             <!-- Content Area -->
-            <div class="flex-1 overflow-y-auto px-10 py-10 custom-scrollbar">
-                <h1 class="text-[32px] font-extrabold text-slate-900 mb-8">Explorar</h1>
+            <div class="flex-1 overflow-y-auto px-6 md:px-10 py-6 md:py-10 custom-scrollbar">
+                <div class="flex items-center justify-between mb-6 md:mb-8">
+                    <h1 class="text-[24px] md:text-[32px] font-extrabold text-slate-900">Explorar</h1>
+                    <button onclick="toggleFilters()" class="lg:hidden bg-indigo-50 text-indigo-600 px-3 py-2 rounded-lg text-sm font-bold flex items-center gap-2">
+                        <i class="fa-solid fa-filter"></i> Filtros
+                    </button>
+                </div>
 
                 <!-- Category Chips -->
                 <div class="flex flex-wrap gap-8 mb-12" id="category-container">
@@ -437,8 +448,10 @@
                 </section>
             </div>
 
+            <!-- Filters Overlay -->
+            <div id="filters-overlay" class="fixed inset-0 bg-slate-900/50 z-40 hidden opacity-0 transition-opacity" onclick="toggleFilters()"></div>
             <!-- Right Sidebar Filters -->
-            <aside class="w-[360px] bg-white border-l border-slate-100 p-8 overflow-y-auto custom-scrollbar shrink-0">
+            <aside id="filters-sidebar" class="w-[300px] md:w-[360px] bg-white border-l border-slate-100 p-6 md:p-8 overflow-y-auto custom-scrollbar shrink-0 fixed inset-y-0 right-0 z-50 transform translate-x-full lg:translate-x-0 lg:static transition-transform duration-300">
                 <div class="flex items-center justify-between mb-8">
                     <h2 class="text-[18px] font-extrabold text-slate-900">Filtros</h2>
                     <button onclick="resetFilters()"
@@ -617,6 +630,29 @@
     </main>
 
     <script>
+        // Funciones Responsive
+        function toggleSidebar() {
+            const sidebar = document.getElementById('main-sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            if (sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden', 'opacity-0');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden', 'opacity-0');
+            }
+        }
+        function toggleFilters() {
+            const sidebar = document.getElementById('filters-sidebar');
+            const overlay = document.getElementById('filters-overlay');
+            if (sidebar.classList.contains('translate-x-full')) {
+                sidebar.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden', 'opacity-0');
+            } else {
+                sidebar.classList.add('translate-x-full');
+                overlay.classList.add('hidden', 'opacity-0');
+            }
+        }
         // ============================================================
         // 📌 DATOS SIMULADOS - ZONA DE PERSONALIZACIÓN
         // ============================================================

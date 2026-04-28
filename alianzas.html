@@ -9,6 +9,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="bg-slate-50 text-slate-800 h-screen flex overflow-hidden">
+    <div id="sidebar-overlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
 
     <!-- Sidebar -->
     <aside class="sidebar">
@@ -83,6 +84,9 @@
         
         <!-- Header -->
         <header class="main-header">
+            <button onclick="toggleSidebar()" class="hamburger-btn">
+                <i class="fa-solid fa-bars"></i>
+            </button>
             <div class="flex items-center gap-4">
                 <h2 class="text-xl font-bold text-slate-800 flex items-center gap-3">
                     <i class="fa-solid fa-handshake-angle text-purple-600"></i> Muro de Alianzas
@@ -96,8 +100,8 @@
             </div>
         </header>
 
-        <div class="flex-1 overflow-y-auto p-8">
-            <div class="max-w-6xl mx-auto flex gap-8">
+        <div class="flex-1 overflow-y-auto p-4 md:p-8">
+            <div class="max-w-6xl mx-auto flex flex-col lg:flex-row gap-8">
                 
                 <!-- Main Feed: Oportunidades -->
                 <div class="flex-1 space-y-6">
@@ -172,7 +176,7 @@
                 </div>
 
                 <!-- Right Sidebar: Guide -->
-                <div class="w-80 space-y-6">
+                <div class="w-full lg:w-80 space-y-6">
                     <div class="bg-gradient-to-br from-purple-700 to-indigo-800 text-white p-6 rounded-2xl shadow-md border border-purple-600">
                         <div class="flex items-center gap-2 mb-4">
                             <i data-lucide="info" class="w-5 h-5 text-purple-200"></i>
@@ -219,6 +223,10 @@
 
     <script>
         lucide.createIcons();
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('open');
+            document.getElementById('sidebar-overlay').classList.toggle('open');
+        }
     </script>
 </body>
 </html>

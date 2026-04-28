@@ -9,6 +9,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="bg-slate-50 text-slate-800 h-screen flex overflow-hidden">
+    <div id="sidebar-overlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
 
     <!-- Sidebar -->
     <aside class="sidebar">
@@ -83,6 +84,9 @@
         
         <!-- Header -->
         <header class="main-header">
+            <button onclick="toggleSidebar()" class="hamburger-btn">
+                <i class="fa-solid fa-bars"></i>
+            </button>
             <div class="flex items-center gap-4">
                 <h2 class="text-xl font-bold text-slate-800">Panel de Administración</h2>
             </div>
@@ -234,6 +238,11 @@
             // Reemplazar botonera
             btn.parentElement.innerHTML = `<button class="text-slate-400 hover:text-purple-600"><i data-lucide="edit" class="w-4 h-4"></i></button>`;
             lucide.createIcons();
+        }
+
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('open');
+            document.getElementById('sidebar-overlay').classList.toggle('open');
         }
     </script>
 </body>

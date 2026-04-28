@@ -121,11 +121,13 @@
     </style>
 </head>
 <body class="h-screen flex overflow-hidden bg-[#f8fafc]">
+    <!-- Sidebar Overlay -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/50 z-40 hidden opacity-0 transition-opacity" onclick="toggleSidebar()"></div>
 
     <!-- ══════════════════════════════════════
          SIDEBAR IZQUIERDO
     ══════════════════════════════════════ -->
-    <aside class="w-[260px] bg-[#141731] flex flex-col shrink-0">
+    <aside id="main-sidebar" class="w-[260px] bg-[#141731] flex flex-col shrink-0 fixed inset-y-0 left-0 z-50 transform -translate-x-full lg:translate-x-0 lg:static transition-transform duration-300">
         <div class="p-7">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 bg-gradient-to-br from-cyan-400 via-indigo-400 to-purple-500 rounded-xl flex items-center justify-center shadow-lg">
@@ -163,15 +165,20 @@
     <!-- ══════════════════════════════════════
          MAIN
     ══════════════════════════════════════ -->
-    <main class="flex-1 flex h-full overflow-hidden">
+    <main class="flex-1 flex flex-col md:flex-row h-full overflow-hidden">
 
         <!-- ── Panel izquierdo: lista de conversaciones ── -->
-        <div class="w-[340px] shrink-0 bg-white border-r border-slate-100 flex flex-col">
+        <div class="w-full md:w-[340px] shrink-0 bg-white border-b md:border-b-0 md:border-r border-slate-100 flex flex-col h-1/2 md:h-full">
 
             <!-- Header de chats -->
             <div class="px-6 pt-7 pb-4 border-b border-slate-100">
                 <div class="flex items-center justify-between mb-5">
-                    <h1 class="text-2xl font-extrabold text-slate-900">Mensajes</h1>
+                    <div class="flex items-center gap-3">
+                        <button onclick="toggleSidebar()" class="lg:hidden text-slate-500 hover:text-purple-600">
+                            <i class="fa-solid fa-bars text-xl"></i>
+                        </button>
+                        <h1 class="text-xl md:text-2xl font-extrabold text-slate-900">Mensajes</h1>
+                    </div>
                     <button onclick="showNewChat()" class="w-9 h-9 bg-purple-600 text-white rounded-xl flex items-center justify-center hover:bg-purple-700 transition-all active:scale-95 shadow-md shadow-purple-100" title="Nuevo mensaje">
                         <i class="fa-solid fa-pen-to-square text-sm"></i>
                     </button>
@@ -317,6 +324,20 @@
     </main>
 
     <script>
+    // ══════════════════════════════════════════════════════
+    // MODAL SIDEBAR
+    // ══════════════════════════════════════════════════════
+    function toggleSidebar() {
+        const sidebar = document.getElementById('main-sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+        if (sidebar.classList.contains('-translate-x-full')) {
+            sidebar.classList.remove('-translate-x-full');
+            overlay.classList.remove('hidden', 'opacity-0');
+        } else {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden', 'opacity-0');
+        }
+    }
     // ══════════════════════════════════════════════════════
     // 📌 DATOS SIMULADOS — Reemplaza con datos reales
     // ══════════════════════════════════════════════════════

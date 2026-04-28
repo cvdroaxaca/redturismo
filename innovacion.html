@@ -64,9 +64,11 @@
     </style>
 </head>
 <body class="h-screen flex overflow-hidden text-slate-800">
+    <!-- Sidebar Overlay -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/50 z-40 hidden opacity-0 transition-opacity" onclick="toggleSidebar()"></div>
 
 <!-- Sidebar Izquierda -->
-<aside class="w-[250px] bg-[#0f172a] flex flex-col flex-shrink-0 text-slate-300 relative">
+<aside id="main-sidebar" class="w-[250px] bg-[#0f172a] flex flex-col flex-shrink-0 text-slate-300 fixed inset-y-0 left-0 z-50 transform -translate-x-full lg:translate-x-0 lg:static transition-transform duration-300 relative">
     <div class="p-6 pb-2">
         <div class="flex items-center gap-3 mb-6">
             <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
@@ -131,8 +133,11 @@
 <!-- Main Area -->
 <div class="flex-1 flex flex-col min-w-0 bg-white">
     <!-- Header -->
-    <header class="h-16 border-b border-slate-200 flex items-center justify-between px-8 flex-shrink-0">
-        <div class="relative w-[26rem]">
+    <header class="h-16 border-b border-slate-200 flex items-center justify-between px-4 lg:px-8 flex-shrink-0 gap-3">
+        <button onclick="toggleSidebar()" class="lg:hidden text-slate-500 hover:text-[#6826D4] shrink-0">
+            <i class="fa-solid fa-bars text-xl"></i>
+        </button>
+        <div class="relative w-full lg:w-[26rem] hidden sm:block">
             <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
             <input type="text" placeholder="Buscar retos, ideas, proyectos o colaboradores..." class="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:border-[#6826D4] focus:ring-1 focus:ring-[#6826D4]">
         </div>
@@ -265,7 +270,7 @@
 </div>
 
 <!-- Right Sidebar -->
-<aside class="w-[340px] bg-[#fdfdfd] border-l border-slate-200 flex-shrink-0 flex flex-col overflow-y-auto">
+<aside class="hidden lg:flex w-[340px] bg-[#fdfdfd] border-l border-slate-200 flex-shrink-0 flex-col overflow-y-auto">
     <div class="p-6">
         
         <!-- Mis participaciones -->
@@ -538,6 +543,21 @@
             });
         });
     });
+
+    // ══════════════════════════════════════════════════════
+    // MODAL SIDEBAR
+    // ══════════════════════════════════════════════════════
+    function toggleSidebar() {
+        const sidebar = document.getElementById('main-sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+        if (sidebar.classList.contains('-translate-x-full')) {
+            sidebar.classList.remove('-translate-x-full');
+            overlay.classList.remove('hidden', 'opacity-0');
+        } else {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden', 'opacity-0');
+        }
+    }
 </script>
 </body>
 </html>
