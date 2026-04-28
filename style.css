@@ -1,0 +1,625 @@
+/* Red de Innovación Tecnológica en Turismo - Global Styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --primary: #7c3aed;
+    --primary-hover: #6d28d9;
+    --sidebar-bg: #1e1b4b;
+    --bg-main: #f7f9fc;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --white: #ffffff;
+    --accent-terracotta: #cc5a27;
+    --accent-agave: #2d5a27;
+    --shadow-premium: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    margin: 0;
+    overflow: hidden;
+}
+
+/* Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 16rem;
+    background-color: var(--sidebar-bg);
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    z-index: 30;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.625rem 1rem;
+    color: #cbd5e1;
+    text-decoration: none;
+    transition: all 0.2s;
+    font-size: 0.875rem;
+    border-radius: 0.75rem;
+}
+
+.nav-link:hover, .nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.nav-link.active, .nav-item.active {
+    background-color: var(--primary);
+    color: white;
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+/* Sidebar Logo */
+.sidebar-logo {
+    padding: 2rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+}
+
+.logo-icon {
+    width: 3rem;
+    height: 3rem;
+    background: linear-gradient(135deg, var(--primary) 0%, #a855f7 100%);
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: white;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+}
+
+.logo-text {
+    font-size: 0.875rem;
+    font-weight: 800;
+    line-height: 1.2;
+    color: white;
+}
+
+.sidebar-nav {
+    flex: 1;
+    padding: 0.75rem;
+    overflow-y: auto;
+}
+
+.sidebar-footer {
+    padding: 1.5rem;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Header */
+.main-header {
+    height: 5rem;
+    background-color: var(--white);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2.5rem;
+    z-index: 20;
+    position: sticky;
+    top: 0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.feed-spacing {
+    padding-top: 5rem;
+    padding-bottom: 8rem;
+}
+
+/* AI Search Progress Bar */
+.search-progress {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    width: 0%;
+    transition: width 0.5s ease;
+    z-index: 10;
+}
+
+.search-active .search-progress {
+    width: 100%;
+    animation: searchPulse 1.5s infinite;
+}
+
+@keyframes searchPulse {
+    0% { transform: opacity(0.5); }
+    50% { transform: opacity(1); }
+    100% { transform: opacity(0.5); }
+}
+
+/* AI Assistant Widget */
+.ai-assistant-widget {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+}
+
+/* AI Assistant & Chat Window */
+.ai-assistant-widget {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 15px;
+}
+
+.ai-avatar {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #7c3aed, #4f46e5);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(124, 58, 237, 0.4);
+    cursor: pointer;
+    border: 2px solid white;
+    animation: floating 3s ease-in-out infinite;
+}
+
+.ai-avatar i { color: white; font-size: 24px; }
+
+.ai-chat-window {
+    width: 320px;
+    height: 450px;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--slate-200);
+    border-radius: 1.5rem;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: translateY(20px) scale(0.9);
+    opacity: 0;
+}
+
+.ai-chat-window.visible {
+    display: flex;
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+.chat-header {
+    background: var(--slate-900);
+    padding: 15px 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.chat-status {
+    width: 8px;
+    height: 8px;
+    background: #22c55e;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #22c55e;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.chat-bubble {
+    padding: 10px 15px;
+    border-radius: 1rem;
+    font-size: 11px;
+    max-width: 85%;
+    line-height: 1.4;
+}
+
+.bubble-ai {
+    background: var(--slate-100);
+    color: var(--slate-800);
+    align-self: flex-start;
+    border-bottom-left-radius: 0.25rem;
+}
+
+.bubble-user {
+    background: var(--primary);
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 0.25rem;
+}
+
+.chat-input-area {
+    padding: 12px;
+    border-top: 1px solid var(--slate-100);
+    display: flex;
+    gap: 8px;
+}
+
+.chat-input-area input {
+    flex: 1;
+    background: var(--bg-main);
+    border: 1px solid var(--slate-200);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 11px;
+    outline: none;
+}
+
+/* User Ping Simulation */
+.user-ping {
+    background: rgba(124, 58, 237, 0.6);
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes ping {
+    75%, 100% { transform: scale(3); opacity: 0; }
+}
+
+/* Cards & Components */
+.guide-card {
+    background: #f8fafc;
+    border: 1px solid var(--slate-100);
+    border-radius: 0.75rem;
+    padding: 0.6rem;
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    transition: all 0.2s ease;
+    margin-bottom: 0.5rem;
+}
+
+.guide-card:hover {
+    background: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    transform: translateX(4px);
+    border-color: var(--primary);
+}
+
+.guide-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 0.5rem;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.guide-info {
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.guide-name {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--slate-900);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+}
+
+.guide-spec {
+    font-size: 9px;
+    color: var(--slate-500);
+    margin: 1px 0 0 0;
+    line-height: 1.1;
+    display: block;
+}
+
+.guide-rating {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-top: 2px;
+}
+
+.guide-action {
+    background: var(--slate-900);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.guide-action:hover {
+    background: var(--primary);
+    transform: scale(1.1);
+}
+.card {
+    background-color: var(--white);
+    border-radius: 0.75rem;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    padding: 1.25rem;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.5rem;
+    font-weight: 700;
+    font-size: 0.875rem;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.badge {
+    background-color: #f5f3ff;
+    color: var(--primary);
+    font-size: 0.625rem;
+    font-weight: 700;
+    padding: 0.375rem 0.625rem;
+    border-radius: 0.375rem;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+/* Grid System */
+.grid-layout {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2rem;
+}
+/* Map IA Styles & Fullscreen */
+#map {
+    height: 450px;
+    width: 100%;
+    border-radius: 1.25rem;
+    z-index: 10;
+    border: 1px solid var(--border-color);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.map-fullscreen-container {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 9999 !important;
+    border-radius: 0 !important;
+}
+
+#map.map-fullscreen-container {
+    border-radius: 0 !important;
+    border: none !important;
+}
+
+.fullscreen-ui-top {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10000;
+    width: 90%;
+    max-width: 800px;
+    pointer-events: none;
+}
+
+.fullscreen-ui-top > * {
+    pointer-events: all;
+}
+
+.close-map-btn {
+    position: fixed;
+    top: 25px;
+    left: 25px;
+    z-index: 10001;
+    background: var(--primary);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 12px;
+    display: none; /* Se controla por JS */
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: 2px solid rgba(255,255,255,0.2);
+    box-shadow: 0 10px 30px rgba(124, 58, 237, 0.4);
+    transition: all 0.3s ease;
+}
+
+.close-map-btn.visible {
+    display: flex !important;
+}
+
+.close-map-btn:hover {
+    background: var(--slate-900);
+    transform: translateY(-2px);
+}
+
+/* Fullscreen Branding */
+.fullscreen-logo {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    z-index: 10001;
+    display: none; /* Se controla por JS */
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.9);
+    padding: 8px 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--slate-200);
+}
+
+.fullscreen-logo.visible {
+    display: flex !important;
+}
+
+.leaflet-popup-content-wrapper {
+    border-radius: 1rem;
+    padding: 0;
+    overflow: hidden;
+}
+
+.leaflet-popup-content {
+    margin: 0;
+    width: 200px !important;
+}
+
+/* Reactions */
+.reaction-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.reaction-btn:hover {
+    background-color: var(--bg-main);
+    transform: translateY(-2px);
+}
+
+.reaction-btn.active {
+    color: var(--primary);
+    font-weight: 800;
+}
+
+/* Toasts */
+.toast-container {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.toast {
+    background: white;
+    padding: 1rem 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* Quick View Hover */
+.quick-view {
+    position: absolute;
+    background: white;
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-premium);
+    z-index: 100;
+    width: 250px;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    border: 1px solid var(--border-color);
+}
+
+.has-quick-view:hover .quick-view {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+}
+
+/* Micro-animations */
+.fade-in { animation: fadeIn 0.5s ease-in; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.pulse-primary { animation: pulsePrimary 2s infinite; }
+@keyframes pulsePrimary {
+    0% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(124, 58, 237, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0); }
+}
+
+/* Leaflet Custom Div Icon */
+.custom-div-icon {
+    background: transparent;
+    border: none;
+}
+
+.custom-div-icon div {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.custom-div-icon:hover div {
+    transform: scale(1.2) translateY(-5px);
+    z-index: 1000;
+}

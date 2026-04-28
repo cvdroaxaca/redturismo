@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analítica – Red de Innovación Tecnológica en Turismo</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous"/>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .sidebar-link { transition: all 0.2s ease; }
+        .sidebar-link:hover { background: rgba(255,255,255,0.05); }
+        .sidebar-link.active { background: #6826D4; color: white; }
+        
+        .tab { color: #64748b; font-weight: 500; padding-bottom: 0.5rem; transition: all 0.2s; border-bottom: 2px solid transparent; cursor: pointer; }
+        .tab:hover { color: #6826D4; }
+        .tab.active { color: #6826D4; font-weight: 600; border-bottom-color: #6826D4; }
+
+        .kpi-card { transition: transform 0.2s, box-shadow 0.2s; opacity: 0; }
+        .kpi-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); }
+
+        .panel-card { background: white; border: 1px solid #f1f5f9; border-radius: 0.75rem; padding: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.02); opacity: 0; }
+
+        .btn-outline {
+            border: 1px solid #e2e8f0; color: #6826D4; font-weight: 500; transition: all 0.2s; background: white;
+        }
+        .btn-outline:hover { border-color: #6826D4; background-color: #f3e8ff; }
+
+        .chart-container-line { position: relative; height: 260px; width: 100%; }
+        .chart-container-donut { position: relative; height: 200px; width: 100%; }
+        .chart-container-small-donut { position: relative; height: 140px; width: 140px; }
+        .chart-container-bar { position: relative; height: 220px; width: 100%; }
+
+        .donut-center-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; }
+
+        /* Map styling */
+        .world-map-svg { width: 100%; height: 100%; object-fit: contain; opacity: 0.4; }
+        .map-dot {
+            position: absolute; width: 8px; height: 8px; background-color: #6826D4; border-radius: 50%;
+            transform: translate(-50%, -50%); cursor: pointer;
+            box-shadow: 0 0 0 rgba(104, 38, 212, 0.4);
+            animation: pulse-dot 2s infinite;
+        }
+        .map-dot:hover { background-color: #9333ea; z-index: 10; }
+        .map-dot:hover::after {
+            content: attr(data-title); position: absolute; top: -25px; left: 50%; transform: translateX(-50%);
+            background: #1e293b; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; white-space: nowrap; pointer-events: none;
+        }
+        
+        @keyframes pulse-dot {
+            0% { box-shadow: 0 0 0 0 rgba(104, 38, 212, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(104, 38, 212, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(104, 38, 212, 0); }
+        }
+
+        .dest-bar { width: 0%; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
+    </style>
+</head>
+<body class="h-screen flex overflow-hidden text-slate-800">
+
+<!-- Sidebar Izquierda -->
+<aside class="w-[250px] bg-[#0f172a] flex flex-col flex-shrink-0 text-slate-300 relative z-20">
+    <div class="p-6 pb-2">
+        <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                <i class="fa-solid fa-shapes text-white"></i>
+            </div>
+            <div class="leading-tight">
+                <span class="text-white font-bold text-sm block">Red de Innovación</span>
+                <span class="text-white font-bold text-sm block">Tecnológica en</span>
+                <span class="text-slate-400 text-sm">Turismo</span>
+            </div>
+        </div>
+    </div>
+    
+    <nav class="flex-1 px-3 space-y-1 overflow-y-auto text-sm font-medium">
+        <a href="index.html" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-solid fa-house w-5 text-center"></i> Inicio</a>
+        <a href="explorar.html" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-solid fa-magnifying-glass w-5 text-center"></i> Explorar</a>
+        <a href="mensajeria.html" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-regular fa-comment-dots w-5 text-center"></i> Mensajes</a>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg justify-between">
+            <div class="flex items-center gap-3">
+                <i class="fa-regular fa-bell w-5 text-center"></i> Notificaciones
+            </div>
+            <span class="bg-[#6826D4] text-white text-xs px-1.5 py-0.5 rounded-full shadow-sm">3</span>
+        </a>
+        <a href="grupos.html" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-solid fa-users w-5 text-center"></i> Grupos</a>
+        <a href="eventos.html" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-regular fa-calendar w-5 text-center"></i> Eventos</a>
+        <a href="marketplace.html" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-solid fa-store w-5 text-center"></i> Marketplace</a>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-regular fa-handshake w-5 text-center"></i> Colaboraciones</a>
+        <a href="cursos.html" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-solid fa-graduation-cap w-5 text-center"></i> Capacitación</a>
+        <a href="innovacion.html" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-regular fa-lightbulb w-5 text-center"></i> Innovación</a>
+        <a href="analitica.html" class="sidebar-link active flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-solid fa-chart-simple w-5 text-center"></i> Analítica</a>
+    </nav>
+
+    <!-- User Profile & Points -->
+    <div class="mt-auto border-t border-slate-700/50">
+        <div class="p-4">
+            <div class="flex items-center gap-3 p-2 cursor-pointer transition-colors shadow-sm bg-slate-800/30 rounded-lg border border-slate-700/30">
+                <img src="https://i.pravatar.cc/150?img=47" class="w-9 h-9 rounded-full object-cover">
+                <div class="flex-1 min-w-0">
+                    <p class="text-white text-sm font-medium truncate">María López</p>
+                    <p class="text-[10px] text-slate-400 truncate uppercase">Empresa Turística</p>
+                </div>
+                <i class="fa-solid fa-chevron-up text-xs text-slate-500"></i>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<!-- Main Area -->
+<div class="flex-1 flex flex-col min-w-0 bg-[#f8fafc]">
+    <!-- Header -->
+    <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 flex-shrink-0 z-10">
+        <div class="relative w-[30rem] group">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#6826D4] transition-colors"></i>
+            <input type="text" placeholder="Buscar métricas, informes, empresas, destinos..." class="w-full pl-10 pr-4 py-2 bg-slate-50 rounded-lg border border-slate-200 text-sm focus:outline-none focus:border-[#6826D4] focus:ring-1 focus:ring-[#6826D4] focus:bg-white transition-all shadow-sm">
+        </div>
+        <div class="flex items-center gap-5">
+            <button class="text-slate-500 hover:text-[#6826D4] transition-colors">
+                <i class="fa-regular fa-calendar text-xl"></i>
+            </button>
+            <div class="flex items-center gap-4 text-slate-500 mx-2">
+                <button class="relative hover:text-[#6826D4] transition-colors">
+                    <i class="fa-regular fa-bell text-xl"></i>
+                    <span class="absolute -top-1 -right-1 w-4 h-4 bg-[#6826D4] rounded-full border border-white text-[9px] text-white flex items-center justify-center font-bold shadow-sm">3</span>
+                </button>
+                <button class="hover:text-[#6826D4] transition-colors">
+                    <i class="fa-regular fa-comment-dots text-xl"></i>
+                </button>
+            </div>
+            <button onclick="updateAllData()" class="btn-outline px-4 py-2 rounded-lg text-sm flex items-center gap-2 hover:shadow-sm">
+                <i class="fa-solid fa-rotate-right" id="refresh-icon"></i> Actualizar
+            </button>
+            <button class="btn-outline px-4 py-2 rounded-lg text-sm flex items-center gap-2 bg-[#6826D4] text-white hover:bg-[#581cba] hover:text-white border-transparent shadow-sm">
+                <i class="fa-solid fa-download"></i> Exportar
+            </button>
+        </div>
+    </header>
+
+    <!-- Scrollable Content -->
+    <main class="flex-1 overflow-y-auto p-8" id="main-content">
+        
+        <!-- Header Info -->
+        <div class="flex justify-between items-end mb-6">
+            <div>
+                <h1 class="text-3xl font-extrabold text-slate-900 mb-1">Analítica</h1>
+                <p class="text-sm text-slate-500">Convierte los datos en decisiones inteligentes para impulsar el turismo en Oaxaca.</p>
+            </div>
+            <div class="flex gap-3">
+                <div class="flex items-center border border-slate-200 rounded-lg px-3 py-2 bg-white text-sm shadow-sm cursor-pointer hover:bg-slate-50 transition-colors">
+                    <i class="fa-regular fa-calendar mr-2 text-[#6826D4]"></i>
+                    <span class="text-slate-700 font-medium">01 May 2024 – 31 May 2024</span>
+                    <i class="fa-solid fa-chevron-down ml-3 text-slate-400 text-xs text-slate-400"></i>
+                </div>
+                <button class="btn-outline px-4 py-2 rounded-lg text-sm shadow-sm flex items-center gap-2 bg-white">
+                    <i class="fa-solid fa-sliders"></i> Personalizar
+                </button>
+            </div>
+        </div>
+        
+        <!-- Tabs -->
+        <div class="flex gap-6 border-b border-slate-200 mb-6 text-sm overflow-x-auto whitespace-nowrap px-1" id="analytics-tabs">
+            <div class="tab active" onclick="activateTab(this)">Resumen</div>
+            <div class="tab" onclick="activateTab(this)">Empresas</div>
+            <div class="tab" onclick="activateTab(this)">Destinos</div>
+            <div class="tab" onclick="activateTab(this)">Mercado</div>
+            <div class="tab" onclick="activateTab(this)">Comunidad</div>
+            <div class="tab" onclick="activateTab(this)">Formación</div>
+            <div class="tab" onclick="activateTab(this)">Innovación</div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+            <div class="kpi-card bg-white p-4 rounded-xl border border-slate-100 flex gap-3 relative overflow-hidden group">
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
+                <div class="w-10 h-10 rounded-lg bg-[#9333ea] flex items-center justify-center text-white shrink-0 shadow-sm"><i class="fa-solid fa-users"></i></div>
+                <div>
+                    <h3 class="text-[11px] text-slate-500 font-medium mb-1 truncate">Empresas activas</h3>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-xl font-bold text-slate-900" id="kpi-empresas">1,248</span>
+                        <span class="text-[10px] text-emerald-500 font-bold flex items-center"><i class="fa-solid fa-arrow-trend-up text-[9px] mr-1"></i> <span id="kpi-empresas-p">12.5%</span></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="kpi-card bg-white p-4 rounded-xl border border-slate-100 flex gap-3 relative overflow-hidden group">
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
+                <div class="w-10 h-10 rounded-lg bg-emerald-500 flex items-center justify-center text-white shrink-0 shadow-sm"><i class="fa-solid fa-bag-shopping"></i></div>
+                <div>
+                    <h3 class="text-[11px] text-slate-500 font-medium mb-1 truncate">Reservas generadas</h3>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-xl font-bold text-slate-900" id="kpi-reservas">2,356</span>
+                        <span class="text-[10px] text-emerald-500 font-bold flex items-center"><i class="fa-solid fa-arrow-trend-up text-[9px] mr-1"></i> <span id="kpi-reservas-p">18.7%</span></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="kpi-card bg-white p-4 rounded-xl border border-slate-100 flex gap-3 relative overflow-hidden group">
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
+                <div class="w-10 h-10 rounded-lg bg-blue-500 flex items-center justify-center text-white shrink-0 shadow-sm"><i class="fa-solid fa-coins"></i></div>
+                <div>
+                    <h3 class="text-[11px] text-slate-500 font-medium mb-1 truncate">Ingresos (MXN)</h3>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-xl font-bold text-slate-900" id="kpi-ingresos">$8.45M</span>
+                        <span class="text-[10px] text-emerald-500 font-bold flex items-center"><i class="fa-solid fa-arrow-trend-up text-[9px] mr-1"></i> <span id="kpi-ingresos-p">21.3%</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="kpi-card bg-white p-4 rounded-xl border border-slate-100 flex gap-3 relative overflow-hidden group">
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
+                <div class="w-10 h-10 rounded-lg bg-orange-500 flex items-center justify-center text-white shrink-0 shadow-sm"><i class="fa-solid fa-plane"></i></div>
+                <div>
+                    <h3 class="text-[11px] text-slate-500 font-medium mb-1 truncate">Viajeros impactados</h3>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-xl font-bold text-slate-900" id="kpi-viajeros">12,842</span>
+                        <span class="text-[10px] text-emerald-500 font-bold flex items-center"><i class="fa-solid fa-arrow-trend-up text-[9px] mr-1"></i> <span id="kpi-viajeros-p">15.2%</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="kpi-card bg-white p-4 rounded-xl border border-slate-100 flex gap-3 relative overflow-hidden group">
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
+                <div class="w-10 h-10 rounded-lg bg-teal-500 flex items-center justify-center text-white shrink-0 shadow-sm"><i class="fa-solid fa-handshake"></i></div>
+                <div>
+                    <h3 class="text-[11px] text-slate-500 font-medium mb-1 truncate">Colaboraciones</h3>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-xl font-bold text-slate-900" id="kpi-colab">156</span>
+                        <span class="text-[10px] text-emerald-500 font-bold flex items-center"><i class="fa-solid fa-arrow-trend-up text-[9px] mr-1"></i> <span id="kpi-colab-p">9.1%</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <style>@keyframes shimmer { 100% { transform: translateX(100%); } }</style>
+
+        <!-- Main Grid Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
+            
+            <!-- Tendencia Ingresos -->
+            <div class="panel-card lg:col-span-2 relative">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-bold text-slate-800 flex items-center gap-1">Tendencia de ingresos <i class="fa-solid fa-circle-info text-slate-300 text-xs ml-1 cursor-help hover:text-[#6826D4] transition-colors" title="Histórico de entradas económicas totales de la red"></i></h3>
+                    <div class="flex items-center gap-2">
+                        <select class="border border-slate-200 rounded-lg px-2 py-1.5 text-[11px] font-medium text-slate-600 bg-slate-50 focus:outline-none focus:border-[#6826D4] cursor-pointer" onchange="updateLineChartData()">
+                            <option>Diario</option>
+                            <option>Semanal</option>
+                            <option>Mensual</option>
+                        </select>
+                        <button class="w-8 h-8 rounded-lg hover:bg-slate-100 flex items-center justify-center text-slate-400 transition-colors">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex gap-4 mb-2 text-[11px] font-medium text-slate-500 pl-2">
+                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-1.5 bg-[#6826D4] inline-block rounded-sm shadow-sm shadow-purple-200"></span> Ingresos (MXN)</span>
+                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-0 border-t-2 border-dashed border-[#c084fc] inline-block"></span> Promedio móvil</span>
+                </div>
+                <div class="chart-container-line">
+                    <canvas id="lineChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Empresas Categoría -->
+            <div class="panel-card lg:col-span-1 flex flex-col hover:border-[#e9d5ff] transition-colors">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-bold text-slate-800">Distribución por sector</h3>
+                    <button class="text-slate-400 hover:text-[#6826D4]"><i class="fa-solid fa-expand text-sm"></i></button>
+                </div>
+                <div class="flex-1 flex flex-col items-center justify-center relative pb-3 mt-2">
+                    <div class="chart-container-donut">
+                        <canvas id="categoryDonut"></canvas>
+                        <div class="donut-center-text">
+                            <span class="block text-2xl font-extrabold text-slate-900" id="total-sectors">1,248</span>
+                            <span class="block text-[10px] text-slate-500 uppercase tracking-widest font-semibold">Total</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-[10px] w-full pt-4 border-t border-slate-100 flex flex-col gap-2 font-medium bg-slate-50 p-3 rounded-lg mt-2">
+                    <div class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-[#6826D4]"></span> Hospedaje</span> <span>28% <span class="text-slate-400 ml-1">(349)</span></span></div>
+                    <div class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-500"></span> Alimentos</span> <span>22% <span class="text-slate-400 ml-1">(274)</span></span></div>
+                    <div class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-teal-500"></span> Transporte</span> <span>15% <span class="text-slate-400 ml-1">(187)</span></span></div>
+                    <div class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Experiencias</span> <span>18% <span class="text-slate-400 ml-1">(224)</span></span></div>
+                </div>
+            </div>
+
+            <!-- Insights Clave -->
+            <div class="panel-card lg:col-span-1 flex flex-col bg-gradient-to-br from-[#f8f5ff] to-white border border-[#e9d5ff]">
+                <h3 class="font-bold text-[#6826D4] mb-5 flex items-center gap-2"><i class="fa-solid fa-wand-magic-sparkles"></i> Insights clave con IA</h3>
+                
+                <div class="space-y-4 flex-1">
+                    <div class="bg-white p-3 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow cursor-pointer origin-left insight-item">
+                        <div class="flex gap-2">
+                            <i class="fa-solid fa-arrow-trend-up text-green-500 mt-1"></i>
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-800">Crecimiento sostenido</h4>
+                                <p class="text-[10px] text-slate-500 leading-relaxed mt-0.5">Ingresos crecieron 21.3% gracias a las experiencias de ecoturismo.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-3 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow cursor-pointer origin-left insight-item">
+                        <div class="flex gap-2">
+                            <i class="fa-solid fa-globe text-blue-500 mt-1"></i>
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-800">Nuevo mercado detectado</h4>
+                                <p class="text-[10px] text-slate-500 leading-relaxed mt-0.5">Incremento del 14% de visitantes desde Canadá este trimestre.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-3 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow cursor-pointer origin-left insight-item">
+                        <div class="flex gap-2">
+                            <i class="fa-regular fa-star text-orange-500 mt-1"></i>
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-800">Tendencia cultural</h4>
+                                <p class="text-[10px] text-slate-500 leading-relaxed mt-0.5">Las artesanías aumentaron búsquedas un 9% en la app móvil.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="w-full text-[#6826D4] bg-[#f3e8ff] hover:bg-[#e9d5ff] font-semibold text-[11px] py-2 rounded-lg mt-4 transition-colors">Ver reporte completo</button>
+            </div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-6">
+            
+            <!-- Top Destinos -->
+            <div class="panel-card flex flex-col">
+                <h3 class="font-bold text-slate-800 mb-6">Top destinos (Oaxaca)</h3>
+                
+                <div class="flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 px-1">
+                    <span>Destino</span>
+                    <span>Visitas Mensuales</span>
+                </div>
+                
+                <div class="flex flex-col gap-4 flex-1 justify-center relative">
+                    
+                    <div class="flex items-center gap-3 group">
+                        <span class="text-[11px] font-semibold text-slate-700 w-32 truncate group-hover:text-[#6826D4] transition-colors">Oaxaca de Juárez</span>
+                        <div class="flex-1 h-3 bg-slate-100 rounded-full overflow-hidden shadow-inner">
+                            <div class="bg-gradient-to-r from-[#8b5cf6] to-[#6826D4] h-full rounded-full dest-bar" style="width: 0%" data-target="100%"></div>
+                        </div>
+                        <span class="text-xs font-bold text-slate-800 w-12 text-right num-anim" data-val="5842">0</span>
+                    </div>
+                    
+                    <div class="flex items-center gap-3 group">
+                        <span class="text-[11px] font-semibold text-slate-700 w-32 truncate group-hover:text-[#6826D4] transition-colors">Bahías de Huatulco</span>
+                        <div class="flex-1 h-3 bg-slate-100 rounded-full overflow-hidden shadow-inner">
+                            <div class="bg-gradient-to-r from-[#a78bfa] to-[#8b5cf6] h-full rounded-full dest-bar opacity-90" style="width: 0%" data-target="65%"></div>
+                        </div>
+                        <span class="text-xs font-bold text-slate-800 w-12 text-right num-anim" data-val="3125">0</span>
+                    </div>
+
+                    <div class="flex items-center gap-3 group">
+                        <span class="text-[11px] font-semibold text-slate-700 w-32 truncate group-hover:text-[#6826D4] transition-colors">Puerto Escondido</span>
+                        <div class="flex-1 h-3 bg-slate-100 rounded-full overflow-hidden shadow-inner">
+                            <div class="bg-gradient-to-r from-[#c084fc] to-[#a78bfa] h-full rounded-full dest-bar opacity-80" style="width: 0%" data-target="55%"></div>
+                        </div>
+                        <span class="text-xs font-bold text-slate-800 w-12 text-right num-anim" data-val="2876">0</span>
+                    </div>
+
+                    <div class="flex items-center gap-3 group">
+                        <span class="text-[11px] font-semibold text-slate-700 w-32 truncate group-hover:text-[#6826D4] transition-colors">Hierve el Agua</span>
+                        <div class="flex-1 h-3 bg-slate-100 rounded-full overflow-hidden shadow-inner">
+                            <div class="bg-gradient-to-r from-[#d8b4fe] to-[#c084fc] h-full rounded-full dest-bar opacity-70" style="width: 0%" data-target="45%"></div>
+                        </div>
+                        <span class="text-xs font-bold text-slate-800 w-12 text-right num-anim" data-val="2341">0</span>
+                    </div>
+
+                    <div class="flex items-center gap-3 group">
+                        <span class="text-[11px] font-semibold text-slate-700 w-32 truncate group-hover:text-[#6826D4] transition-colors">Mitla</span>
+                        <div class="flex-1 h-3 bg-slate-100 rounded-full overflow-hidden shadow-inner">
+                            <div class="bg-gradient-to-r from-[#e9d5ff] to-[#d8b4fe] h-full rounded-full dest-bar opacity-60" style="width: 0%" data-target="35%"></div>
+                        </div>
+                        <span class="text-xs font-bold text-slate-800 w-12 text-right num-anim" data-val="1985">0</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Origen Viajeros (Interactive SVG Map Simulation) -->
+            <div class="panel-card flex flex-col overflow-hidden relative">
+                <h3 class="font-bold text-slate-800 mb-2 z-10 relative">Origen de los viajeros</h3>
+                
+                <div class="flex-1 relative min-h-[160px] bg-sky-50 rounded-lg overflow-hidden border border-sky-100 mb-4 mt-2">
+                    <!-- High Quality SVG Map -->
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg" class="absolute inset-0 w-[110%] h-[110%] max-w-none -left-[5%] -top-[5%] object-contain opacity-20" alt="Mapa Mundial" style="filter: sepia(1) hue-rotate(200deg) saturate(3) brightness(0.7);">
+                    
+                    <!-- Animated Data Dots Container -->
+                    <div id="map-dots-container" class="absolute inset-0"></div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-[10px] font-medium text-slate-600 bg-white p-2 rounded-lg border border-slate-100 z-10 shadow-sm relative">
+                    <div class="flex justify-between items-center bg-slate-50 px-2 py-1.5 rounded"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#6826D4]"></span> Nacionales</span> <span class="font-bold text-slate-900" id="ori-nac">72%</span></div>
+                    <div class="flex justify-between items-center bg-slate-50 px-2 py-1.5 rounded"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> EUA</span> <span class="font-bold text-slate-900" id="ori-eua">14%</span></div>
+                    <div class="flex justify-between items-center bg-slate-50 px-2 py-1.5 rounded"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-teal-500"></span> España</span> <span class="font-bold text-slate-900" id="ori-esp">5%</span></div>
+                    <div class="flex justify-between items-center bg-slate-50 px-2 py-1.5 rounded"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Canadá</span> <span class="font-bold text-slate-900" id="ori-can">3%</span></div>
+                </div>
+            </div>
+
+            <!-- Métricas Comunidad -->
+            <div class="panel-card flex flex-col bg-[#6826d4] text-white overflow-hidden relative">
+                <!-- Abstract bg design -->
+                <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -mr-10 -mt-10"></div>
+                <div class="absolute bottom-0 left-0 w-24 h-24 bg-purple-900/50 rounded-full blur-xl -ml-5 -mb-5"></div>
+                
+                <h3 class="font-bold mb-4 relative z-10"><i class="fa-solid fa-people-group mr-1.5"></i> Rendimiento Comunitario</h3>
+                
+                <div class="grid grid-cols-2 gap-3 flex-1 relative z-10">
+                    <div class="bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl p-4 flex flex-col hover:bg-white/20 transition-colors">
+                        <i class="fa-solid fa-user-plus text-purple-200 mb-2"></i>
+                        <h4 class="text-[9px] text-purple-200 font-semibold uppercase tracking-wider mb-0.5">Usuarios</h4>
+                        <span class="text-xl font-bold" id="com-usr">4,896</span>
+                        <span class="text-[9px] text-emerald-300 font-bold mt-1"><i class="fa-solid fa-arrow-up mr-0.5"></i> +11.4%</span>
+                    </div>
+                    
+                    <div class="bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl p-4 flex flex-col hover:bg-white/20 transition-colors">
+                        <i class="fa-solid fa-signs-post text-purple-200 mb-2"></i>
+                        <h4 class="text-[9px] text-purple-200 font-semibold uppercase tracking-wider mb-0.5">Posts</h4>
+                        <span class="text-xl font-bold" id="com-pos">782</span>
+                        <span class="text-[9px] text-emerald-300 font-bold mt-1"><i class="fa-solid fa-arrow-up mr-0.5"></i> +10.2%</span>
+                    </div>
+
+                    <div class="bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl p-4 flex flex-col hover:bg-white/20 transition-colors">
+                        <i class="fa-solid fa-heart-pulse text-rose-300 mb-2"></i>
+                        <h4 class="text-[9px] text-purple-200 font-semibold uppercase tracking-wider mb-0.5">Interacciones</h4>
+                        <span class="text-xl font-bold" id="com-int">6,325</span>
+                        <span class="text-[9px] text-emerald-300 font-bold mt-1"><i class="fa-solid fa-arrow-up mr-0.5"></i> +16.8%</span>
+                    </div>
+
+                    <div class="bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl p-4 flex flex-col hover:bg-white/20 transition-colors">
+                        <i class="fa-solid fa-paper-plane text-sky-300 mb-2"></i>
+                        <h4 class="text-[9px] text-purple-200 font-semibold uppercase tracking-wider mb-0.5">Mensajes</h4>
+                        <span class="text-xl font-bold" id="com-msg">1,912</span>
+                        <span class="text-[9px] text-emerald-300 font-bold mt-1"><i class="fa-solid fa-arrow-up mr-0.5"></i> +8.7%</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+</div>
+
+<script>
+    Chart.defaults.font.family = "'Inter', sans-serif";
+    Chart.defaults.color = '#64748b';
+    
+    let lineChartObj, categoryDonutObj;
+
+    const initLineChart = () => {
+        const ctx = document.getElementById('lineChart').getContext('2d');
+        const gradientFill = ctx.createLinearGradient(0, 0, 0, 300);
+        gradientFill.addColorStop(0, 'rgba(104, 38, 212, 0.25)'); 
+        gradientFill.addColorStop(1, 'rgba(104, 38, 212, 0)');
+
+        lineChartObj = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['1 May', '6 May', '11 May', '16 May', '21 May', '26 May', '31 May'],
+                datasets: [{
+                    label: 'Ingresos',
+                    data: [1.3, 3.2, 4.1, 4.8, 7.5, 6.2, 8.45],
+                    borderColor: '#6826D4', backgroundColor: gradientFill, borderWidth: 2.5,
+                    pointBackgroundColor: '#fff', pointBorderColor: '#6826D4', pointBorderWidth: 2, pointRadius: 3, pointHoverRadius: 6,
+                    fill: true, tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                animation: { duration: 1500, easing: 'easeOutQuart' },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { backgroundColor: 'rgba(15, 23, 42, 0.9)', titleColor: 'white', bodyColor: '#cbd5e1', padding: 10, displayColors: false, callbacks: { label: function(context) { return '$' + context.parsed.y + 'M'; } } }
+                },
+                scales: {
+                    x: { grid: { display: false, drawBorder: false }, ticks: { font: { size: 10 } } },
+                    y: { grid: { borderDash: [4, 4], color: '#e2e8f0', drawBorder: false }, ticks: { font: { size: 10 }, stepSize: 2, max: 10, callback: function(value) { return '$' + value + 'M'; } } }
+                }
+            }
+        });
+    };
+
+    const initCategoryDonut = () => {
+        const ctx = document.getElementById('categoryDonut').getContext('2d');
+        categoryDonutObj = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Hospedaje', 'Alimentos', 'Transporte', 'Experiencias', 'Artesanías'],
+                datasets: [{
+                    data: [349, 274, 187, 224, 112],
+                    backgroundColor: ['#6826D4', '#3b82f6', '#14b8a6', '#10b981', '#f43f5e'],
+                    borderWidth: 2, borderColor: '#fff', hoverOffset: 8
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false, cutout: '70%',
+                animation: { animateScale: true, animateRotate: true, duration: 1500 },
+                plugins: { legend: { display: false }, tooltip: { backgroundColor: 'rgba(15, 23, 42, 0.9)', padding: 10, cornerRadius: 8 } }
+            }
+        });
+    };
+
+    function runAnimations() {
+        // Fade in cards staggered
+        gsap.to('.kpi-card', { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: 'power2.out' });
+        gsap.to('.panel-card', { opacity: 1, y: 0, duration: 0.8, stagger: 0.15, ease: 'power2.out', delay: 0.2 });
+        gsap.from('.insight-item', { opacity: 0, scaleX:0.9, duration: 0.5, stagger: 0.1, delay: 1, ease: 'back.out(1.7)' });
+        
+        // Progress bars animation
+        setTimeout(() => {
+            const bars = document.querySelectorAll('.dest-bar');
+            bars.forEach(bar => {
+                bar.style.width = bar.getAttribute('data-target');
+            });
+            
+            // Number counters
+            const nums = document.querySelectorAll('.num-anim');
+            nums.forEach(num => {
+                const target = parseInt(num.getAttribute('data-val'));
+                gsap.to(num, {
+                    innerHTML: target, duration: 2, snap: { innerHTML: 1 },
+                    onUpdate: function() { num.innerHTML = parseInt(this.targets()[0].innerHTML).toLocaleString(); }
+                });
+            });
+        }, 800);
+    }
+
+    function updateLineChartData() {
+        // Simulate changing timeframe
+        const newData = Array.from({length: 7}, () => Math.random() * 8 + 1);
+        lineChartObj.data.datasets[0].data = newData;
+        lineChartObj.update();
+    }
+
+    function updateAllData() {
+        const icon = document.getElementById('refresh-icon');
+        icon.classList.add('animate-spin');
+        
+        setTimeout(() => {
+            updateLineChartData();
+            
+            // Animate KPIs randomly for demo
+            ['empresas', 'reservas', 'ingresos', 'viajeros', 'colab'].forEach(id => {
+                const el = document.getElementById('kpi-'+id);
+                gsap.fromTo(el, {opacity:0, y:-10}, {innerHTML: Math.floor(Math.random()*5000 + 1000).toLocaleString(), opacity:1, y:0, duration:0.5, snap:{innerHTML:1}});
+            });
+            
+            icon.classList.remove('animate-spin');
+        }, 600);
+    }
+
+    function activateTab(el) {
+        document.querySelectorAll('#analytics-tabs .tab').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+        updateAllData(); // Simulate loading new tab data
+    }
+
+    function renderMapDots() {
+        const container = document.getElementById('map-dots-container');
+        // Pre-verified percentages to ensure dots land exactly on landmasses 
+        const landCoords = [
+            {l: 16, t: 32}, {l: 25, t: 35}, {l: 20, t: 30}, {l: 22, t: 38}, {l: 23, t: 46}, // North America
+            {l: 18, t: 20}, {l: 28, t: 22}, {l: 25, t: 40}, {l: 30, t: 55}, {l: 34, t: 65}, // Canada / Central / South AM
+            {l: 31, t: 78}, {l: 36, t: 60}, {l: 47, t: 26}, {l: 48, t: 32}, {l: 51, t: 26}, // UK / Europe
+            {l: 55, t: 30}, {l: 50, t: 40}, {l: 55, t: 45}, {l: 53, t: 72}, {l: 48, t: 55}, // Middle East / Africa
+            {l: 60, t: 20}, {l: 70, t: 25}, {l: 68, t: 48}, {l: 65, t: 40}, {l: 75, t: 35}, // Russia / India / China
+            {l: 85, t: 35}, {l: 80, t: 45}, {l: 84, t: 72}, {l: 88, t: 68}, {l: 91, t: 82}  // Japan / SE Asia / Oceania
+        ];
+        
+        const colors = ['#6826D4', '#3b82f6', '#14b8a6', '#10b981', '#94a3b8', '#f59e0b', '#ec4899'];
+        
+        // Ensure container is empty before generating
+        container.innerHTML = '';
+        
+        landCoords.forEach(coord => {
+            const dot = document.createElement('div');
+            dot.className = 'map-dot';
+            dot.style.left = coord.l + '%';
+            dot.style.top = coord.t + '%';
+            
+            // Randomize styling for a dynamic feel
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            dot.style.backgroundColor = color;
+            dot.style.animationDelay = (Math.random() * 2) + 's';
+            dot.setAttribute('data-title', 'Actividad detectada');
+            
+            container.appendChild(dot);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Pre-set some negative transform for animations
+        gsap.set('.kpi-card', { y: 20 });
+        gsap.set('.panel-card', { y: 30 });
+        
+        initLineChart();
+        initCategoryDonut();
+        renderMapDots();
+        runAnimations();
+    });
+</script>
+</body>
+</html>

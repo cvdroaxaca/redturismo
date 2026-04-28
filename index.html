@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red de Innovación Tecnológica en Turismo - Inicio</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Swiper.js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- Leaflet Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+</head>
+
+<body class="h-screen flex overflow-hidden">
+
+    <!-- Sidebar Izquierda -->
+    <aside class="sidebar">
+        <div class="sidebar-logo" onclick="window.location.href='index.html'">
+            <div class="logo-icon">
+                <i class="fa-solid fa-earth-americas"></i>
+            </div>
+            <div class="logo-text">Red de Innovación<br><span style="color: #a855f7;">Turística</span> CVDR</div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-link active">
+                <i class="fa-solid fa-house-chimney"></i>
+                <span>Inicio</span>
+            </a>
+            <a href="explorar.html" class="nav-link">
+                <i class="fa-solid fa-magnifying-glass-location"></i>
+                <span>Explorar</span>
+            </a>
+            <a href="mensajeria.html" class="nav-link">
+                <i class="fa-solid fa-comments"></i>
+                <span>Mensajes</span>
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fa-solid fa-bell"></i>
+                <span>Notificaciones</span>
+                <span class="badge">3</span>
+            </a>
+            <a href="grupos.html" class="nav-link">
+                <i class="fa-solid fa-users-rectangle"></i>
+                <span>Grupos</span>
+            </a>
+            <a href="eventos.html" class="nav-link">
+                <i class="fa-solid fa-calendar-check"></i>
+                <span>Eventos</span>
+            </a>
+            <a href="marketplace.html" class="nav-link">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <span>Marketplace</span>
+            </a>
+            <a href="cursos.html" class="nav-link">
+                <i class="fa-solid fa-user-graduate"></i>
+                <span>Capacitación</span>
+            </a>
+            <a href="innovacion.html" class="nav-link">
+                <i class="fa-solid fa-lightbulb"></i>
+                <span>Innovación</span>
+            </a>
+            <a href="analitica.html" class="nav-link">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Analítica</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="window.location.href='perfil.html'">
+                <img src="https://i.pravatar.cc/150?img=47" class="w-10 h-10 rounded-full border-2 border-white/20">
+                <div class="overflow-hidden">
+                    <p class="text-xs font-bold text-white truncate">María López</p>
+                    <p class="text-[10px] text-slate-400 truncate uppercase font-bold">Empresa Turística</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col h-full overflow-hidden bg-[#f7f9fc]">
+
+        <!-- Header Superior -->
+        <header class="main-header">
+            <div class="flex-1 max-w-xl">
+                <div class="relative group" id="search-container">
+                    <i
+                        class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-purple-600 transition-colors"></i>
+                    <input type="text" id="global-search"
+                        placeholder="Buscar Hierve el Agua, Mezcal, Alebrijes o Cabañas..."
+                        class="w-full bg-slate-100/50 border border-slate-200 rounded-xl pl-11 pr-12 py-3 text-sm focus:outline-none focus:ring-4 ring-purple-500/10 focus:bg-white transition-all font-medium placeholder:text-slate-400">
+
+                    <!-- Quick Filters (Chips) -->
+                    <div class="absolute -bottom-10 left-0 flex gap-2 overflow-x-auto no-scrollbar py-2 w-full">
+                        <button onclick="applyTag('Hierve el Agua')"
+                            class="px-3 py-1 bg-white border border-slate-200 rounded-full text-[9px] font-black text-slate-600 hover:border-purple-500 hover:text-purple-600 transition-all whitespace-nowrap shadow-sm"><i
+                                class="fa-solid fa-water text-blue-400 mr-1"></i> Hierve el Agua</button>
+                        <button onclick="applyTag('Mezcal')"
+                            class="px-3 py-1 bg-white border border-slate-200 rounded-full text-[9px] font-black text-slate-600 hover:border-purple-500 hover:text-purple-600 transition-all whitespace-nowrap shadow-sm"><i
+                                class="fa-solid fa-bottle-droplet text-amber-500 mr-1"></i> Mezcal</button>
+                        <button onclick="applyTag('Cabañas')"
+                            class="px-3 py-1 bg-white border border-slate-200 rounded-full text-[9px] font-black text-slate-600 hover:border-purple-500 hover:text-purple-600 transition-all whitespace-nowrap shadow-sm"><i
+                                class="fa-solid fa-house-chimney-window text-emerald-500 mr-1"></i> Cabañas</button>
+                        <button onclick="applyTag('Alebrijes')"
+                            class="px-3 py-1 bg-white border border-slate-200 rounded-full text-[9px] font-black text-slate-600 hover:border-purple-500 hover:text-purple-600 transition-all whitespace-nowrap shadow-sm"><i
+                                class="fa-solid fa-dragon text-fuchsia-500 mr-1"></i> Alebrijes</button>
+                    </div>
+
+                    <!-- AI Search Progress Bar -->
+                    <div class="search-progress" id="search-progress"></div>
+
+                    <!-- Search Status Indicator -->
+                    <div id="search-indicator" class="absolute right-4 top-1/2 -translate-y-1/2 hidden">
+                        <i class="fa-solid fa-sparkles fa-spin-pulse text-purple-600"></i>
+                    </div>
+
+                    <!-- AI Suggestions & Insights Dropdown -->
+                    <div id="ai-suggestions"
+                        class="absolute top-full left-0 w-full bg-white border border-slate-200 rounded-2xl mt-4 shadow-2xl z-50 hidden overflow-hidden fade-in border-t-4 border-t-purple-600">
+                        <!-- AI Identity Header -->
+                        <div class="p-4 bg-slate-900 text-white flex justify-between items-center">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-gradient-to-tr from-purple-500 to-blue-500 flex items-center justify-center">
+                                    <i class="fa-solid fa-brain text-[14px]"></i>
+                                </div>
+                                <div>
+                                    <p class="text-[10px] font-black uppercase tracking-widest leading-none">CVDR Neural
+                                        Network</p>
+                                    <p id="ai-status" class="text-[9px] text-purple-300 mt-1">Buscando secretos en el Hub...</p>
+                                </div>
+                            </div>
+                            <span class="text-[9px] bg-white/10 px-2 py-1 rounded font-mono">v2.4-stable</span>
+                        </div>
+
+                        <div id="suggestions-content" class="p-4 space-y-4">
+                            <!-- AI Insight Card placeholder -->
+                            <div id="ai-insight-area"></div>
+
+                            <div class="border-t border-slate-50 pt-2">
+                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">
+                                    Sugerencias Estratégicas</p>
+                                <div id="suggestions-list" class="space-y-1"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center gap-6 ml-4">
+                <div class="relative cursor-pointer">
+                    <i class="fa-solid fa-bell text-slate-500 text-lg"></i>
+                    <span
+                        class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[8px] flex items-center justify-center rounded-full border-2 border-white">3</span>
+                </div>
+                <i class="fa-solid fa-comments text-slate-500 cursor-pointer text-lg"></i>
+                <div class="flex items-center gap-3 cursor-pointer group" onclick="window.location.href='perfil.html'">
+                    <img src="https://i.pravatar.cc/150?img=47"
+                        class="w-9 h-9 rounded-full border border-slate-200 group-hover:border-purple-400 transition-all">
+                    <i class="fa-solid fa-chevron-down text-slate-400 text-xs"></i>
+                </div>
+                <button class="btn-primary pulse-primary" onclick="showComposer()">
+                    <i class="fa-solid fa-plus-circle"></i> Publicar
+                </button>
+            </div>
+        </header>
+
+        <!-- Scrollable Feed -->
+        <div class="flex-1 overflow-y-auto bg-slate-50 custom-scrollbar feed-spacing">
+            <!-- Top Margin Spacer for Deep Separation -->
+            <div class="h-12"></div>
+            <div class="max-w-[1200px] mx-auto grid grid-cols-12 gap-8 px-6">
+                <!-- Columna Central (Feed) -->
+                <div class="col-span-12 lg:col-span-8 space-y-6">
+
+                    <!-- IA Map Widget -->
+                    <div
+                        class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm mb-6 fade-in relative">
+                        <div
+                            class="p-4 border-b border-slate-100 flex items-center justify-between bg-white relative z-20">
+                            <div>
+                                <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                                    <i class="fa-solid fa-location-crosshairs text-purple-600 animate-pulse"></i>
+                                    Geolocalización Predictiva & Rutas Inteligentes
+                                </h3>
+                                <p class="text-[9px] text-slate-400 mt-0.5">Calculando distancias y flujos en tiempo
+                                    real</p>
+                            </div>
+                            <div class="flex gap-2">
+                                <button
+                                    class="text-[10px] bg-slate-100 p-2 rounded-lg text-slate-600 hover:bg-slate-200 transition-all border border-slate-200"
+                                    title="Pantalla Completa" onclick="toggleMapFullscreen()">
+                                    <i class="fa-solid fa-expand"></i>
+                                </button>
+                                <button
+                                    class="text-[10px] bg-slate-100 px-3 py-1.5 rounded-lg font-bold text-slate-600 hover:bg-slate-200 transition-all border border-slate-200"
+                                    onclick="toggleMapHeatmap()">Modo Calor</button>
+                                <button
+                                    class="text-[10px] bg-purple-600 px-3 py-1.5 rounded-lg font-bold text-white hover:bg-purple-700 transition-all shadow-lg"
+                                    onclick="resetMapView()">Centro Hub</button>
+                            </div>
+                        </div>
+                        <div id="map" style="height: 450px; z-index: 10;"></div>
+
+                        <!-- Disruptive Overlay: AR Button -->
+                        <div class="ar-btn" onclick="showToast('Iniciando Vista RA 3D...')">
+                            <i class="fa-solid fa-vr-cardboard"></i>
+                            Explorar en RA
+                        </div>
+
+                        <!-- Map Control Panel -->
+                        <div
+                            class="absolute bottom-5 left-5 z-[500] bg-white/90 backdrop-blur-md p-3 rounded-xl border border-slate-200 shadow-2xl max-w-[180px]">
+                            <p class="text-[9px] font-black text-slate-400 uppercase mb-2">Simulador de Rutas</p>
+                            <div id="route-info" class="text-[10px] text-slate-600">
+                                Haz clic en dos marcadores para calcular la ruta óptima.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Composer Dinámico -->
+                    <div
+                        class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm transition-all focus-within:ring-2 ring-purple-500/10">
+                        <div class="flex gap-4 mb-4">
+                            <img src="https://i.pravatar.cc/150?img=47"
+                                class="w-10 h-10 rounded-full border-2 border-purple-100">
+                            <textarea id="composer-text"
+                                placeholder="¿Qué innovación quieres compartir hoy con el ecosistema de Oaxaca?"
+                                class="w-full bg-slate-50 border border-slate-100 px-4 py-3 rounded-xl text-sm focus:outline-none focus:bg-white transition-all"
+                                rows="2"></textarea>
+                        </div>
+                        <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+                            <div class="flex items-center gap-4">
+                                <button
+                                    class="flex items-center gap-2 text-slate-500 hover:text-purple-600 font-bold text-xs transition-all"><i
+                                        class="fa-solid fa-camera"></i> Multimedia</button>
+                                <button
+                                    class="flex items-center gap-2 text-slate-500 hover:text-purple-600 font-bold text-xs transition-all"><i
+                                        class="fa-solid fa-map-pin"></i> Ubicación</button>
+                            </div>
+                            <button
+                                class="bg-purple-600 text-white px-5 py-2 rounded-xl font-bold text-xs hover:bg-purple-700 transition-all shadow-md"
+                                onclick="postContent()">Publicar</button>
+                        </div>
+                    </div>
+
+                    <div id="feed-container" class="space-y-6"></div>
+                </div>
+
+                <!-- Columna Derecha (Inteligencia de Datos) -->
+                <div class="col-span-12 lg:col-span-4 space-y-6">
+
+                    <!-- Guías Turísticos Certificados -->
+                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+                        <div class="flex items-center justify-between mb-5">
+                            <div>
+                                <h3 class="font-bold text-slate-900 text-sm">Guías Turísticos</h3>
+                                <p id="guides-status" class="text-[9px] text-slate-400">Expertos locales certificados
+                                </p>
+                            </div>
+                            <div id="guides-loader" class="hidden"><i
+                                    class="fa-solid fa-circle-notch fa-spin text-purple-600 text-[10px]"></i></div>
+                        </div>
+                        <div id="guides-container" class="space-y-3">
+                            <!-- Rendered dynamically -->
+                        </div>
+                        <button
+                            class="w-full mt-4 bg-slate-50 text-slate-600 text-[10px] font-black py-2 rounded-lg hover:bg-slate-100 transition-all">POSTULAR
+                            COMO GUÍA</button>
+                    </div>
+
+                    <!-- Eventos Próximos -->
+                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+                        <div class="flex items-center justify-between mb-5">
+                            <h3 class="font-bold text-slate-900 text-sm">Eventos Hub Oaxaca</h3>
+                            <button class="text-purple-600 text-[10px] font-bold hover:underline">VER
+                                CALENDARIO</button>
+                        </div>
+                        <div id="events-container" class="space-y-4"></div>
+                    </div>
+
+                    <!-- Empresas Disruptivas -->
+                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm overflow-hidden">
+                        <h3 class="font-bold text-slate-900 text-sm mb-5">Top Empresas Tech</h3>
+                        <div class="swiper swiper-companies overflow-visible">
+                            <div class="swiper-wrapper" id="companies-container"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- UI Disruptiva: Asistente IA Chatbot -->
+    <div class="ai-assistant-widget">
+        <div id="ai-chat-window" class="ai-chat-window">
+            <div class="chat-header">
+                <div class="chat-status"></div>
+                <div class="flex-1">
+                    <p class="text-[11px] font-black leading-tight">Asistente CVDR</p>
+                    <p class="text-[8px] text-slate-400">Hub de Inteligencia • En línea</p>
+                </div>
+                <button onclick="toggleAIChat()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="chat-messages" class="chat-messages">
+                <!-- Mensajes dinámicos -->
+            </div>
+            <div class="chat-input-area">
+                <input type="text" placeholder="Escribe tu consulta estratégica..." disabled>
+                <div class="w-8 h-8 bg-slate-900 rounded-full flex items-center justify-center text-white">
+                    <i class="fa-solid fa-paper-plane text-[10px]"></i>
+                </div>
+            </div>
+        </div>
+        <div class="ai-avatar" onclick="toggleAIChat()">
+            <i class="fa-solid fa-earth-americas"></i>
+            <div class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 border-2 border-white rounded-full"></div>
+        </div>
+    </div>
+
+    <!-- Fullscreen Controls & Branding -->
+    <div id="close-map-btn" class="close-map-btn" onclick="toggleMapFullscreen()">
+        <i class="fa-solid fa-arrow-left"></i>
+        Regresar
+    </div>
+
+    <div class="fullscreen-logo">
+        <i class="fa-solid fa-earth-americas text-purple-600"></i>
+        <span class="text-[10px] font-black uppercase text-slate-800 tracking-tighter">CVDR <span
+                class="text-purple-600">Network</span></span>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script>
+        // ---------------------------------------------------------
+        // 1. DATA EXPLOSION (Ecosistema Masivo)
+        // ---------------------------------------------------------
+        const APP_DATA = {
+            currentUser: { id: 'u-47', name: 'María López', avatar: 'https://i.pravatar.cc/150?img=47' },
+            posts: [
+                { id: 'p-1', author: { name: 'Comunidad Barrio Jalatlaco', avatar: 'BJ', color: '#000' }, location: { name: 'Oaxaca Centro', coords: [17.0732, -96.7266] }, content: 'Camina por uno de los barrios más pintorescos y antiguos de la ciudad, famoso por sus calles adoquinadas, murales de arte urbano y auténtico café de olla.', image: 'barrio_jalatlaco.jpg', tags: ['Cultura', 'Centro'], reactions: { innovador: 120, colaboracion: 45, recomendado: 280 }, userReaction: null, comments: [] },
+                { id: 'p-2', author: { name: 'Red de Guías Monte Albán', avatar: 'MA', color: '#cc5a27' }, location: { name: 'Santa Cruz Xoxocotlán', coords: [17.0438, -96.7681] }, content: 'La imponente y antigua capital de los zapotecas, construida sobre montañas con enormes plazas, canchas de juego de pelota e impresionantes tumbas repletas de tesoros. #Zapotecas #Historia', image: 'montealban.jpg', tags: ['Historia', 'Zapotecas'], reactions: { innovador: 340, colaboracion: 120, recomendado: 500 }, userReaction: 'innovador', comments: [] },
+                { id: 'p-3', author: { name: 'Ecoturismo Hierve el Agua', avatar: 'HA', color: '#15803d' }, location: { name: 'San Lorenzo Albarradas', coords: [16.8659, -96.2759] }, content: 'Espectaculares cascadas petrificadas formadas a lo largo de miles de años, únicas en el continente. Disfruta de sus albercas naturales con vistas impresionantes a los valles.', image: 'hierveagua.jpg', tags: ['Naturaleza', 'Cascadas'], reactions: { innovador: 80, colaboracion: 220, recomendado: 300 }, userReaction: null, comments: [] },
+                { id: 'p-4', author: { name: 'Surf & Tech Zicatela', avatar: 'SZ', color: '#0ea5e9' }, location: { name: 'Puerto Escondido', coords: [15.8622, -97.0761] }, content: 'Conocida como el "Pipeline Mexicano", es una de las mejores playas del mundo para practicar surf profesional. Una excelente mezcla de nómadas digitales y surfistas.', image: 'playazicatela.jpg', tags: ['Surf', 'Pipeline'], reactions: { innovador: 550, colaboracion: 140, recomendado: 900 }, userReaction: null, comments: [] },
+                { id: 'p-5', author: { name: 'Patronato Santo Domingo', avatar: 'SD', color: '#db2777' }, location: { name: 'Oaxaca Centro', coords: [17.0660, -96.7233] }, content: 'Impresionante complejo arquitectónico colonial y máxima joya del barroco oaxaqueño. Alberga el museo de las culturas y un retablo bañado en oro que te dejará sin aliento.', image: 'templosantodomingo.jpg', tags: ['Colonial', 'Barroco'], reactions: { innovador: 1020, colaboracion: 330, recomendado: 1200 }, userReaction: null, comments: [] },
+                { id: 'p-6', author: { name: 'Jardín Etnobotánico Oficial', avatar: 'JE', color: '#b45309' }, location: { name: 'Oaxaca Centro', coords: [17.0673, -96.7225] }, content: 'Un santuario de la biodiversidad oaxaqueña diseñado por el artista Francisco Toledo. Alberga cientos de especies endémicas en un entorno arquitectónico verdaderamente mágico.', image: 'jardin_etnobotanico.jpg', tags: ['Naturaleza', 'Toledo'], reactions: { innovador: 200, colaboracion: 140, recomendado: 440 }, userReaction: null, comments: [] },
+                { id: 'p-7', author: { name: 'Santuario Mazunte', avatar: 'MZ', color: '#06b6d4' }, location: { name: 'Mazunte', coords: [15.6667, -96.5500] }, content: 'Comunidad con ambiente relajado y bohemio, hogar del Centro Mexicano de la Tortuga y famosa por acoger tribus de viajeros buscando conectar con el yoga y la naturaleza.', image: 'mazunte.jpg', tags: ['PuebloMágico', 'Bohemio'], reactions: { innovador: 88, colaboracion: 120, recomendado: 200 }, userReaction: null, comments: [] },
+                { id: 'p-8', author: { name: 'Expedición Punta Cometa', avatar: 'PC', color: '#ec4899' }, location: { name: 'Mazunte', coords: [15.6600, -96.5550] }, content: 'La montaña más saliente de México en el Pacífico Sur. Ofrece los atardeceres y amaneceres más espectaculares en un entorno casi virgen con fuerte energía electromagnética.', image: 'puntacometa.jpg', tags: ['Atardecer', 'Espiritual'], reactions: { innovador: 450, colaboracion: 90, recomendado: 670 }, userReaction: null, comments: [] },
+                { id: 'p-9', author: { name: 'Turismo Sustentable Huatulco', avatar: 'HU', color: '#4b5563' }, location: { name: 'Bahías de Huatulco', coords: [15.7656, -96.1328] }, content: 'Explora 9 bahías hermosas y 36 playas vírgenes. Disfruta de la máxima certificación ecológica EarthCheck Platinum, arrecifes de coral vivos y turismo responsable.', image: 'huatulco.jpg', tags: ['EarthCheck', 'Sustentable'], reactions: { innovador: 120, colaboracion: 400, recomendado: 300 }, userReaction: null, comments: [] },
+                { id: 'p-10', author: { name: 'Aventura Cascada Copalita', avatar: 'CC', color: '#0369a1' }, location: { name: 'Río Copalita, Huatulco', coords: [15.8010, -96.0590] }, content: 'Balneario natural inmerso en la selva baja de la región. El verde profundo de su vegetación contrasta maravillosamente con pozas refrescantes y fincas históricas.', image: 'cascada_magica_copalita.jpg', tags: ['Selva', 'Aventura'], reactions: { innovador: 77, colaboracion: 55, recomendado: 150 }, userReaction: null, comments: [] },
+                { id: 'p-11', author: { name: 'Asociación Puerto Escondido', avatar: 'PE', color: '#0891b2' }, location: { name: 'Puerto Escondido', coords: [15.8622, -97.0761] }, content: 'El paraíso vibrante de la Costa. Combina de manera increíble el espíritu de una comunidad de pescadores con la explosión cosmopolita de creadores digitales.', image: 'puertoescondido.jpg', tags: ['CapitalSurf', 'DigitalNomad'], reactions: { innovador: 900, colaboracion: 220, recomendado: 1800 }, userReaction: null, comments: [] },
+                { id: 'p-12', author: { name: 'Bioluminiscencia Tour', avatar: 'LM', color: '#9333ea' }, location: { name: 'Laguna de Manialtepec', coords: [15.9320, -97.1540] }, content: 'Experimenta el fenómeno de la bioluminiscencia en esta impresionante laguna costera. Recorridos nocturnos guiados que te conectan directamente con la magia absoluta de naturaleza.', image: 'laguna_manialtepec.jpg', tags: ['Bioluminiscencia', 'Nocturno'], reactions: { innovador: 660, colaboracion: 180, recomendado: 1100 }, userReaction: null, comments: [] }
+            ],
+            guides: [
+                { name: 'Diana Rueda', specialty: 'Ecoturismo Certificado', region: 'Costa', rating: 4.9, reviews: 124, avatar: 'https://i.pravatar.cc/150?img=32' },
+                { name: 'Roberto Mix', specialty: 'Tecnología Mezcalera', region: 'Valles', rating: 5.0, reviews: 89, avatar: 'https://i.pravatar.cc/150?img=12' },
+                { name: 'Elena Sol', specialty: 'Identidad Comunal', region: 'Sierras', rating: 4.8, reviews: 210, avatar: 'https://i.pravatar.cc/150?img=26' },
+                { name: 'Carlos Zafra', specialty: 'Historia Zapoteca', region: 'Valles', rating: 4.9, reviews: 340, avatar: 'https://i.pravatar.cc/150?img=11' },
+                { name: 'Sofía Mar', specialty: 'Surf & Marine Life', region: 'Costa', rating: 4.7, reviews: 156, avatar: 'https://i.pravatar.cc/150?img=5' }
+            ],
+            events: [
+                { title: 'Hackathon Regional Oaxaca', date: '15 MAY', location: 'Centro IA', img: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=100' },
+                { title: 'Día del Inversionista Angel', date: '03 JUN', location: 'Hotel Victoria', img: 'https://images.unsplash.com/photo-1517248135467-4c7ed9d42339?auto=format&fit=crop&w=100' }
+            ],
+            rutas: [
+                { name: 'Ruta de las Artesanías', coords: [16.95, -96.7], path: [[17.07, -96.72], [16.95, -96.7], [16.85, -96.65]], img: 'ruta_artesanias.png' },
+                { name: 'Ruta de la Reserva de la Biosfera', coords: [17.8, -96.9], path: [[17.6, -96.8], [17.8, -96.9], [17.95, -97.05]], img: 'ruta_biosfera.png' },
+                { name: 'Ruta del Café', coords: [15.9, -96.4], path: [[15.75, -96.3], [15.9, -96.4], [16.05, -96.45]], img: 'ruta_cafe.png' },
+                { name: 'Ruta de la Chinantla', coords: [17.7, -96.3], path: [[17.5, -96.4], [17.7, -96.3], [17.9, -96.2]], img: 'ruta_chinantla.png' },
+                { name: 'Ruta de la Costa Oaxaqueña', coords: [15.8, -96.6], path: [[15.86, -97.07], [15.8, -96.8], [15.75, -96.4], [15.76, -96.13]], img: 'ruta_costa.png' },
+                { name: 'Ruta del Istmo', coords: [16.3, -95.2], path: [[16.2, -95.4], [16.3, -95.2], [16.4, -95.0]], img: 'ruta_istmo.png' },
+                { name: 'Ruta de la Fe (Juquila)', coords: [16.23, -97.29], path: [[16.0, -97.5], [16.23, -97.29], [16.4, -97.1]], img: 'ruta_juquila.png' },
+                { name: 'Ruta Caminos del Mezcal', coords: [16.86, -96.38], path: [[17.07, -96.72], [16.95, -96.5], [16.86, -96.38]], img: 'ruta_mezcal.png' },
+                { name: 'Ruta de la Mixteca', coords: [17.8, -97.7], path: [[17.3, -97.5], [17.7, -97.7], [17.9, -97.8]], img: 'ruta_mixteca.png' },
+                { name: 'Ruta de la Sierra Juárez', coords: [17.3, -96.48], path: [[17.07, -96.72], [17.2, -96.6], [17.3, -96.48], [17.4, -96.3]], img: 'ruta_sierra_juarez.png' }
+            ]
+        };
+
+        let map, markers = {}, heatmapLayer, currentRoute, aiFocusMarker;
+        let selectedPoints = [];
+        let activeFilters = { search: '' };
+
+        // ---------------------------------------------------------
+        // 2. DISRUPTIVE MAP ENGINE (Asistente Global + Pings)
+        // ---------------------------------------------------------
+        function initMap() {
+            map = L.map('map', { zoomControl: false }).setView([17.0732, -96.7266], 8);
+            L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
+            L.control.zoom({ position: 'bottomright' }).addTo(map);
+            renderMapContent();
+            simulateCommunityActivity();
+        }
+
+        function simulateCommunityActivity() {
+            // Generar pings aleatorios para simular otros usuarios
+            setInterval(() => {
+                const randomPost = APP_DATA.posts[Math.floor(Math.random() * APP_DATA.posts.length)];
+                const pingIcon = L.divIcon({ className: 'user-ping', iconSize: [10, 10] });
+                const ping = L.marker(randomPost.location.coords, { icon: pingIcon }).addTo(map);
+                setTimeout(() => map.removeLayer(ping), 1500);
+            }, 3000);
+        }
+
+        function moveAIFocus(coords, message) {
+            if (aiFocusMarker) map.removeLayer(aiFocusMarker);
+
+            const aiIcon = L.divIcon({
+                className: 'ai-focus-icon',
+                html: `<div class="relative w-12 h-12 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-purple-500/20 rounded-full animate-ping"></div>
+                            <i class="fa-solid fa-star text-purple-600 text-xl drop-shadow-lg"></i>
+                       </div>`,
+                iconSize: [48, 48],
+                iconAnchor: [24, 24]
+            });
+
+            aiFocusMarker = L.marker(coords, { icon: aiIcon, zIndexOffset: 1000 }).addTo(map);
+            updateAIBubble(message);
+        }
+
+        const INTERESTING_FACT_BANK = [
+            "¿Sabías que Oaxaca posee 8 de las 9 denominaciones de origen del mezcal?",
+            "El Mexican Pipeline en Puerto Escondido es mundialmente famoso por sus tubos perfectos.",
+            "Hierve el Agua es uno de los dos únicos sistemas petrificados en el mundo.",
+            "Oaxaca es el estado con mayor número de especies de maguey silvestre en México.",
+            "Monte Albán fue la primera ciudad planificada de toda Mesoamérica.",
+            "La Guelaguetza es el homenaje racial más importante de América Latina."
+        ];
+
+        const CONVERSATIONAL_FACTS = [
+            "Oaxaca posee 8 de las 9 denominaciones de origen del mezcal. ¿Te imaginas probarlas todas? ¿Quieres saber más sobre las rutas?",
+            "Me han reportado que el Mexican Pipeline en Puerto Escondido tiene las olas más potentes de América. ¿Eres amante del surf?",
+            "He analizado que Hierve el Agua es uno de los dos únicos sistemas petrificados en el mundo. ¿Te gustaría conocer el otro?",
+            "¿Sabías que en Oaxaca hay más de 30 especies de maguey silvestre? Es un ecosistema increíble. ¿Quieres que te recomiende un palenque?",
+            "Monte Albán fue la primera ciudad planificada de toda Mesoamérica. ¡Los zapotecas eran genios! ¿Te interesa su historia?",
+            "La Guelaguetza es el homenaje racial más importante de América Latina. ¡Es pura magia! ¿Quieres saber las fechas?"
+        ];
+
+        function addChatMessage(text, side) {
+            const container = document.getElementById('chat-messages');
+            const bubble = document.createElement('div');
+            bubble.className = `chat-bubble ${side === 'ai' ? 'bubble-ai' : 'bubble-user'}`;
+            bubble.innerText = text;
+            container.appendChild(bubble);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        let chatInitialized = false;
+        function toggleAIChat() {
+            const window = document.getElementById('ai-chat-window');
+            window.classList.toggle('visible');
+            
+            if (window.classList.contains('visible') && !chatInitialized) {
+                simulateChat();
+                chatInitialized = true;
+            }
+        }
+
+        async function simulateChat() {
+            addChatMessage("¡Hola! Soy el asistente neuronal del CVDR. ¿Sabías que Oaxaca tiene más de 30 especies de agave silvestre?", "ai");
+            
+            await new Promise(r => setTimeout(r, 2000));
+            addChatMessage("¿Qué rutas de mezcal me recomiendas para inversión?", "user");
+            
+            await new Promise(r => setTimeout(r, 1500));
+            addChatMessage("Te recomiendo la 'Ruta de los Valles Centrales', específicamente Matatlán. ¿Quieres que te ubique los palenques con mayor potencial B2B?", "ai");
+            
+            await new Promise(r => setTimeout(r, 2500));
+            addChatMessage("Sí, por favor. También me interesa el ecoturismo.", "user");
+            
+            await new Promise(r => setTimeout(r, 1000));
+            addChatMessage("Perfecto. He actualizado tu mapa con nodos de Hierve el Agua y Capulálpam. Oaxaca es un ecosistema increíble, ¿verdad?", "ai");
+        }
+
+        // FULLSCREEN ENGINE
+        let isMapFullscreen = false;
+        function toggleMapFullscreen() {
+            const mapEl = document.getElementById('map');
+            const searchContainer = document.getElementById('search-container');
+            const closeBtn = document.getElementById('close-map-btn');
+            const fsLogo = document.querySelector('.fullscreen-logo');
+
+            isMapFullscreen = !isMapFullscreen;
+
+            if (isMapFullscreen) {
+                mapEl.classList.add('map-fullscreen-container');
+                searchContainer.parentElement.classList.add('fullscreen-ui-top');
+                closeBtn.classList.add('visible');
+                fsLogo.classList.add('visible');
+                updateAIBubble("Modo inmersivo activo. ¿A dónde nos dirigimos?");
+            } else {
+                mapEl.classList.remove('map-fullscreen-container');
+                searchContainer.parentElement.classList.remove('fullscreen-ui-top');
+                closeBtn.classList.remove('visible');
+                fsLogo.classList.remove('visible');
+            }
+
+            // Forzar reflow de Leaflet
+            setTimeout(() => {
+                map.invalidateSize({ animate: true });
+            }, 500);
+        }
+
+        function renderMapContent() {
+            // Clear existing
+            for (let id in markers) map.removeLayer(markers[id]);
+            markers = {};
+            if (currentRoute) map.removeLayer(currentRoute);
+
+            APP_DATA.posts.forEach(post => {
+                const markerIcon = L.divIcon({
+                    className: 'custom-div-icon',
+                    html: `<div class="w-9 h-9 rounded-full border-4 border-white shadow-xl flex items-center justify-center text-[9px] font-black text-white hover:scale-125 transition-all" 
+                                style="background:${post.author.color}">${post.author.avatar}</div>`,
+                    iconSize: [36, 36],
+                    iconAnchor: [18, 36]
+                });
+
+                const distance = calculateDistance([17.0732, -96.7266], post.location.coords).toFixed(1);
+
+                const marker = L.marker(post.location.coords, { icon: markerIcon }).addTo(map);
+                marker.bindPopup(`
+                    <div class="p-0 w-48 overflow-hidden rounded-lg">
+                        <img src="${post.image}" class="w-full h-24 object-cover">
+                        <div class="p-3 bg-white">
+                            <p class="text-[10px] font-black text-slate-800 leading-tight">${post.author.name}</p>
+                            <p class="text-[9px] text-purple-600 font-bold mb-2">${post.location.name}</p>
+                            <div class="flex items-center gap-2 mb-3 bg-slate-50 p-1.5 rounded border border-slate-100">
+                                <i class="fa-solid fa-road text-[8px] text-slate-400"></i>
+                                <span class="text-[8px] font-black text-slate-500">${distance} km desde Oaxaca Hub</span>
+                            </div>
+                            <button onclick="handlePointSelection('${post.id}')" class="w-full bg-slate-900 text-white text-[9px] font-black py-2 rounded-lg mb-1">Ruta Estratégica</button>
+                            <button onclick="scrollToPost('${post.id}')" class="w-full bg-slate-100 text-slate-600 text-[8px] font-bold py-1.5 rounded-lg">Ver Publicación</button>
+                        </div>
+                    </div>
+                `, { closeButton: false });
+
+                markers[post.id] = marker;
+            });
+            
+            // Add custom Route markers and Paths
+            const routeColors = ['#f43f5e', '#d97706', '#10b981', '#0ea5e9', '#8b5cf6', '#d946ef', '#e11d48', '#eab308', '#059669', '#3b82f6'];
+            APP_DATA.rutas.forEach((ruta, index) => {
+                const color = routeColors[index % routeColors.length];
+                
+                // Draw path trace
+                L.polyline(ruta.path, {
+                    color: color,
+                    weight: 4,
+                    opacity: 0.7,
+                    dashArray: '8, 8',
+                    lineJoin: 'round',
+                    className: 'route-path-anim'
+                }).addTo(map);
+
+                // Add marker
+                const rutaIcon = L.divIcon({
+                    className: 'custom-ruta-icon',
+                    html: `<div class="w-12 h-12 rounded-xl bg-white/95 backdrop-blur-sm shadow-lg overflow-hidden flex items-center justify-center hover:scale-[1.3] transition-all p-1 z-[1000] border-2" style="border-color:${color}; box-shadow: 0 4px 15px ${color}40;">
+                             <img src="${ruta.img}" class="w-full h-full object-contain drop-shadow-sm" alt="${ruta.name}">
+                           </div>`,
+                    iconSize: [48, 48],
+                    iconAnchor: [24, 24]
+                });
+                
+                const marker = L.marker(ruta.coords, { icon: rutaIcon }).addTo(map);
+                marker.bindPopup(`<div class="font-black text-[11px] px-1 text-center" style="color:${color}">${ruta.name}</div>`, { closeButton: false, className: 'custom-popup rounded-lg border-0 shadow-lg' });
+            });
+        }
+
+        function handlePointSelection(postId) {
+            const post = APP_DATA.posts.find(p => p.id === postId);
+            selectedPoints.push(post.location.coords);
+            showToast(`Punto seleccionado: ${post.location.name}`);
+
+            if (selectedPoints.length === 2) {
+                drawSimulatedRoute(selectedPoints[0], selectedPoints[1]);
+                selectedPoints = [];
+            } else {
+                document.getElementById('route-info').innerHTML = `<p class="animate-pulse text-purple-600 font-bold">Selecciona el destino...</p>`;
+            }
+        }
+
+        function drawSimulatedRoute(p1, p2) {
+            if (currentRoute) map.removeLayer(currentRoute);
+
+            const distance = calculateDistance(p1, p2).toFixed(2);
+            currentRoute = L.polyline([p1, p2], {
+                color: '#7c3aed',
+                weight: 4,
+                dashArray: '10, 10',
+                opacity: 0.8
+            }).addTo(map);
+
+            map.fitBounds(currentRoute.getBounds(), { padding: [50, 50] });
+
+            document.getElementById('route-info').innerHTML = `
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-bolt text-yellow-500"></i>
+                    <div>
+                        <p class="font-black text-slate-800">Distancia IA: ${distance} km</p>
+                        <p class="text-slate-400">Tiempo est.: ${(distance / 60).toFixed(1)} hrs</p>
+                    </div>
+                </div>
+            `;
+
+            // Actualizar guías basados en la ruta
+            const region = distance > 100 ? 'Costa' : 'Valles';
+            renderSidebar(region);
+        }
+
+        function calculateDistance(c1, c2) {
+            const R = 6371; // km
+            const dLat = (c2[0] - c1[0]) * Math.PI / 180;
+            const dLon = (c2[1] - c1[1]) * Math.PI / 180;
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(c1[0] * Math.PI / 180) * Math.cos(c2[0] * Math.PI / 180) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        }
+
+        // ---------------------------------------------------------
+        // 3. CORE RENDERING ENGINE
+        // ---------------------------------------------------------
+        function renderFeed() {
+            const feed = document.getElementById('feed-container');
+            const filtered = APP_DATA.posts.filter(p => p.content.toLowerCase().includes(activeFilters.search.toLowerCase()) || p.author.name.toLowerCase().includes(activeFilters.search.toLowerCase()));
+
+            feed.innerHTML = filtered.map(post => `
+                <div id="post-${post.id}" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden fade-in group" onmouseenter="zoomToPost('${post.id}')">
+                    <div class="p-5 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center text-[10px] font-black text-white border-2 border-white shadow-md" style="background: ${post.author.color}">${post.author.avatar}</div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 text-sm">${post.author.name}</h4>
+                                <p class="text-[10px] text-slate-400 font-medium">${post.location.name}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-5 pb-5">
+                        <p class="text-xs text-slate-700 leading-relaxed mb-4">${post.content}</p>
+                        <img src="${post.image}" class="w-full h-64 object-cover rounded-xl mb-4">
+                        <div class="flex items-center gap-4">
+                            <div class="flex -space-x-2">
+                                <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-600"><i class="fa-solid fa-award text-xs"></i></div>
+                                <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600"><i class="fa-solid fa-handshake text-xs"></i></div>
+                            </div>
+                            <span class="text-[10px] font-black text-slate-500 uppercase">${post.reactions.innovador + post.reactions.colaboracion} Impacto Social</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderSidebar(filterRegion = null) {
+            const guidesContainer = document.getElementById('guides-container');
+            const guidesStatus = document.getElementById('guides-status');
+            const guidesLoader = document.getElementById('guides-loader');
+
+            if (filterRegion) {
+                guidesLoader.classList.remove('hidden');
+                guidesStatus.innerText = `Buscando expertos en ${filterRegion}...`;
+            }
+
+            setTimeout(() => {
+                const filteredGuides = filterRegion
+                    ? APP_DATA.guides.filter(g => g.region.toLowerCase() === filterRegion.toLowerCase())
+                    : APP_DATA.guides;
+
+                guidesContainer.innerHTML = (filteredGuides.length > 0 ? filteredGuides : APP_DATA.guides).map(g => `
+                    <div class="guide-card fade-in">
+                        <img src="${g.avatar}" class="guide-avatar border shadow-sm">
+                        <div class="guide-info">
+                            <p class="guide-name">${g.name}</p>
+                            <p class="guide-spec">${g.specialty}</p>
+                            <div class="guide-rating">
+                                <i class="fa-solid fa-star text-[7px] text-yellow-500"></i>
+                                <span class="text-[9px] font-black text-slate-700">${g.rating}</span>
+                                <span class="text-[8px] text-slate-400">(${g.reviews})</span>
+                            </div>
+                        </div>
+                        <button onclick="showToast('Agendando con ${g.name}...')" class="guide-action">
+                            <i class="fa-solid fa-calendar-plus text-[10px]"></i>
+                        </button>
+                    </div>
+                `).join('');
+
+                if (filterRegion) {
+                    guidesLoader.classList.add('hidden');
+                    guidesStatus.innerText = `Recomendados para ${filterRegion}`;
+                } else {
+                    guidesStatus.innerText = "Expertos locales destacados";
+                }
+            }, filterRegion ? 800 : 0);
+
+            // Render Events
+            document.getElementById('events-container').innerHTML = APP_DATA.events.map(e => `
+                <div class="flex gap-3 group cursor-pointer">
+                    <img src="${e.img}" class="w-16 h-16 rounded-lg object-cover border">
+                    <div>
+                        <p class="text-[8px] font-black text-purple-600 uppercase mb-1">${e.date}</p>
+                        <h4 class="text-[10px] font-black leading-tight text-slate-900">${e.title}</h4>
+                        <p class="text-[9px] text-slate-400 mt-1 italic">${e.location}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            // Render Companies
+            document.getElementById('companies-container').innerHTML = APP_DATA.posts.map(p => `
+                <div class="swiper-slide w-fit">
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center p-2 text-white border-2 border-white ring-1 ring-slate-100 shadow-md" style="background:${p.author.color}">
+                        <span class="text-[7px] font-black text-center leading-none">${p.author.name.split(' ')[0]}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ---------------------------------------------------------
+        // 4. AI SEARCH & UTILS
+        // ---------------------------------------------------------
+        const searchInput = document.getElementById('global-search');
+        const aiSuggestions = document.getElementById('ai-suggestions');
+        const aiStatus = document.getElementById('ai-status');
+        const aiInsightArea = document.getElementById('ai-insight-area');
+        const suggestionsList = document.getElementById('suggestions-list');
+
+        searchInput.oninput = (e) => {
+            const val = e.target.value;
+            if (val.length > 0) {
+                document.getElementById('search-container').classList.add('search-active');
+                document.getElementById('search-indicator').classList.remove('hidden');
+                aiStatus.innerText = 'Consultando fuentes ancestrales y datos B2B...';
+
+                setTimeout(() => performAISearch(val), 600);
+            } else {
+                resetAISearch();
+            }
+        };
+
+        function resetAISearch() {
+            document.getElementById('search-container').classList.remove('search-active');
+            document.getElementById('search-indicator').classList.add('hidden');
+            aiSuggestions.classList.add('hidden');
+            activeFilters.search = '';
+            renderFeed();
+        }
+
+        function performAISearch(query) {
+            document.getElementById('search-indicator').classList.add('hidden');
+            activeFilters.search = query;
+            aiSuggestions.classList.remove('hidden');
+
+            let insightHTML = '';
+            const lowerQuery = query.toLowerCase();
+
+            // Lógica de Resumen Estratégico IA
+            if (lowerQuery.includes('monte alban')) {
+                updateAIBubble("¿Sabías que Monte Albán fue construido sobre una montaña nivelada manualmente? ¡Es una proeza zapoteca! ¿Quieres que te cuente más sobre su arquitectura?");
+                insightHTML = `
+                    <div class="ai-insight fade-in" style="background: #f1f5f9; border-color: #cbd5e1;">
+                        <i class="fa-solid fa-landmark-dome text-slate-600 mt-1"></i>
+                        <div>
+                            <p class="text-xs font-bold text-slate-900">Resumen Estratégico: Monte Albán</p>
+                            <p class="text-[10px] text-slate-600 leading-relaxed mt-1">
+                                Ubicado a 15 min de Oaxaca Centro. Es el hub histórico más importante. 
+                                <span class="font-bold underline">Tip:</span> Accede a la reconstrucción 3D desde nuestra red para evitar aglomeraciones.
+                            </p>
+                        </div>
+                    </div>
+                `;
+            } else if (lowerQuery.includes('puerto escondido') || lowerQuery.includes('playa')) {
+                updateAIBubble("Me han contado que las olas de Zicatela son legendarias. ¿Buscas adrenalina o relax? ¿Quieres saber sobre los mejores hubs costeros?");
+                insightHTML = `
+                    <div class="ai-insight fade-in" style="background: #f0f9ff; border-color: #bae6fd;">
+                        <i class="fa-solid fa-umbrella-beach text-blue-500 mt-1"></i>
+                        <div>
+                            <p class="text-xs font-bold text-blue-900">Resumen de Destino: Costa Oaxaqueña</p>
+                            <p class="text-[10px] text-blue-800 leading-relaxed mt-1">
+                                Encontrarás Puerto Escondido (Surf/Tech) y Huatulco (Lujo/Sustentable) a 3-6 horas por carretera. 
+                                <span class="font-bold">Estatus:</span> Alta demanda de nómadas digitales.
+                            </p>
+                        </div>
+                    </div>
+                `;
+            } else if (lowerQuery.includes('textil') || lowerQuery.includes('teotitlan')) {
+                insightHTML = `
+                    <div class="ai-insight fade-in" style="background: #faf5ff; border-color: #e9d5ff;">
+                        <i class="fa-solid fa-scroll text-purple-600 mt-1"></i>
+                        <div>
+                            <p class="text-xs font-bold text-purple-900">Resumen Sectorial: Textiles</p>
+                            <p class="text-[10px] text-purple-800 leading-relaxed mt-1">
+                                Teotitlán del Valle es el epicentro regional. Tintes naturales y trazabilidad QR son tendencia. 
+                                <span class="font-bold">Ubicación:</span> Valle de Tlacolula (30 min desde Centro).
+                            </p>
+                        </div>
+                    </div>
+                `;
+            } else if (lowerQuery.includes('hierve el agua')) {
+                updateAIBubble("Te cuento un secreto: el agua aquí no está caliente, sino llena de minerales burbujeantes. ¿Te gustaría saber cómo se formaron estas cascadas petrificadas?");
+                insightHTML = `
+                    <div class="ai-insight fade-in" style="background: #f0fdfa; border-color: #99f6e4;">
+                        <i class="fa-solid fa-droplet text-teal-600 mt-1"></i>
+                        <div>
+                            <p class="text-xs font-bold text-teal-900">Resumen: Hierve el Agua</p>
+                            <p class="text-[10px] text-teal-800 leading-relaxed mt-1">
+                                Cascadas petrificadas en San Lorenzo Albarradas. Acceso controlado.
+                            </p>
+                            <div class="mt-2 p-1.5 bg-white/50 rounded border border-teal-100">
+                                <p class="text-[9px] font-bold text-teal-700 flex items-center gap-1">
+                                    <i class="fa-solid fa-lightbulb"></i> DATO DE INTERÉS:
+                                </p>
+                                <p class="text-[8px] text-teal-600 mt-0.5">Existen solo dos cascadas petrificadas en el mundo: una en Oaxaca y otra en Turquía (Pamukkale).</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (lowerQuery.includes('alebrijes')) {
+                updateAIBubble("He analizado que los artesanos de Tilcajete usan madera de copal por una razón muy especial. ¿Quieres saber cuál es? ¿Te interesa ver el proceso en tiempo real?");
+                insightHTML = `
+                    <div class="ai-insight fade-in" style="background: #fff1f2; border-color: #fecdd3;">
+                        <i class="fa-solid fa-dragon text-rose-600 mt-1"></i>
+                        <div>
+                            <p class="text-xs font-bold text-rose-900">Resumen: Alebrijes</p>
+                            <p class="text-[10px] text-rose-800 leading-relaxed mt-1">
+                                Localización dual: Tilcajete (Madera/Tech) y Arrazola (Tradicional).
+                            </p>
+                            <div class="mt-2 p-1.5 bg-white/50 rounded border border-rose-100">
+                                <p class="text-[9px] font-bold text-rose-700 flex items-center gap-1">
+                                    <i class="fa-solid fa-mask"></i> SECRETO TURÍSTICO:
+                                </p>
+                                <p class="text-[8px] text-rose-600 mt-0.5">Originalmente eran de papel maché, pero los artesanos oaxaqueños los elevaron tallándolos en madera de Copal.</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (lowerQuery.includes('mezcal')) {
+                updateAIBubble("Oaxaca tiene más de 30 especies de agave silvestre, ¡cada uno es un mundo! ¿Quieres que busquemos un palenque tradicional para ti?");
+                insightHTML = `
+                    <div class="ai-insight fade-in" style="background: #fffbeb; border-color: #fde68a;">
+                        <i class="fa-solid fa-bottle-droplet text-amber-600 mt-1"></i>
+                        <div>
+                            <p class="text-xs font-bold text-amber-900">Análisis B2B: Mezcal</p>
+                            <p class="text-[10px] text-amber-800 leading-relaxed mt-1">
+                                Epicentro: Matatlán. 90% de la producción mundial certificada se origina en este nodo.
+                            </p>
+                            <div class="mt-2 p-1.5 bg-white/50 rounded border border-amber-100">
+                                <p class="text-[9px] font-bold text-amber-700 flex items-center gap-1">
+                                    <i class="fa-solid fa-chart-pie"></i> DATO OAXAQUEÑO:
+                                </p>
+                                <p class="text-[8px] text-amber-600 mt-0.5">Existen más de 30 especies de agave silvestre en Oaxaca, cada una con un perfil molecular único.</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                insightHTML = `
+                    <div class="bg-slate-50 border border-slate-100 p-3 rounded-lg flex gap-3 fade-in">
+                        <i class="fa-solid fa-brain text-purple-400 mt-1"></i>
+                        <p class="text-[10px] text-slate-500 italic">"Analizando coordenadas y datos para '${query}'..."</p>
+                    </div>
+                `;
+            }
+
+            aiInsightArea.innerHTML = insightHTML;
+
+            const results = APP_DATA.posts.filter(p => p.content.toLowerCase().includes(lowerQuery) || p.author.name.toLowerCase().includes(lowerQuery) || p.location.name.toLowerCase().includes(lowerQuery));
+
+            if (results.length > 0) {
+                // El asistente se mueve físicamente al resultado más importante
+                moveAIFocus(results[0].location.coords, `He localizado potencial estratégico en ${results[0].location.name} para tu búsqueda.`);
+
+                // Actualizar guías dinámicamente
+                const tags = results[0].tags.join(' ');
+                const region = (tags.includes('Playa') || tags.includes('Surf')) ? 'Costa' : 'Valles';
+                renderSidebar(region);
+            }
+
+            suggestionsList.innerHTML = results.map(r => `<div class="p-2 hover:bg-slate-50 rounded-lg cursor-pointer text-xs font-bold text-slate-700" onclick="applyTag('${r.author.name}')">${r.author.name}</div>`).join('') || `<p class="text-[9px] p-2 text-slate-400">No hay coincidencias directas. Intenta con rutas.</p>`;
+            renderFeed();
+        }
+
+        function applyTag(tag) {
+            searchInput.value = tag;
+            activeFilters.search = tag;
+            aiSuggestions.classList.add('hidden');
+            renderFeed();
+            const post = APP_DATA.posts.find(p => p.author.name === tag);
+            if (post) zoomToPost(post.id);
+        }
+
+        function zoomToPost(id) {
+            const post = APP_DATA.posts.find(p => p.id === id);
+            if (markers[id]) {
+                map.flyTo(post.location.coords, 14, { duration: 1.5 });
+                markers[id].openPopup();
+            }
+        }
+
+        function scrollToPost(id) {
+            const el = document.getElementById(`post-${id}`);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                el.classList.add('pulse-primary');
+                setTimeout(() => el.classList.remove('pulse-primary'), 2000);
+            }
+        }
+
+        function toggleMapHeatmap() {
+            if (heatmapLayer) { map.removeLayer(heatmapLayer); heatmapLayer = null; showToast('Capa Calor Desactivada'); }
+            else { const points = APP_DATA.posts.map(p => [...p.location.coords, 0.5]); heatmapLayer = L.heatLayer(points, { radius: 25, blur: 15 }).addTo(map); showToast('Capa de Calor Activa'); }
+        }
+
+        function resetMapView() { map.flyTo([17.0732, -96.7266], 8); }
+
+        function showToast(msg) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `<i class="fa-solid fa-bolt-lightning text-yellow-500"></i> <span class="text-xs font-black">${msg}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateY(100%)'; setTimeout(() => toast.remove(), 300); }, 3000);
+        }
+
+        // INITIALIZE
+        document.addEventListener('DOMContentLoaded', () => {
+            initMap();
+            renderFeed();
+            renderSidebar();
+            lucide.createIcons();
+            new Swiper('.swiper-companies', { slidesPerView: 'auto', spaceBetween: 16, freeMode: true, grabCursor: true });
+        });
+    </script>
+</body>
+
+</html>

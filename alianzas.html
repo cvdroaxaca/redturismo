@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma Turismo - Alianzas</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 h-screen flex overflow-hidden">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-logo" onclick="window.location.href='index.html'">
+            <div class="logo-icon">
+                <i class="fa-solid fa-mountain-sun"></i>
+            </div>
+            <div class="logo-text">Red de Innovación<br><span style="color: #a855f7;">Turística</span> CVDR</div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-link">
+                <i class="fa-solid fa-house-chimney"></i>
+                <span>Inicio</span>
+            </a>
+            <a href="explorar.html" class="nav-link">
+                <i class="fa-solid fa-magnifying-glass-location"></i>
+                <span>Explorar</span>
+            </a>
+            <a href="mensajeria.html" class="nav-link">
+                <i class="fa-solid fa-comments"></i>
+                <span>Mensajes</span>
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fa-solid fa-bell"></i>
+                <span>Notificaciones</span>
+                <span class="badge">3</span>
+            </a>
+            <a href="grupos.html" class="nav-link">
+                <i class="fa-solid fa-users-rectangle"></i>
+                <span>Grupos</span>
+            </a>
+            <a href="eventos.html" class="nav-link">
+                <i class="fa-solid fa-calendar-check"></i>
+                <span>Eventos</span>
+            </a>
+            <a href="marketplace.html" class="nav-link">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <span>Marketplace</span>
+            </a>
+            <a href="alianzas.html" class="nav-link active">
+                <i class="fa-solid fa-handshake-angle"></i>
+                <span>Colaboraciones</span>
+            </a>
+            <a href="cursos.html" class="nav-link">
+                <i class="fa-solid fa-user-graduate"></i>
+                <span>Capacitación</span>
+            </a>
+            <a href="innovacion.html" class="nav-link">
+                <i class="fa-solid fa-lightbulb"></i>
+                <span>Innovación</span>
+            </a>
+            <a href="analitica.html" class="nav-link">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Analítica</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="window.location.href='perfil.html'">
+                <img src="https://i.pravatar.cc/150?img=47" class="w-10 h-10 rounded-full border-2 border-white/20">
+                <div class="overflow-hidden">
+                    <p class="text-xs font-bold text-white truncate">María López</p>
+                    <p class="text-[10px] text-slate-400 truncate uppercase font-bold">Empresa Turística</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col h-full overflow-hidden bg-[#f7f9fc]">
+        
+        <!-- Header -->
+        <header class="main-header">
+            <div class="flex items-center gap-4">
+                <h2 class="text-xl font-bold text-slate-800 flex items-center gap-3">
+                    <i class="fa-solid fa-handshake-angle text-purple-600"></i> Muro de Alianzas
+                </h2>
+            </div>
+            
+            <div class="flex items-center gap-6">
+                <button class="btn-primary">
+                    <i class="fa-solid fa-plus-circle"></i> Publicar Oportunidad
+                </button>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-8">
+            <div class="max-w-6xl mx-auto flex gap-8">
+                
+                <!-- Main Feed: Oportunidades -->
+                <div class="flex-1 space-y-6">
+                    <div class="flex gap-4 border-b border-slate-200 pb-2">
+                        <button class="text-purple-600 font-bold border-b-2 border-purple-600 pb-2">Oportunidades Abiertas</button>
+                        <button class="text-slate-500 font-medium pb-2 hover:text-slate-800">Mis Solicitudes</button>
+                        <button class="text-slate-500 font-medium pb-2 hover:text-slate-800">Alianzas Exitosas</button>
+                    </div>
+
+                    <!-- Card 1 -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 transition-shadow hover:shadow-md">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex items-center gap-3">
+                                <img src="https://i.pravatar.cc/150?img=33" class="w-12 h-12 rounded-full">
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-lg">Transportes del Valle</h4>
+                                    <p class="text-xs text-slate-500">Agencia de Transportación Turística</p>
+                                </div>
+                            </div>
+                            <span class="bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full border border-green-200">Abierta</span>
+                        </div>
+                        
+                        <h3 class="font-bold text-slate-800 text-xl mb-2">Busco socio para aventura en Sierra Norte</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                            Estamos lanzando una nueva ruta de ecoturismo los fines de semana hacia la Sierra Norte. Buscamos hoteles boutique o restaurantes en la zona que quieran formar parte de nuestro circuito y crear un paquete integral.
+                        </p>
+                        
+                        <div class="flex gap-2 mb-6">
+                            <span class="bg-slate-100 text-slate-600 text-xs font-semibold px-2 py-1 rounded">Rutas Compartidas</span>
+                            <span class="bg-slate-100 text-slate-600 text-xs font-semibold px-2 py-1 rounded">B2B</span>
+                            <span class="bg-slate-100 text-slate-600 text-xs font-semibold px-2 py-1 rounded">Sierra Norte</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between border-t border-slate-100 pt-4">
+                            <span class="text-xs text-slate-400">Publicado hace 3 días</span>
+                            <button class="bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold px-6 py-2 rounded-lg text-sm transition-colors flex items-center gap-2">
+                                <i data-lucide="message-square" class="w-4 h-4"></i> Contactar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 transition-shadow hover:shadow-md">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex items-center gap-3">
+                                <img src="https://i.pravatar.cc/150?img=12" class="w-12 h-12 rounded-full">
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-lg">Artesanías Don José</h4>
+                                    <p class="text-xs text-slate-500">Taller Textil Independiente</p>
+                                </div>
+                            </div>
+                            <span class="bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full border border-green-200">Abierta</span>
+                        </div>
+                        
+                        <h3 class="font-bold text-slate-800 text-xl mb-2">Exhibición de textiles en lobbies de hoteles</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                            Buscamos establecer alianzas con hoteles en el centro histórico para exhibir y vender nuestros textiles auténticos de telar de pedal en sus espacios comunes. Ofrecemos comisiones atractivas y piezas exclusivas.
+                        </p>
+                        
+                        <div class="flex gap-2 mb-6">
+                            <span class="bg-slate-100 text-slate-600 text-xs font-semibold px-2 py-1 rounded">Comercio Justo</span>
+                            <span class="bg-slate-100 text-slate-600 text-xs font-semibold px-2 py-1 rounded">Centro Histórico</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between border-t border-slate-100 pt-4">
+                            <span class="text-xs text-slate-400">Publicado hace 1 semana</span>
+                            <button class="bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold px-6 py-2 rounded-lg text-sm transition-colors flex items-center gap-2">
+                                <i data-lucide="message-square" class="w-4 h-4"></i> Contactar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Sidebar: Guide -->
+                <div class="w-80 space-y-6">
+                    <div class="bg-gradient-to-br from-purple-700 to-indigo-800 text-white p-6 rounded-2xl shadow-md border border-purple-600">
+                        <div class="flex items-center gap-2 mb-4">
+                            <i data-lucide="info" class="w-5 h-5 text-purple-200"></i>
+                            <h3 class="font-bold text-lg">Guía para Colaborar</h3>
+                        </div>
+                        <p class="text-purple-100 text-sm mb-6">Sigue estos 4 pasos para formalizar alianzas exitosas dentro de la red.</p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex gap-3">
+                                <div class="w-6 h-6 rounded-full bg-white text-purple-700 flex items-center justify-center font-bold text-xs shrink-0">1</div>
+                                <div>
+                                    <h4 class="font-bold text-sm">Identifica</h4>
+                                    <p class="text-xs text-purple-200">Revisa las oportunidades del muro.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-3">
+                                <div class="w-6 h-6 rounded-full bg-white text-purple-700 flex items-center justify-center font-bold text-xs shrink-0">2</div>
+                                <div>
+                                    <h4 class="font-bold text-sm">Contacta</h4>
+                                    <p class="text-xs text-purple-200">Envía un mensaje directo a la empresa.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-3">
+                                <div class="w-6 h-6 rounded-full bg-white text-purple-700 flex items-center justify-center font-bold text-xs shrink-0">3</div>
+                                <div>
+                                    <h4 class="font-bold text-sm">Acuerda</h4>
+                                    <p class="text-xs text-purple-200">Definan términos de ganancia mutua.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-3">
+                                <div class="w-6 h-6 rounded-full bg-white text-purple-700 flex items-center justify-center font-bold text-xs shrink-0">4</div>
+                                <div>
+                                    <h4 class="font-bold text-sm">Registra</h4>
+                                    <p class="text-xs text-purple-200">Confirmen la alianza en la plataforma.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

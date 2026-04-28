@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketplace – Red de Innovación Tecnológica en Turismo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        * {font-family:'Plus Jakarta Sans',sans-serif;}
+        :root{--primary:#7c3aed;}
+        ::-webkit-scrollbar{width:4px;}
+        ::-webkit-scrollbar-thumb{background:#e2e8f0;border-radius:10px;}
+        .sidebar-link{transition:all .2s;}
+        .sidebar-link:hover{background:rgba(255,255,255,.06);color:white;}
+        .sidebar-link.active{background:var(--primary);color:white;box-shadow:0 4px 12px rgba(124,58,237,.35);}
+        .product-card{transition:all .35s cubic-bezier(.075,.82,.165,1);}
+        .product-card:hover{transform:translateY(-4px);box-shadow:0 16px 32px rgba(0,0,0,.08);}
+        .cat-item{transition:all .25s;cursor:pointer;}
+        .cat-item:hover .cat-icon{border-color:var(--primary);color:var(--primary);}
+        .cat-item.active .cat-icon{background:#f5f3ff;border-color:var(--primary);color:var(--primary);}
+        .modal-overlay{background:rgba(15,23,42,.45);backdrop-filter:blur(6px);z-index:50;}
+        @keyframes slideUp{from{opacity:0;transform:translateY(32px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+        .modal-box{animation:slideUp .3s ease-out;}
+        .step-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;border:2px solid #e2e8f0;color:#94a3b8;transition:all .3s;}
+        .step-dot.done{background:var(--primary);border-color:var(--primary);color:white;}
+        .step-dot.active{border-color:var(--primary);color:var(--primary);}
+        .step-line{flex:1;height:2px;background:#e2e8f0;transition:background .3s;}
+        .step-line.done{background:var(--primary);}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+        .fade-in{animation:fadeIn .25s ease-out;}
+    </style>
+</head>
+<body class="h-screen flex overflow-hidden bg-[#f8fafc]">
+
+<!-- Sidebar left (reuse from grupos) -->
+<aside class="w-[260px] bg-[#141731] flex flex-col shrink-0">
+    <div class="p-7">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-cyan-400 via-indigo-400 to-purple-500 rounded-xl flex items-center justify-center shadow-lg">
+                <i class="fa-solid fa-shapes text-white text-lg"></i>
+            </div>
+            <span class="text-white font-extrabold text-xs leading-tight">Red de<br>Innovación<br>Tecnológica<br><span class="text-slate-400 font-medium">en Turismo</span></span>
+        </div>
+    </div>
+    <nav class="flex-1 px-3 space-y-0.5 overflow-y-auto">
+        <a href="index.html"      class="sidebar-link flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 font-semibold text-sm"><i class="fa-solid fa-house w-5 text-center"></i><span>Inicio</span></a>
+        <a href="explorar.html"    class="sidebar-link flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 font-semibold text-sm"><i class="fa-solid fa-compass w-5 text-center"></i><span>Explorar</span></a>
+        <a href="mensajeria.html"  class="sidebar-link flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 font-semibold text-sm"><i class="fa-solid fa-message w-5 text-center"></i><span>Mensajes</span></a>
+        <a href="#"                class="sidebar-link flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 font-semibold text-sm relative"><i class="fa-solid fa-bell w-5 text-center"></i><span>Notificaciones</span><span class="absolute right-4 bg-purple-600 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">3</span></a>
+        <a href="grupos.html"      class="sidebar-link flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 font-semibold text-sm"><i class="fa-solid fa-users w-5 text-center"></i><span>Grupos</span></a>
+        <a href="eventos.html"     class="sidebar-link flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 font-semibold text-sm"><i class="fa-solid fa-calendar-days w-5 text-center"></i><span>Eventos</span></a>
+        <a href="marketplace.html" class="sidebar-link active flex items-center gap-4 px-4 py-3 rounded-xl text-white font-bold text-sm"><i class="fa-solid fa-bag-shopping w-5 text-center"></i><span>Marketplace</span></a>
+        <a href="cursos.html"      class="sidebar-link flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 font-semibold text-sm"><i class="fa-solid fa-graduation-cap w-5 text-center"></i><span>Capacitación</span></a>
+        <a href="innovacion.html"  class="sidebar-link flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 font-semibold text-sm"><i class="fa-solid fa-lightbulb w-5 text-center"></i><span>Innovación</span></a>
+        <a href="analitica.html"   class="sidebar-link flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 font-semibold text-sm"><i class="fa-solid fa-chart-line w-5 text-center"></i><span>Analítica</span></a>
+    </nav>
+    <div class="p-6 border-t border-white/5">
+        <div class="flex items-center gap-3 cursor-pointer group" onclick="window.location.href='perfil.html'">
+            <img src="https://i.pravatar.cc/150?img=47" class="w-10 h-10 rounded-full border border-white/10">
+            <div class="flex-1 overflow-hidden">
+                <p class="text-white font-bold text-xs truncate">María López</p>
+                <p class="text-slate-500 text-[10px] font-medium truncate uppercase tracking-widest">Empresa Turística</p>
+            </div>
+            <i class="fa-solid fa-chevron-down text-[10px] text-slate-500"></i>
+        </div>
+    </div>
+</aside>
+
+<!-- Main content -->
+<main class="flex-1 flex h-full overflow-hidden">
+    <!-- Central column -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+        <!-- Header -->
+        <header class="h-20 bg-white border-b border-slate-100 flex items-center justify-between px-10 shrink-0">
+            <div class="w-full max-w-xl relative group">
+                <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                <input type="text" id="global-search" placeholder="Buscar productos..." oninput="filterProducts(this.value)"
+                    class="w-full bg-[#f8fafc] border border-transparent focus:bg-white focus:border-purple-200 rounded-2xl pl-12 pr-6 py-3 text-sm font-medium outline-none transition-all placeholder:text-slate-400">
+            </div>
+            <div class="flex items-center gap-5">
+                <button class="text-slate-400 hover:text-purple-600 transition-colors relative">
+                    <i class="fa-solid fa-bell text-lg"></i>
+                    <span class="absolute -top-1 -right-1 w-2 h-2 bg-rose-500 rounded-full border-2 border-white"></span>
+                </button>
+                <button class="text-slate-400 hover:text-purple-600 transition-colors"><i class="fa-solid fa-comment-dots text-lg"></i></button>
+                <img src="https://i.pravatar.cc/150?img=47" class="w-8 h-8 rounded-full cursor-pointer">
+                <button onclick="openCreateProductModal()" class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2 shadow-lg shadow-purple-100 transition-all active:scale-95">
+                    <i class="fa-solid fa-plus"></i> Crear producto
+                </button>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto px-10 py-8">
+            <div class="mb-7">
+                <h1 class="text-3xl font-extrabold text-slate-900 mb-1">Marketplace de Oaxaca</h1>
+                <p class="text-slate-500 text-sm font-medium">Descubre artesanías, gastronomía, hospedaje y experiencias únicas.</p>
+            </div>
+
+            <!-- Filters -->
+            <div class="flex flex-wrap gap-4 mb-6">
+                <select id="filter-cat" class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 ring-purple-200" onchange="applyFilters()">
+                    <option value="">Todas las categorías</option>
+                    <option>Artesanías</option>
+                    <option>Gastronomía</option>
+                    <option>Hospedaje</option>
+                    <option>Tours</option>
+                    <option>Experiencias</option>
+                </select>
+                <select id="filter-price" class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 ring-purple-200" onchange="applyFilters()">
+                    <option value="">Rango de precio</option>
+                    <option value="0-30">$0‑$30</option>
+                    <option value="31-70">$31‑$70</option>
+                    <option value="71-150">$71‑$150</option>
+                    <option value="151-999">$151+</option>
+                </select>
+                <select id="filter-city" class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 ring-purple-200" onchange="applyFilters()">
+                    <option value="">Todas las ciudades</option>
+                    <option>Oaxaca de Juárez</option>
+                    <option>San Juan del Estado</option>
+                    <option>San Bartolo Coyotepec</option>
+                    <option>Santiago Matatlán</option>
+                    <option>Puerto Escondido</option>
+                </select>
+            </div>
+
+            <!-- Category carousel -->
+            <section class="mb-8">
+                <h2 class="text-[15px] font-extrabold text-slate-900 mb-4">Categorías</h2>
+                <div class="flex items-center gap-2">
+                    <button onclick="scrollCats(-1)" class="w-8 h-8 bg-white border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:text-purple-600 shrink-0">
+                        <i class="fa-solid fa-chevron-left text-xs"></i>
+                    </button>
+                    <div class="flex gap-5 overflow-x-auto pb-1 flex-1" id="cat-row" style="scrollbar-width:none;">
+                        <!-- Filled by JS -->
+                    </div>
+                    <button onclick="scrollCats(1)" class="w-8 h-8 bg-white border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:text-purple-600 shrink-0">
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Products grid -->
+            <section>
+                <div class="flex items-center justify-between mb-5">
+                    <h2 class="text-[15px] font-extrabold text-slate-900">Productos destacados</h2>
+                    <a href="#" class="text-sm font-bold text-purple-600 hover:underline">Ver todos</a>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5" id="products-grid"></div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Right sidebar -->
+    <aside class="w-[280px] shrink-0 bg-white border-l border-slate-100 overflow-y-auto p-6 flex flex-col gap-7">
+        <div>
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-[13px] font-extrabold text-slate-900">Productos destacados</h3>
+                <a href="#" class="text-[11px] font-bold text-purple-600 hover:underline">Ver todos</a>
+            </div>
+            <div class="space-y-3" id="sidebar-featured"></div>
+        </div>
+        <div>
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-[13px] font-extrabold text-slate-900">Recomendados para ti</h3>
+                <a href="#" class="text-[11px] font-bold text-purple-600 hover:underline">Ver todos</a>
+            </div>
+            <div class="space-y-3" id="sidebar-recommended"></div>
+        </div>
+        <div class="bg-purple-50 border border-purple-100 rounded-2xl p-4 text-xs text-slate-600 font-medium leading-relaxed">
+            <i class="fa-solid fa-shield-halved text-purple-500 mr-1"></i>
+            Compra con confianza. Verifica la reputación del vendedor y revisa los detalles antes de pagar.
+            <a href="#" class="text-purple-600 font-bold block mt-2">Ver términos y condiciones →</a>
+        </div>
+    </aside>
+</main>
+
+<!-- Modal crear producto (3‑step wizard) -->
+<div id="create-product-modal" class="modal-overlay fixed inset-0 hidden items-center justify-center p-4">
+    <div class="modal-box bg-white rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden">
+        <div class="flex items-center justify-between px-8 pt-7 pb-5 border-b border-slate-100">
+            <h2 class="text-xl font-extrabold text-slate-900">Crear nuevo producto</h2>
+            <button onclick="closeCreateProductModal()" class="w-9 h-9 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:text-red-500 transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="flex items-center px-8 py-5 gap-2">
+            <div class="step-dot active" id="ps1">1</div>
+            <div class="step-line" id="pl1"></div>
+            <div class="step-dot" id="ps2">2</div>
+            <div class="step-line" id="pl2"></div>
+            <div class="step-dot" id="ps3">3</div>
+        </div>
+        <div class="px-8 pb-8">
+            <!-- Step 1 – Información básica -->
+            <div id="product-step-1" class="fade-in">
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-5">Paso 1 — Información básica</p>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-[13px] font-bold text-slate-700 mb-1.5">Nombre del producto *</label>
+                        <input id="p-name" type="text" placeholder="Ej: Manta de Barro Negro" maxlength="80"
+                            class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 ring-purple-200 font-medium transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-[13px] font-bold text-slate-700 mb-1.5">Descripción *</label>
+                        <textarea id="p-desc" rows="3" placeholder="Breve descripción del producto" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 ring-purple-200 font-medium transition-all resize-none"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-[13px] font-bold text-slate-700 mb-1.5">Categoría *</label>
+                        <select id="p-cat" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none font-medium">
+                            <option value="">Selecciona</option>
+                            <option>Artesanías</option>
+                            <option>Gastronomía</option>
+                            <option>Hospedaje</option>
+                            <option>Tours</option>
+                            <option>Experiencias</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[13px] font-bold text-slate-700 mb-1.5">Precio (USD) *</label>
+                        <input id="p-price" type="number" min="0" placeholder="Ej: 85" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 ring-purple-200 font-medium transition-all">
+                    </div>
+                </div>
+            </div>
+            <!-- Step 2 – Imagen de portada -->
+            <div id="product-step-2" class="fade-in hidden">
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-5">Paso 2 — Imagen del producto</p>
+                <div class="space-y-4">
+                    <div id="p-img-drop" onclick="document.getElementById('p-img').click()"
+                        class="border-2 border-dashed border-slate-200 rounded-2xl h-28 flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-purple-400 hover:bg-purple-50 transition-all">
+                        <i class="fa-solid fa-cloud-arrow-up text-2xl text-slate-400"></i>
+                        <span class="text-xs font-semibold text-slate-500">Haz clic o arrastra una imagen</span>
+                    </div>
+                    <input type="file" id="p-img" accept="image/*" class="hidden" onchange="previewProductImg(this)">
+                    <img id="p-img-preview" class="mt-3 w-full h-28 object-cover rounded-2xl hidden">
+                </div>
+            </div>
+            <!-- Step 3 – Detalles de venta -->
+            <div id="product-step-3" class="fade-in hidden">
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-5">Paso 3 — Detalles de venta</p>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-[13px] font-bold text-slate-700 mb-1.5">Ciudad de origen *</label>
+                        <input id="p-city" type="text" placeholder="Ej: Oaxaca de Juárez" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 ring-purple-200 font-medium">
+                    </div>
+                    <div>
+                        <label class="block text-[13px] font-bold text-slate-700 mb-1.5">Contactar vendedor</label>
+                        <select id="p-contact" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none font-medium">
+                            <option value="">Selecciona contacto</option>
+                            <option>Carlos Mendoza – Vendedor</option>
+                            <option>Sofía Ruiz – Chef</option>
+                            <option>Miguel Torres – Propietario</option>
+                            <option>Ana García – Artesana</option>
+                            <option>Luis Hernández – Hotelero</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="flex gap-3 mt-8">
+                <button id="p-btn-back" onclick="productStepBack()" class="flex-1 border border-slate-200 text-slate-600 font-bold py-3.5 rounded-2xl hover:bg-slate-50 transition-all hidden">
+                    <i class="fa-solid fa-arrow-left mr-1.5"></i> Atrás
+                </button>
+                <button id="p-btn-next" onclick="productStepNext()" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3.5 rounded-2xl shadow-lg shadow-purple-100 transition-all active:scale-95">
+                    Continuar <i class="fa-solid fa-arrow-right ml-1.5"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="fixed bottom-8 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-sm font-bold px-6 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 hidden z-50 transition-all">
+    <i class="fa-solid fa-circle-check text-green-400 text-lg"></i>
+    <span id="toast-msg"></span>
+</div>
+
+<script src="assets/marketplace-data.js"></script>
+<script>
+// ---------- Helper animations ----------
+function fadeInStagger(selector){
+    gsap.fromTo(selector,{autoAlpha:0,y:20},{autoAlpha:1,y:0,duration:0.4,stagger:0.1,ease:'power2.out'});
+}
+
+// ---------- Render categories ----------
+function renderCategories(){
+    const row=document.getElementById('cat-row');
+    row.innerHTML = MP_CATEGORIES.map((c,i)=>`
+        <div class="cat-item flex flex-col items-center gap-2 shrink-0" onclick="filterByCat(${i})">
+            <div class="cat-icon w-14 h-14 ${c.color} border-2 border-white rounded-2xl flex items-center justify-center shadow-sm">
+                <i class="fa-solid ${c.icon} text-lg"></i>
+            </div>
+            <span class="text-[11px] font-bold text-slate-600 text-center leading-tight w-16">${c.label}</span>
+        </div>`).join('');
+    fadeInStagger('.cat-item');
+}
+
+// ---------- Render products grid ----------
+function renderProducts(list){
+    const grid=document.getElementById('products-grid');
+    grid.innerHTML = list.map(p=>`
+        <div class="product-card bg-white rounded-2xl overflow-hidden border border-slate-100 flex flex-col">
+            <div class="relative h-48">
+                <img src="${p.photo}" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                <span class="absolute top-3 left-3 bg-white/90 text-slate-700 text-[10px] font-black px-2.5 py-1 rounded-full backdrop-blur-sm">
+                    <i class="fa-solid ${p.category==='Artesanías'?'fa-paintbrush':p.category==='Gastronomía'?'fa-utensils':p.category==='Hospedaje'?'fa-bed':p.category==='Tours'?'fa-map-signs':'fa-star'} mr-1"></i>${p.category}
+                </span>
+                <button class="absolute top-3 right-3 w-7 h-7 bg-white/80 rounded-full flex items-center justify-center text-slate-500 hover:text-purple-600 backdrop-blur-sm">
+                    <i class="fa-solid fa-ellipsis text-xs"></i>
+                </button>
+                <div class="absolute -bottom-5 left-4 w-10 h-10 ${p.iconColor} rounded-xl flex items-center justify-center shadow-lg border-2 border-white">
+                    <i class="fa-solid ${p.icon} text-white text-sm"></i>
+                </div>
+            </div>
+            <div class="pt-8 px-4 pb-4 flex flex-col flex-1">
+                <h3 class="font-extrabold text-slate-900 text-sm mb-1 leading-tight">${p.name}</h3>
+                <p class="text-[11px] text-slate-500 font-medium leading-relaxed mb-2 flex-1">${p.desc}</p>
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-purple-600 font-bold text-lg">$${p.price}</span>
+                    <div class="flex items-center text-yellow-400">
+                        <i class="fa-solid fa-star"></i>
+                        <span class="ml-1 text-slate-700 font-medium">${p.rating}</span>
+                    </div>
+                </div>
+                <button onclick="addToCart(${p.id})" class="w-full py-2.5 rounded-xl text-xs font-bold bg-purple-50 text-purple-700 border border-purple-200 hover:bg-purple-100 transition-all active:scale-95">
+                    <i class="fa-solid fa-cart-plus mr-1"></i> Añadir al carrito
+                </button>
+            </div>
+        </div>`).join('') || `<div class="col-span-3 py-16 text-center text-slate-400 font-semibold">No hay productos que coincidan.</div>`;
+    fadeInStagger('.product-card');
+}
+
+// ---------- Sidebar render ----------
+function renderSidebar(){
+    document.getElementById('sidebar-featured').innerHTML = MP_FEATURED.map(p=>`
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 ${p.iconColor} rounded-xl flex items-center justify-center shrink-0">
+                <i class="fa-solid ${p.icon} text-white text-sm"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+                <p class="text-xs font-bold text-slate-800 truncate">${p.name}</p>
+                <p class="text-[10px] text-slate-400 font-semibold">$${p.price}</p>
+            </div>
+        </div>`).join('');
+    document.getElementById('sidebar-recommended').innerHTML = MP_RECOMMENDED.map(p=>`
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 ${p.iconColor} rounded-xl flex items-center justify-center shrink-0">
+                <i class="fa-solid ${p.icon} text-white text-sm"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+                <p class="text-xs font-bold text-slate-800 truncate">${p.name}</p>
+                <p class="text-[10px] text-slate-400 font-semibold">$${p.price}</p>
+            </div>
+        </div>`).join('');
+}
+
+// ---------- Filters ----------
+function applyFilters(){
+    const cat=document.getElementById('filter-cat').value;
+    const price=document.getElementById('filter-price').value;
+    const city=document.getElementById('filter-city').value;
+    let filtered=MP_PRODUCTS;
+    if(cat) filtered=filtered.filter(p=>p.category===cat);
+    if(price){
+        const [min,max]=price.split('-');
+        filtered=filtered.filter(p=> p.price>=Number(min) && (max==='999' ? true : p.price<=Number(max)) );
+    }
+    if(city) filtered=filtered.filter(p=>p.location===city);
+    renderProducts(filtered);
+}
+
+function filterByCat(idx){
+    const cat=MP_CATEGORIES[idx].label;
+    if(cat==='Más') { renderProducts(MP_PRODUCTS); return; }
+    const filtered=MP_PRODUCTS.filter(p=>p.category===cat);
+    renderProducts(filtered.length?filtered:MP_PRODUCTS);
+}
+
+function filterProducts(query){
+    const q=query.toLowerCase();
+    const filtered=MP_PRODUCTS.filter(p=>p.name.toLowerCase().includes(q)||p.desc.toLowerCase().includes(q));
+    renderProducts(filtered);
+}
+
+function scrollCats(dir){
+    const row=document.getElementById('cat-row');
+    row.scrollBy({left:dir*160,behavior:'smooth'});
+}
+
+// ---------- Cart (toast) ----------
+function addToCart(id){
+    const prod=MP_PRODUCTS.find(p=>p.id===id);
+    if(!prod) return;
+    showToast(`✅ "${prod.name}" añadido al carrito`);
+}
+
+function showToast(msg){
+    const toast=document.getElementById('toast');
+    document.getElementById('toast-msg').textContent=msg;
+    toast.classList.remove('hidden');
+    toast.style.opacity='1';
+    setTimeout(()=>{toast.style.opacity='0'; setTimeout(()=>toast.classList.add('hidden'),300);},3000);
+}
+
+// ---------- Modal crear producto ----------
+let curStep=1;
+function openCreateProductModal(){
+    curStep=1;
+    document.getElementById('p-img-preview').classList.add('hidden');
+    document.getElementById('p-img-drop').classList.remove('hidden');
+    document.getElementById('create-product-modal').classList.remove('hidden');
+    document.getElementById('create-product-modal').classList.add('flex');
+    updateProductStepUI();
+}
+function closeCreateProductModal(){
+    document.getElementById('create-product-modal').classList.add('hidden');
+    document.getElementById('create-product-modal').classList.remove('flex');
+}
+function productStepNext(){
+    if(curStep===1){
+        if(!document.getElementById('p-name').value.trim()||!document.getElementById('p-cat').value||!document.getElementById('p-price').value){alert('Completa nombre, categoría y precio');return;}
+    }
+    if(curStep===2){
+        // image optional
+    }
+    if(curStep<3){curStep++; updateProductStepUI();}
+    else saveNewProduct();
+}
+function productStepBack(){
+    if(curStep>1){curStep--; updateProductStepUI();}
+}
+function updateProductStepUI(){
+    [1,2,3].forEach(n=>{
+        document.getElementById('product-step-'+n).classList.toggle('hidden', n!==curStep);
+        const dot=document.getElementById('ps'+n);
+        dot.classList.toggle('done', n<curStep);
+        dot.classList.toggle('active', n===curStep);
+        if(n>1) document.getElementById('pl'+(n-1)).classList.toggle('done', n<=curStep);
+    });
+    document.getElementById('p-btn-back').classList.toggle('hidden', curStep===1);
+    document.getElementById('p-btn-next').innerHTML = curStep<3 ? 'Continuar <i class="fa-solid fa-arrow-right ml-1.5"></i>' : '<i class="fa-solid fa-check mr-1.5"></i> Crear producto';
+}
+function previewProductImg(input){
+    const file=input.files[0];
+    if(!file) return;
+    const reader=new FileReader();
+    reader.onload=e=>{
+        document.getElementById('p-img-preview').src=e.target.result;
+        document.getElementById('p-img-preview').classList.remove('hidden');
+        document.getElementById('p-img-drop').classList.add('hidden');
+    };
+    reader.readAsDataURL(file);
+}
+function saveNewProduct(){
+    const newProd={
+        id:Date.now(),
+        name:document.getElementById('p-name').value.trim(),
+        desc:document.getElementById('p-desc').value.trim()||'Producto creado en la plataforma CVDR.',
+        price:Number(document.getElementById('p-price').value),
+        rating:4.5,
+        category:document.getElementById('p-cat').value,
+        photo: document.getElementById('p-img-preview').src || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80',
+        icon: MP_CATEGORIES.find(c=>c.label===document.getElementById('p-cat').value).icon,
+        iconColor: MP_CATEGORIES.find(c=>c.label===document.getElementById('p-cat').value).color,
+        location: document.getElementById('p-city')?.value || 'Oaxaca de Juárez',
+        members:0,
+        invited:[]
+    };
+    MP_PRODUCTS.unshift(newProd);
+    closeCreateProductModal();
+    renderProducts(MP_PRODUCTS);
+    showToast(`🎉 Producto "${newProd.name}" creado con éxito`);
+}
+
+// ---------- Init ----------
+document.addEventListener('DOMContentLoaded',()=>{
+    renderCategories();
+    renderProducts(MP_PRODUCTS);
+    renderSidebar();
+    // Animaciones de entrada
+    gsap.fromTo('aside',{x:-40,autoAlpha:0},{x:0,autoAlpha:1,duration:0.6, ease:'power3.out',clearProps:'all'});
+    gsap.fromTo('header',{y:-20,autoAlpha:0},{y:0,autoAlpha:1,duration:0.5,delay:0.15, ease:'power3.out',clearProps:'all'});
+});
+</script>
+</body>
+</html>

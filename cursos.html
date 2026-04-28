@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capacitación – Red de Innovación Tecnológica en Turismo</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous"/>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #fcfcfc; }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .sidebar-link { transition: all 0.2s ease; }
+        .sidebar-link:hover { background: rgba(255,255,255,0.05); }
+        .sidebar-link.active { background: #6826D4; color: white; }
+        
+        .tab { color: #64748b; font-weight: 500; padding-bottom: 0.5rem; transition: all 0.2s; border-bottom: 2px solid transparent; cursor: pointer; }
+        .tab:hover { color: #6826D4; }
+        .tab.active { color: #6826D4; font-weight: 600; border-bottom-color: #6826D4; }
+
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+
+        .badge-popular { background-color: #6826D4; color: white; }
+        .badge-nuevo { background-color: #f59e0b; color: white; }
+        .badge-recomendado { background-color: #10b981; color: white; }
+
+        .category-card { transition: transform 0.2s, box-shadow 0.2s; }
+        .category-card:hover { transform: translateY(-2px); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        
+        .course-card { transition: transform 0.2s, box-shadow 0.2s; }
+        .course-card:hover { transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+
+        .donut-container { position: relative; width: 100px; height: 100px; }
+        .donut-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+        
+        /* Outline button style */
+        .btn-outline {
+            border: 1px solid #e2e8f0;
+            color: #6826D4;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .btn-outline:hover {
+            border-color: #6826D4;
+            background-color: #faf5ff;
+        }
+    </style>
+</head>
+<body class="h-screen flex overflow-hidden text-slate-800">
+
+<!-- Sidebar Izquierda -->
+<aside class="w-[250px] bg-[#0f172a] flex flex-col flex-shrink-0 text-slate-300">
+    <div class="p-6 pb-2">
+        <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                <i class="fa-solid fa-shapes text-white"></i>
+            </div>
+            <div class="leading-tight">
+                <span class="text-white font-bold text-sm block">Red de Innovación</span>
+                <span class="text-white font-bold text-sm block">Tecnológica en</span>
+                <span class="text-slate-400 text-sm">Turismo</span>
+            </div>
+        </div>
+    </div>
+    <nav class="flex-1 px-3 space-y-1 overflow-y-auto text-sm font-medium">
+        <a href="index.html" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-solid fa-house w-5 text-center"></i> Inicio</a>
+        <a href="explorar.html" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-solid fa-magnifying-glass w-5 text-center"></i> Explorar</a>
+        <a href="mensajeria.html" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-regular fa-comment-dots w-5 text-center"></i> Mensajes</a>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg justify-between">
+            <div class="flex items-center gap-3">
+                <i class="fa-regular fa-bell w-5 text-center"></i> Notificaciones
+            </div>
+            <span class="bg-[#6826D4] text-white text-xs px-1.5 py-0.5 rounded-full">3</span>
+        </a>
+        <a href="grupos.html" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-solid fa-users w-5 text-center"></i> Grupos</a>
+        <a href="eventos.html" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-regular fa-calendar w-5 text-center"></i> Eventos</a>
+        <a href="marketplace.html" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-solid fa-store w-5 text-center"></i> Marketplace</a>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-regular fa-handshake w-5 text-center"></i> Colaboraciones</a>
+        <a href="cursos.html" class="sidebar-link active flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-solid fa-graduation-cap w-5 text-center"></i> Capacitación</a>
+        <a href="innovacion.html" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-regular fa-lightbulb w-5 text-center"></i> Innovación</a>
+        <a href="analitica.html" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-solid fa-chart-simple w-5 text-center"></i> Analítica</a>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg justify-between mt-2">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-ellipsis w-5 text-center"></i> Más opciones
+            </div>
+            <i class="fa-solid fa-chevron-down text-xs"></i>
+        </a>
+    </nav>
+    <div class="p-4 mt-auto">
+        <div class="flex items-center gap-3 hover:bg-white/5 p-2 rounded-lg cursor-pointer transition-colors">
+            <img src="https://i.pravatar.cc/150?img=47" class="w-10 h-10 rounded-full object-cover">
+            <div class="flex-1 min-w-0">
+                <p class="text-white text-sm font-medium truncate">María López</p>
+                <p class="text-xs text-slate-400 truncate">Empresa Turística</p>
+            </div>
+            <i class="fa-solid fa-chevron-down text-xs"></i>
+        </div>
+    </div>
+</aside>
+
+<!-- Main Area -->
+<div class="flex-1 flex flex-col min-w-0 bg-white">
+    <!-- Header -->
+    <header class="h-16 border-b border-slate-200 flex items-center justify-between px-8 flex-shrink-0">
+        <div class="relative w-96">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input type="text" placeholder="Buscar cursos, temas o habilidades..." class="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:border-[#6826D4] focus:ring-1 focus:ring-[#6826D4]">
+        </div>
+        <div class="flex items-center gap-6">
+            <div class="flex items-center gap-4 text-slate-500">
+                <button class="relative hover:text-slate-800 transition-colors">
+                    <i class="fa-regular fa-bell text-xl"></i>
+                    <span class="absolute -top-1 -right-1 w-4 h-4 bg-[#6826D4] rounded-full border-2 border-white text-[10px] text-white flex items-center justify-center font-bold">3</span>
+                </button>
+                <button class="hover:text-slate-800 transition-colors">
+                    <i class="fa-regular fa-comment-dots text-xl"></i>
+                </button>
+            </div>
+            <div class="flex items-center gap-3 border-l border-slate-200 pl-6">
+                <img src="https://i.pravatar.cc/150?img=47" class="w-8 h-8 rounded-full object-cover">
+                <div class="text-sm">
+                    <p class="font-semibold text-slate-800 leading-tight">María López</p>
+                    <p class="text-xs text-slate-500">Empresa Turística</p>
+                </div>
+                <i class="fa-solid fa-chevron-down text-xs text-slate-400 ml-1"></i>
+            </div>
+            <button class="bg-[#6826D4] hover:bg-[#581cba] text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2">
+                <i class="fa-solid fa-medal"></i> Mis certificados
+            </button>
+        </div>
+    </header>
+
+    <!-- Scrollable Content -->
+    <main class="flex-1 overflow-y-auto p-8">
+        <!-- Title & Tabs -->
+        <div class="mb-6">
+            <h1 class="text-3xl font-bold text-slate-900 mb-2">Capacitación</h1>
+            <p class="text-sm text-slate-500">Desarrolla nuevas habilidades, mejora tu negocio y manténte a la vanguardia del turismo.</p>
+        </div>
+        
+        <div class="flex gap-6 border-b border-slate-200 mb-6 text-sm">
+            <div class="tab active" data-tab="explorar">Explorar cursos</div>
+            <div class="tab" data-tab="mis">Mis cursos</div>
+            <div class="tab" data-tab="rutas">Rutas de aprendizaje</div>
+            <div class="tab" data-tab="webinars">Webinars grabados</div>
+            <div class="tab" data-tab="certificaciones">Certificaciones</div>
+        </div>
+
+        <!-- Filters Row -->
+        <div class="flex items-center gap-3 mb-8">
+            <div class="relative flex-1 max-w-xs">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input type="text" placeholder="Buscar cursos..." class="w-full pl-9 pr-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:border-[#6826D4]">
+            </div>
+            <select class="form-select border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 bg-white focus:outline-none min-w-[130px]">
+                <option>Categoría</option>
+            </select>
+            <select class="form-select border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 bg-white focus:outline-none min-w-[100px]">
+                <option>Nivel</option>
+            </select>
+            <select class="form-select border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 bg-white focus:outline-none min-w-[120px]">
+                <option>Modalidad</option>
+            </select>
+            <select class="form-select border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 bg-white focus:outline-none min-w-[110px]">
+                <option>Duración</option>
+            </select>
+            <button class="ml-auto btn-outline px-4 py-2 rounded-lg text-sm flex items-center gap-2">
+                <i class="fa-solid fa-bars-staggered"></i> Filtros
+            </button>
+        </div>
+
+        <!-- Explora por categoría -->
+        <div class="mb-10">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-bold text-slate-900">Explora por categoría</h2>
+                <a href="#" class="text-sm font-medium text-[#6826D4] hover:underline">Ver todas</a>
+            </div>
+            <div class="flex items-center gap-4 relative">
+                <button class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="flex flex-1 gap-4 overflow-hidden" id="categories-container">
+                    <!-- Categories injected by JS -->
+                </div>
+                <button class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+
+        <!-- Cursos destacados -->
+        <div class="mb-10">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-bold text-slate-900">Cursos destacados</h2>
+                <a href="#" class="text-sm font-medium text-[#6826D4] hover:underline">Ver todas</a>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="courses-grid">
+                <!-- Courses injected by JS -->
+            </div>
+        </div>
+
+        <!-- Rutas de aprendizaje recomendadas -->
+        <div class="mb-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-bold text-slate-900">Rutas de aprendizaje recomendadas</h2>
+                <a href="#" class="text-sm font-medium text-[#6826D4] hover:underline">Ver todas</a>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4" id="paths-container">
+                <!-- Paths injected by JS -->
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Right Sidebar (Dashboard) -->
+<aside class="w-[320px] bg-white border-l border-slate-200 flex-shrink-0 flex flex-col overflow-y-auto">
+    <div class="p-6 pb-0">
+        <!-- Mi Progreso -->
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="font-bold text-slate-900">Mi progreso</h3>
+            <a href="#" class="text-xs font-medium text-[#6826D4] hover:underline">Ver detalle</a>
+        </div>
+        
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <p class="text-xs text-slate-500 font-medium mb-1">Cursos en progreso</p>
+                <div class="text-4xl font-bold text-slate-900">3</div>
+            </div>
+            <div class="donut-container">
+                <canvas id="donutChart"></canvas>
+                <div class="donut-center">
+                    <span class="block text-lg font-bold text-slate-900">65%</span>
+                    <span class="block text-[9px] text-slate-500 uppercase font-medium">Completado</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-y-4 mb-6" id="progress-courses-list">
+            <!-- Progress courses injected by JS -->
+        </div>
+
+        <button class="w-full btn-outline py-2.5 rounded-lg text-sm mb-8 flex items-center justify-center gap-2">
+            <i class="fa-solid fa-graduation-cap"></i> Ir a mis cursos
+        </button>
+
+        <hr class="border-slate-100 mb-8">
+
+        <!-- Certificaciones -->
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="font-bold text-slate-900">Certificaciones obtenidas</h3>
+            <a href="#" class="text-xs font-medium text-[#6826D4] hover:underline">Ver todas</a>
+        </div>
+
+        <div class="space-y-4 mb-6" id="certifications-list">
+            <!-- Certifications injected by JS -->
+        </div>
+
+        <button class="w-full btn-outline py-2.5 rounded-lg text-sm mb-8">
+            Ver todos mis certificados
+        </button>
+
+        <!-- Soporte -->
+        <div class="bg-[#f8f5ff] rounded-xl p-5 mb-6 border border-purple-100 relative overflow-hidden">
+            <h4 class="font-bold text-[#6826D4] mb-2 relative z-10 text-sm">¿Necesitas ayuda?</h4>
+            <p class="text-xs text-slate-600 mb-4 relative z-10 w-2/3">Estamos aquí para apoyarte en tu aprendizaje.</p>
+            <button class="bg-white border border-[#e9d5ff] text-[#6826D4] text-xs font-medium px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-purple-50 transition-colors relative z-10">
+                <i class="fa-solid fa-headset"></i> Contactar soporte
+            </button>
+            <!-- Support Illustration placeholder -->
+            <div class="absolute right-0 bottom-0 w-24 h-24 bg-purple-200 rounded-tl-full opacity-50 pointer-events-none"></div>
+            <i class="fa-solid fa-user-headset absolute right-3 bottom-3 text-4xl text-[#6826D4] opacity-80 pointer-events-none"></i>
+        </div>
+    </div>
+</aside>
+
+<script src="assets/cursos-data.js"></script>
+<script>
+    // Config and Initial Render
+    document.addEventListener('DOMContentLoaded', () => {
+        renderCategories();
+        renderCourses();
+        renderLearningPaths();
+        renderProgressCourses();
+        renderCertifications();
+        initDonutChart();
+        setupTabs();
+    });
+
+    const categoriesList = [
+        { name: 'Gestión y Negocios', icon: 'fa-briefcase', color: 'bg-green-500', count: 24 },
+        { name: 'Marketing y Ventas', icon: 'fa-bullhorn', color: 'bg-[#6826D4]', count: 18 },
+        { name: 'Tecnología e Innovación', icon: 'fa-microchip', color: 'bg-orange-500', count: 22 },
+        { name: 'Experiencia del Cliente', icon: 'fa-bag-shopping', color: 'bg-blue-500', count: 16 },
+        { name: 'Sostenibilidad', icon: 'fa-leaf', color: 'bg-teal-500', count: 14 },
+    ];
+
+    const coursesList = [
+        { title: 'Marketing Digital para Turismo', desc: 'Estrategias efectivas para promocionar tu negocio...', category: 'Marketing y Ventas', lvl: 'Intermedio', dur: '4 semanas', rating: '4.8 (128)', students: '1,250', badge: 'Popular', badgeStyle: 'badge-popular', img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80', icon: 'fa-bullhorn', iconColor: 'bg-[#6826D4]' },
+        { title: 'Turismo Sostenible y Regenerativo', desc: 'Aprende a implementar prácticas sostenibles que...', category: 'Sostenibilidad', lvl: 'Principiante', dur: '3 semanas', rating: '4.9 (96)', students: '890', badge: 'Nuevo', badgeStyle: 'badge-nuevo', img: 'https://images.unsplash.com/photo-1500534623283-312aade485b7?w=600&q=80', icon: 'fa-leaf', iconColor: 'bg-teal-500' },
+        { title: 'Experiencia del Cliente en Turismo', desc: 'Mejora la satisfacción del cliente y fideliza...', category: 'Experiencia del Cliente', lvl: 'Intermedio', dur: '5 semanas', rating: '4.7 (75)', students: '620', badge: 'Recomendado', badgeStyle: 'badge-recomendado', img: 'https://images.unsplash.com/photo-1556740714-a8395b3bf30f?w=600&q=80', icon: 'fa-users', iconColor: 'bg-blue-500' },
+        { title: 'Herramientas Digitales para PYMES', desc: 'Digitaliza tu negocio con herramientas prácticas...', category: 'Tecnología', lvl: 'Principiante', dur: '2 semanas', rating: '4.6 (54)', students: '410', badge: 'Popular', badgeStyle: 'badge-popular', img: 'https://images.unsplash.com/photo-1432888494235-cb21fcfd0658?w=600&q=80', icon: 'fa-laptop', iconColor: 'bg-orange-500' }
+    ];
+
+    const learningPathsList = [
+        { title: 'Emprende en Turismo', desc: 'Todo lo que necesitas para iniciar y hacer...', icon: 'fa-rocket', iconColor: 'bg-green-500', courses: 6, hours: 18, progress: 60, progressColor: 'bg-green-500' },
+        { title: 'Transformación Digital', desc: 'Aprende a digitalizar y automatizar tu...', icon: 'fa-chart-line', iconColor: 'bg-[#6826D4]', courses: 5, hours: 15, progress: 40, progressColor: 'bg-[#6826D4]' },
+        { title: 'Turismo Sostenible', desc: 'Desarrolla tu negocio con prácticas...', icon: 'fa-leaf', iconColor: 'bg-orange-500', courses: 4, hours: 12, progress: 25, progressColor: 'bg-orange-500' },
+        { title: 'Liderazgo e Innovación', desc: 'Fortalece tus habilidades de liderazgo e...', icon: 'fa-users-cog', iconColor: 'bg-blue-600', courses: 6, hours: 20, progress: 75, progressColor: 'bg-blue-600' }
+    ];
+
+    const progressCourses = [
+        { title: 'Marketing Digital para Turismo', img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=100&q=80', progress: 80, color: 'bg-[#6826D4]' },
+        { title: 'Experiencia del Cliente en Turismo', img: 'https://images.unsplash.com/photo-1556740714-a8395b3bf30f?w=100&q=80', progress: 45, color: 'bg-[#6826D4]' },
+        { title: 'Herramientas Digitales para PYMES', img: 'https://images.unsplash.com/photo-1432888494235-cb21fcfd0658?w=100&q=80', progress: 30, color: 'bg-orange-500' }
+    ];
+
+    const certifications = [
+        { title: 'Marketing Digital para Turismo', date: 'Completado el 10 May, 2024', img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=100&q=80' },
+        { title: 'Turismo Sostenible', date: 'Completado el 22 Mar, 2024', img: 'https://images.unsplash.com/photo-1500534623283-312aade485b7?w=100&q=80' }
+    ];
+
+
+    function renderCategories() {
+        const container = document.getElementById('categories-container');
+        categoriesList.forEach(cat => {
+            container.innerHTML += `
+                <div class="category-card flex-1 min-w-[140px] bg-white border border-slate-100 rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer">
+                    <div class="w-12 h-12 rounded-full ${cat.color} flex items-center justify-center mb-3 text-white shadow-sm">
+                        <i class="fa-solid ${cat.icon} text-lg"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-800 text-xs mb-1">${cat.name}</h3>
+                    <p class="text-[11px] text-slate-500">${cat.count} cursos</p>
+                </div>
+            `;
+        });
+        container.innerHTML += `
+            <div class="category-card flex-1 min-w-[120px] bg-slate-50 border border-slate-100 rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer">
+                <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center mb-3 text-slate-500">
+                    <i class="fa-solid fa-ellipsis"></i>
+                </div>
+                <h3 class="font-medium text-slate-700 text-xs">Más categorías</h3>
+            </div>
+        `;
+    }
+
+    function renderCourses() {
+        const container = document.getElementById('courses-grid');
+        coursesList.forEach(course => {
+            container.innerHTML += `
+                <div class="course-card bg-white border border-slate-200 rounded-xl overflow-hidden flex flex-col">
+                    <div class="relative h-40">
+                        <img src="${course.img}" class="w-full h-full object-cover">
+                        <span class="absolute top-3 left-3 text-[10px] font-bold px-2 py-0.5 rounded-md ${course.badgeStyle}">${course.badge}</span>
+                        <div class="absolute -bottom-4 left-4 w-9 h-9 rounded-full ${course.iconColor} border-2 border-white flex items-center justify-center text-white shadow-md">
+                            <i class="fa-solid ${course.icon} text-xs"></i>
+                        </div>
+                    </div>
+                    <div class="p-5 pt-6 flex-1 flex flex-col">
+                        <h3 class="font-bold text-slate-900 leading-snug mb-2">${course.title}</h3>
+                        <p class="text-xs text-slate-500 mb-4 line-clamp-2">${course.desc}</p>
+                        
+                        <div class="mt-auto">
+                            <div class="flex items-center gap-2 text-[11px] text-slate-500 mb-2">
+                                <span>Nivel: ${course.lvl}</span>
+                                <span>•</span>
+                                <span>${course.dur}</span>
+                            </div>
+                            <div class="flex items-center justify-between text-xs mb-4">
+                                <div class="flex items-center text-amber-500 font-medium">
+                                    <i class="fa-solid fa-star mr-1"></i> ${course.rating}
+                                </div>
+                                <span class="text-slate-500">${course.students} estudiantes</span>
+                            </div>
+                            <button class="w-full btn-outline py-2 rounded-lg text-xs">Ver curso</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function renderLearningPaths() {
+        const container = document.getElementById('paths-container');
+        learningPathsList.forEach(path => {
+            container.innerHTML += `
+                <div class="bg-white border border-slate-200 rounded-xl p-4 flex flex-col">
+                    <div class="flex gap-3 mb-3">
+                        <div class="w-10 h-10 rounded-full ${path.iconColor} flex items-center justify-center text-white flex-shrink-0">
+                            <i class="fa-solid ${path.icon}"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-sm leading-tight mb-1">${path.title}</h3>
+                            <p class="text-[11px] text-slate-500 line-clamp-2">${path.desc}</p>
+                        </div>
+                    </div>
+                    <div class="mt-auto">
+                        <div class="flex justify-between items-center text-[10px] text-slate-500 mb-1.5 font-medium">
+                            <span>${path.courses} cursos • ${path.hours} horas</span>
+                            <span>${path.progress}% completado</span>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-1.5">
+                            <div class="${path.progressColor} h-1.5 rounded-full" style="width: ${path.progress}%"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function renderProgressCourses() {
+        const container = document.getElementById('progress-courses-list');
+        progressCourses.forEach(course => {
+            container.innerHTML += `
+                <div class="flex gap-3">
+                    <img src="${course.img}" class="w-12 h-12 rounded-lg object-cover flex-shrink-0">
+                    <div class="flex-1 min-w-0 flex flex-col justify-center">
+                        <h4 class="font-bold text-slate-800 text-xs mb-1.5 truncate">${course.title}</h4>
+                        <div class="flex items-center gap-2">
+                            <div class="flex-1 bg-slate-100 rounded-full h-1.5">
+                                <div class="${course.color} h-1.5 rounded-full" style="width: ${course.progress}%"></div>
+                            </div>
+                            <span class="text-[10px] text-slate-500 font-medium w-8 text-right">${course.progress}%</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function renderCertifications() {
+        const container = document.getElementById('certifications-list');
+        certifications.forEach(cert => {
+            container.innerHTML += `
+                <div class="flex items-center gap-3">
+                    <img src="${cert.img}" class="w-10 h-10 rounded-full object-cover border border-slate-200">
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-bold text-slate-800 text-xs truncate">${cert.title}</h4>
+                        <p class="text-[10px] text-slate-500">${cert.date}</p>
+                    </div>
+                    <i class="fa-solid fa-circle-check text-green-500 text-lg"></i>
+                </div>
+            `;
+        });
+    }
+
+    function initDonutChart() {
+        const ctx = document.getElementById('donutChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: [65, 35],
+                    backgroundColor: ['#6826D4', '#f1f5f9'],
+                    borderWidth: 0,
+                    cutout: '80%',
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                animation: { animateScale: true }
+            }
+        });
+    }
+
+    function setupTabs() {
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
+    }
+</script>
+</body>
+</html>

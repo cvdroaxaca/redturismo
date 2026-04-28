@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Innovación – Red de Innovación Tecnológica en Turismo</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #fcfcfc; }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .sidebar-link { transition: all 0.2s ease; }
+        .sidebar-link:hover { background: rgba(255,255,255,0.05); }
+        .sidebar-link.active { background: #6826D4; color: white; }
+        
+        .tab { color: #64748b; font-weight: 500; padding-bottom: 0.5rem; transition: all 0.2s; border-bottom: 2px solid transparent; cursor: pointer; }
+        .tab:hover { color: #6826D4; }
+        .tab.active { color: #6826D4; font-weight: 600; border-bottom-color: #6826D4; }
+
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+
+        .badge-abierto { background-color: #10b981; color: white; }
+        .badge-desarrollo { background-color: #f59e0b; color: white; }
+        .badge-idea { background-color: #8b5cf6; color: white; }
+        .badge-implementado { background-color: #0ea5e9; color: white; }
+        
+        .card-hover { transition: transform 0.2s, box-shadow 0.2s; }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+
+        .btn-outline {
+            border: 1px solid #e2e8f0;
+            color: #6826D4;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .btn-outline:hover {
+            border-color: #6826D4;
+            background-color: #faf5ff;
+        }
+        
+        .btn-solid {
+            background-color: #6826D4;
+            color: white;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .btn-solid:hover { background-color: #581cba; }
+    </style>
+</head>
+<body class="h-screen flex overflow-hidden text-slate-800">
+
+<!-- Sidebar Izquierda -->
+<aside class="w-[250px] bg-[#0f172a] flex flex-col flex-shrink-0 text-slate-300 relative">
+    <div class="p-6 pb-2">
+        <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                <i class="fa-solid fa-shapes text-white"></i>
+            </div>
+            <div class="leading-tight">
+                <span class="text-white font-bold text-sm block">Red de Innovación</span>
+                <span class="text-white font-bold text-sm block">Tecnológica en</span>
+                <span class="text-slate-400 text-sm">Turismo</span>
+            </div>
+        </div>
+    </div>
+    
+    <nav class="flex-1 px-3 space-y-1 overflow-y-auto text-sm font-medium">
+        <a href="index.html" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-solid fa-house w-5 text-center"></i> Inicio</a>
+        <a href="explorar.html" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-solid fa-magnifying-glass w-5 text-center"></i> Explorar</a>
+        <a href="mensajeria.html" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-regular fa-comment-dots w-5 text-center"></i> Mensajes</a>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg justify-between">
+            <div class="flex items-center gap-3">
+                <i class="fa-regular fa-bell w-5 text-center"></i> Notificaciones
+            </div>
+            <span class="bg-[#6826D4] text-white text-xs px-1.5 py-0.5 rounded-full">3</span>
+        </a>
+        <a href="grupos.html" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-solid fa-users w-5 text-center"></i> Grupos</a>
+        <a href="eventos.html" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-regular fa-calendar w-5 text-center"></i> Eventos</a>
+        <a href="marketplace.html" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-solid fa-store w-5 text-center"></i> Marketplace</a>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-regular fa-handshake w-5 text-center"></i> Colaboraciones</a>
+        <a href="cursos.html" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-solid fa-graduation-cap w-5 text-center"></i> Capacitación</a>
+        <a href="innovacion.html" class="sidebar-link active flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-regular fa-lightbulb w-5 text-center"></i> Innovación</a>
+        <a href="analitica.html" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg"><i class="fa-solid fa-chart-simple w-5 text-center"></i> Analítica</a>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg justify-between mt-2">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-ellipsis w-5 text-center"></i> Más opciones
+            </div>
+            <i class="fa-solid fa-chevron-down text-xs"></i>
+        </a>
+    </nav>
+
+    <!-- User Profile & Points -->
+    <div class="mt-auto border-t border-slate-700/50">
+        <div class="p-4">
+            <div class="flex items-center gap-3 p-2 cursor-pointer transition-colors">
+                <img src="https://i.pravatar.cc/150?img=47" class="w-10 h-10 rounded-full object-cover border border-slate-600">
+                <div class="flex-1 min-w-0">
+                    <p class="text-white text-sm font-medium truncate">María López</p>
+                    <p class="text-xs text-slate-400 truncate">Empresa Turística</p>
+                </div>
+                <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
+            </div>
+            
+            <div class="mt-2 p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                <p class="text-[10px] text-slate-400 font-medium mb-1">Puntos de innovación</p>
+                <div class="text-white font-bold text-lg mb-1">1,250 pts</div>
+                <a href="#" class="text-[11px] text-[#a78bfa] hover:text-white flex items-center gap-1 transition-colors">
+                    <i class="fa-solid fa-trophy"></i> Ver ranking
+                </a>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<!-- Main Area -->
+<div class="flex-1 flex flex-col min-w-0 bg-white">
+    <!-- Header -->
+    <header class="h-16 border-b border-slate-200 flex items-center justify-between px-8 flex-shrink-0">
+        <div class="relative w-[26rem]">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input type="text" placeholder="Buscar retos, ideas, proyectos o colaboradores..." class="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:border-[#6826D4] focus:ring-1 focus:ring-[#6826D4]">
+        </div>
+        <div class="flex items-center gap-6">
+            <div class="flex items-center gap-4 text-slate-500">
+                <button class="relative hover:text-slate-800 transition-colors">
+                    <i class="fa-regular fa-bell text-xl"></i>
+                    <span class="absolute -top-1 -right-1 w-4 h-4 bg-[#6826D4] rounded-full border-2 border-white text-[10px] text-white flex items-center justify-center font-bold">2</span>
+                </button>
+                <button class="hover:text-slate-800 transition-colors">
+                    <i class="fa-regular fa-comment-dots text-xl"></i>
+                </button>
+            </div>
+            <div class="flex items-center gap-3 border-l border-slate-200 pl-6 pr-2">
+                <img src="https://i.pravatar.cc/150?img=47" class="w-8 h-8 rounded-full object-cover">
+                <div class="text-sm">
+                    <p class="font-semibold text-slate-800 leading-tight">María López</p>
+                    <p class="text-xs text-slate-500">Empresa Turística</p>
+                </div>
+                <i class="fa-solid fa-chevron-down text-xs text-slate-400 ml-1"></i>
+            </div>
+            <button class="btn-solid px-4 py-2 rounded-lg text-sm flex items-center gap-2">
+                <i class="fa-solid fa-plus"></i> Proponer reto
+            </button>
+        </div>
+    </header>
+
+    <!-- Scrollable Content -->
+    <main class="flex-1 overflow-y-auto p-8">
+        <!-- Title & Tabs -->
+        <div class="mb-6">
+            <h1 class="text-3xl font-bold text-slate-900 mb-2">Innovación / Retos</h1>
+            <p class="text-sm text-slate-500">Impulsa soluciones innovadoras para transformar el turismo.</p>
+        </div>
+        
+        <div class="flex gap-6 border-b border-slate-200 mb-6 text-sm overflow-x-auto whitespace-nowrap">
+            <div class="tab active" data-tab="retos">Retos activos</div>
+            <div class="tab" data-tab="participaciones">Mis participaciones</div>
+            <div class="tab" data-tab="proyectos">Mis proyectos</div>
+            <div class="tab" data-tab="ideas">Ideas</div>
+            <div class="tab" data-tab="soluciones">Soluciones implementadas</div>
+            <div class="tab" data-tab="convocatorias">Convocatorias</div>
+        </div>
+
+        <!-- Filters Row -->
+        <div class="flex items-center flex-wrap gap-3 mb-8">
+            <div class="relative flex-1 min-w-[200px] max-w-xs">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input type="text" placeholder="Buscar retos..." class="w-full pl-9 pr-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:border-[#6826D4]">
+            </div>
+            <div class="flex flex-col gap-1">
+                <span class="text-[10px] font-semibold text-slate-500 px-1">Categoría</span>
+                <select class="form-select border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 bg-white focus:outline-none min-w-[140px]">
+                    <option>Todos</option>
+                </select>
+            </div>
+            <div class="flex flex-col gap-1">
+                <span class="text-[10px] font-semibold text-slate-500 px-1">Estado</span>
+                <select class="form-select border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 bg-white focus:outline-none min-w-[120px]">
+                    <option>Todos</option>
+                </select>
+            </div>
+            <div class="flex flex-col gap-1">
+                <span class="text-[10px] font-semibold text-slate-500 px-1">Ubicación</span>
+                <select class="form-select border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 bg-white focus:outline-none min-w-[120px]">
+                    <option>Todas</option>
+                </select>
+            </div>
+            <div class="flex flex-col gap-1">
+                <span class="text-[10px] font-semibold text-slate-500 px-1">Ordenar por</span>
+                <select class="form-select border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 bg-white focus:outline-none min-w-[140px]">
+                    <option>Más recientes</option>
+                </select>
+            </div>
+            <div class="flex flex-col gap-1 self-end">
+                <button class="btn-outline px-4 py-2 rounded-lg text-sm flex items-center gap-2 h-[38px]">
+                    <i class="fa-solid fa-bars-staggered"></i> Filtros
+                </button>
+            </div>
+        </div>
+
+        <!-- Retos destacados -->
+        <div class="mb-10 relative">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-bold text-slate-900">Retos destacados</h2>
+                <a href="#" class="text-sm font-medium text-[#6826D4] hover:underline">Ver todos los retos</a>
+            </div>
+            <div class="flex gap-5 overflow-x-hidden relative" id="retos-grid">
+                <!-- Navigation Button (Right) -->
+                <button class="absolute -right-4 top-1/3 w-8 h-8 bg-white border border-slate-200 rounded-full flex items-center justify-center shadow-md text-slate-600 hover:text-[#6826D4] z-10">
+                    <i class="fa-solid fa-chevron-right text-sm"></i>
+                </button>
+                <!-- Reto Cards (injected via JS to keep HTML clean, though inline works too. I will inject inline here for exact match) -->
+            </div>
+        </div>
+
+        <!-- Proyectos destacados -->
+        <div class="mb-10">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-bold text-slate-900">Proyectos destacados de la comunidad</h2>
+                <a href="#" class="text-sm font-medium text-[#6826D4] hover:underline">Ver todos</a>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="proyectos-grid">
+                <!-- Project Cards injected via JS -->
+            </div>
+        </div>
+
+        <!-- Ranking Banner -->
+        <div class="bg-gradient-to-r from-purple-50 to-white border border-purple-100 rounded-xl p-5 flex items-center justify-between shadow-sm">
+            <div class="flex items-center gap-4">
+                <div class="w-14 h-14 bg-[#6826D4] rounded-full flex items-center justify-center text-white text-2xl shadow-lg shadow-purple-200">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-slate-900 text-lg">¡Suma puntos de innovación!</h3>
+                    <p class="text-sm text-slate-600 mb-1">Participa en retos, aporta ideas y desarrolla soluciones para escalar en el ranking de la red.</p>
+                    <a href="#" class="text-sm font-bold text-[#6826D4] hover:underline">Ver ranking <i class="fa-solid fa-arrow-right text-xs ml-1"></i></a>
+                </div>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="text-right">
+                    <p class="text-[11px] text-slate-500 font-medium">Tu posición actual</p>
+                    <p class="text-2xl font-bold text-slate-900 leading-tight">#8 <span class="text-sm text-slate-500 font-normal">de 142</span></p>
+                </div>
+                <button class="btn-solid px-5 py-2.5 rounded-lg text-sm shadow-md">Ver ranking completo</button>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<!-- Right Sidebar -->
+<aside class="w-[340px] bg-[#fdfdfd] border-l border-slate-200 flex-shrink-0 flex flex-col overflow-y-auto">
+    <div class="p-6">
+        
+        <!-- Mis participaciones -->
+        <div class="mb-8">
+            <div class="flex justify-between items-center mb-5">
+                <h3 class="font-bold text-slate-900">Mis participaciones</h3>
+                <a href="#" class="text-xs font-medium text-[#6826D4] hover:underline">Ver todas</a>
+            </div>
+            <div class="space-y-5" id="participaciones-list">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+
+        <hr class="border-slate-200 mb-8">
+
+        <!-- Convocatorias abiertas -->
+        <div class="mb-8">
+            <div class="flex justify-between items-center mb-5">
+                <h3 class="font-bold text-slate-900">Convocatorias abiertas</h3>
+                <a href="#" class="text-xs font-medium text-[#6826D4] hover:underline">Ver todas</a>
+            </div>
+            <div class="space-y-4" id="convocatorias-list">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+
+        <hr class="border-slate-200 mb-8">
+
+        <!-- Tienes una idea? -->
+        <div class="bg-white border border-slate-200 shadow-sm rounded-xl p-5 mb-8 text-center relative overflow-hidden">
+            <div class="flex justify-between items-start text-left mb-4">
+                <div class="pr-12">
+                    <h4 class="font-bold text-[#6826D4] mb-1">¿Tienes una idea?</h4>
+                    <p class="text-xs text-slate-500">Comparte tu idea y conviértela en un proyecto con impacto.</p>
+                </div>
+                <i class="fa-regular fa-lightbulb text-4xl text-[#6826D4] absolute right-4 top-4"></i>
+            </div>
+            <div class="flex gap-2">
+                <button class="flex-1 btn-solid py-2 rounded-lg text-xs">Publicar idea</button>
+                <button class="flex-1 btn-outline py-2 rounded-lg text-xs bg-white">Ver mis ideas</button>
+            </div>
+        </div>
+
+        <!-- Impacto de la innovación -->
+        <div>
+            <h3 class="font-bold text-slate-900 mb-4">Impacto de la innovación en la red</h3>
+            <div class="grid grid-cols-4 gap-2 text-center border-t border-slate-100 pt-4">
+                <div>
+                    <i class="fa-solid fa-users text-[#6826D4] mb-1"></i>
+                    <p class="text-xl font-bold text-slate-800 leading-tight">56</p>
+                    <p class="text-[9px] text-slate-500 uppercase leading-tight">Retos<br>activos</p>
+                </div>
+                <div>
+                    <i class="fa-regular fa-lightbulb text-[#6826D4] mb-1"></i>
+                    <p class="text-xl font-bold text-slate-800 leading-tight">128</p>
+                    <p class="text-[9px] text-slate-500 uppercase leading-tight">Ideas<br>generadas</p>
+                </div>
+                <div>
+                    <i class="fa-solid fa-gears text-[#6826D4] mb-1"></i>
+                    <p class="text-xl font-bold text-slate-800 leading-tight">34</p>
+                    <p class="text-[9px] text-slate-500 uppercase leading-tight">Soluciones<br>en desarrollo</p>
+                </div>
+                <div>
+                    <i class="fa-solid fa-check-circle text-[#6826D4] mb-1"></i>
+                    <p class="text-xl font-bold text-slate-800 leading-tight">12</p>
+                    <p class="text-[9px] text-slate-500 uppercase leading-tight">Soluciones<br>implementadas</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</aside>
+
+<script>
+    // Data objects simulating the image content
+    const retosDestacados = [
+        {
+            title: 'Turismo sostenible y conservación del patrimonio',
+            desc: '¿Cómo podemos reducir el impacto ambiental del turismo en nuestros destinos y conservar el patrimonio natural y cultural?',
+            badge: 'Abierto', badgeClass: 'badge-abierto',
+            category: 'Sostenibilidad',
+            location: 'Oaxaca y región', days: '28 días restantes',
+            participants: 36, ideas: 12,
+            img: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&q=80'
+        },
+        {
+            title: 'Plataforma digital integrada para destinos turísticos',
+            desc: '¿Cómo podemos integrar servicios, experiencias y datos en una plataforma digital que mejore la experiencia del turista y la gestión del destino?',
+            badge: 'En desarrollo', badgeClass: 'badge-desarrollo',
+            category: 'Tecnología',
+            location: 'Nacional', days: '16 días restantes',
+            participants: 42, ideas: 18,
+            img: 'https://images.unsplash.com/photo-1512428559087-560fa5ceab42?w=600&q=80'
+        },
+        {
+            title: 'Estrategias de promoción inteligente con IA',
+            desc: '¿Cómo podemos usar inteligencia artificial y análisis de datos para crear campañas más efectivas y personalizadas para cada segmento de viajero?',
+            badge: 'Abierto', badgeClass: 'badge-abierto',
+            category: 'Marketing e Innovación',
+            location: 'Nacional', days: '35 días restantes',
+            participants: 42, ideas: 9,
+            img: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80'
+        },
+        {
+            title: 'Mejora de la experiencia del turista en destinos emergentes',
+            desc: '¿Qué soluciones innovadoras pueden mejorar la experiencia del visitante en destinos emergentes con recursos limitados?',
+            badge: 'Abierto', badgeClass: 'badge-abierto',
+            category: 'Experiencia del visitante',
+            location: 'Sur de México', days: '21 días restantes',
+            participants: 24, ideas: 11,
+            img: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=600&q=80'
+        }
+    ];
+
+    const proyectosDestacados = [
+        {
+            title: 'Rutas Inteligentes Oaxaca',
+            desc: 'App que sugiere rutas personalizadas según intereses, tiempo y presupuesto.',
+            badge: 'En desarrollo', badgeColor: 'bg-green-500 text-white',
+            category: 'Tecnología', bgClass: 'bg-indigo-50',
+            team: 5, likes: 24, comments: 8
+        },
+        {
+            title: 'Basura Cero Turístico',
+            desc: 'Sistema de gestión de residuos para destinos turísticos.',
+            badge: 'Implementado', badgeColor: 'bg-blue-500 text-white',
+            category: 'Sostenibilidad', bgClass: 'bg-green-50',
+            team: 7, likes: 31, comments: 12
+        },
+        {
+            title: 'Guía Virtual con IA',
+            desc: 'Asistente virtual multilingüe para mejorar la experiencia del visitante.',
+            badge: 'Validación', badgeColor: 'bg-orange-500 text-white',
+            category: 'Innovación', bgClass: 'bg-purple-50',
+            team: 4, likes: 19, comments: 6
+        },
+        {
+            title: 'Conecta Local',
+            desc: 'Plataforma para conectar turistas con experiencias auténticas locales.',
+            badge: 'Ideación', badgeColor: 'bg-purple-500 text-white',
+            category: 'Comunidad', bgClass: 'bg-rose-50',
+            team: 3, likes: 15, comments: 5
+        }
+    ];
+
+    const participaciones = [
+        { title: 'Plataforma digital integrada para destinos turísticos', status: 'En desarrollo', statusColor: 'text-orange-500', progress: 60, icon: 'fa-desktop', iconBg: 'bg-orange-500' },
+        { title: 'Turismo sostenible y conservación del patrimonio', status: 'Abierto', statusColor: 'text-blue-500', progress: 30, icon: 'fa-leaf', iconBg: 'bg-green-600' },
+        { title: 'Estrategias de promoción inteligente con IA', status: 'Abierto', statusColor: 'text-blue-500', progress: 10, icon: 'fa-chart-pie', iconBg: 'bg-blue-600' },
+        { title: 'Mejora de la experiencia del turista en destinos emergentes', status: 'Abierto', statusColor: 'text-blue-500', progress: 20, icon: 'fa-users', iconBg: 'bg-purple-600' }
+    ];
+
+    const convocatorias = [
+        { title: 'Hackatón de Turismo Sostenible 2024', date: '30 Jun, 2024', img: 'https://images.unsplash.com/photo-1540317580384-e5d43867caa6?w=100&q=80' },
+        { title: 'Reto de Innovación Turística Rural', date: '15 Jul, 2024', img: 'https://images.unsplash.com/photo-1444858291040-58f756a3bdd6?w=100&q=80' },
+        { title: 'Premio a la Innovación en Turismo 2024', date: '01 Ago, 2024', img: 'https://images.unsplash.com/photo-1561489422-45de3d015e3e?w=100&q=80' }
+    ];
+
+    function renderRetos() {
+        const container = document.getElementById('retos-grid');
+        retosDestacados.forEach(reto => {
+            container.innerHTML += `
+                <div class="card-hover w-[280px] flex-shrink-0 bg-white border border-slate-200 rounded-xl overflow-hidden flex flex-col">
+                    <div class="relative h-32">
+                        <img src="${reto.img}" class="w-full h-full object-cover">
+                        <span class="absolute top-3 left-3 text-[10px] font-bold px-2 py-0.5 rounded ${reto.badgeClass}">${reto.badge}</span>
+                        <span class="absolute bottom-2 left-3 text-[10px] bg-white/90 text-slate-800 font-bold px-2 py-0.5 rounded-sm backdrop-blur-sm shadow-sm">${reto.category}</span>
+                    </div>
+                    <div class="p-4 flex-1 flex flex-col">
+                        <h3 class="font-bold text-slate-800 text-[13px] leading-tight mb-2 h-9 overflow-hidden">${reto.title}</h3>
+                        <p class="text-[11px] text-slate-500 mb-4 line-clamp-3 leading-relaxed flex-1">${reto.desc}</p>
+                        
+                        <div class="flex items-center gap-3 text-[10px] text-slate-500 mb-3 font-medium">
+                            <span class="flex items-center gap-1"><i class="fa-solid fa-location-dot"></i> ${reto.location}</span>
+                            <span class="flex items-center gap-1"><i class="fa-regular fa-clock"></i> ${reto.days}</span>
+                        </div>
+                        
+                        <div class="flex items-center gap-3 text-[10px] text-slate-700 font-semibold mb-4">
+                            <span class="flex items-center gap-1"><i class="fa-solid fa-users text-slate-400"></i> ${reto.participants} participantes</span>
+                            <span class="flex items-center gap-1"><i class="fa-regular fa-lightbulb text-[#6826D4]"></i> ${reto.ideas} ideas</span>
+                        </div>
+                        
+                        <button class="w-full btn-outline py-1.5 rounded-lg text-xs mt-auto">Ver reto</button>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function renderProyectos() {
+        const container = document.getElementById('proyectos-grid');
+        proyectosDestacados.forEach(proj => {
+            container.innerHTML += `
+                <div class="card-hover ${proj.bgClass} border border-slate-200 rounded-xl p-4 flex flex-col">
+                    <span class="inline-block text-[9px] font-bold px-2 py-0.5 rounded mb-2 self-start ${proj.badgeColor}">${proj.badge}</span>
+                    <h3 class="font-bold text-slate-800 text-[13px] leading-tight mb-1.5">${proj.title}</h3>
+                    <p class="text-[11px] text-slate-600 mb-3 flex-1">${proj.desc}</p>
+                    
+                    <p class="text-[10px] text-slate-500 font-medium mb-3">Equipo: ${proj.team} miembros</p>
+                    <span class="inline-block text-[10px] text-[#6826D4] bg-[#6826D4]/10 font-bold px-2 py-0.5 rounded-sm self-start mb-4 border border-[#6826D4]/20">${proj.category}</span>
+                    
+                    <div class="flex items-center justify-between text-xs font-semibold mt-auto pt-2 border-t border-slate-200/50">
+                        <div class="flex gap-3 text-slate-500">
+                            <span class="flex items-center gap-1 hover:text-rose-500 cursor-pointer"><i class="fa-solid fa-heart text-rose-500"></i> ${proj.likes}</span>
+                            <span class="flex items-center gap-1 hover:text-slate-800 cursor-pointer"><i class="fa-regular fa-comment"></i> ${proj.comments}</span>
+                        </div>
+                        <a href="#" class="text-[#6826D4] hover:underline text-[11px]">Ver proyecto</a>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function renderParticipaciones() {
+        const container = document.getElementById('participaciones-list');
+        participaciones.forEach(part => {
+            container.innerHTML += `
+                <div class="flex gap-4">
+                    <div class="w-10 h-10 rounded-full ${part.iconBg} text-white flex items-center justify-center flex-shrink-0 shadow-sm mt-1">
+                        <i class="fa-solid ${part.icon}"></i>
+                    </div>
+                    <div class="flex-1 w-full">
+                        <h4 class="font-bold text-slate-800 text-xs mb-1 pr-6 relative line-clamp-2">
+                            ${part.title}
+                        </h4>
+                        <div class="flex justify-end mb-1">
+                            <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-slate-100 ${part.statusColor}">${part.status}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="flex-1 bg-slate-100 rounded-full h-1">
+                                <div class="bg-[#6826D4] h-1 rounded-full" style="width: ${part.progress}%"></div>
+                            </div>
+                            <span class="text-[10px] text-slate-500 font-medium">${part.progress}%</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function renderConvocatorias() {
+        const container = document.getElementById('convocatorias-list');
+        convocatorias.forEach(conv => {
+            container.innerHTML += `
+                <div class="flex gap-3 items-center pb-4 border-b border-slate-100 last:border-0 last:pb-0">
+                    <img src="${conv.img}" class="w-12 h-12 rounded-lg object-cover flex-shrink-0">
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-bold text-slate-800 text-xs leading-tight mb-1 truncate">${conv.title}</h4>
+                        <p class="text-[10px] text-slate-500">Fecha límite: ${conv.date}</p>
+                    </div>
+                    <button class="btn-outline px-3 py-1.5 rounded-md text-[10px] shrink-0 bg-white shadow-sm">Inscribirme</button>
+                </div>
+            `;
+        });
+    }
+
+    // Init
+    document.addEventListener('DOMContentLoaded', () => {
+        renderRetos();
+        renderProyectos();
+        renderParticipaciones();
+        renderConvocatorias();
+
+        // Tabs setup
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorar - Red de Innovación Tecnológica en Turismo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --primary: #7c3aed;
+            --sidebar-bg: #141731;
+            --bg-body: #f8fafc;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-body);
+        }
+
+        .sidebar-link {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar-link:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+
+        .sidebar-link.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+        }
+
+        .category-item {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .category-item .icon-box {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .category-item:hover .icon-box {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .category-item.active .icon-box {
+            background: #f5f3ff;
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .category-item.active span {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .business-card {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid #f1f5f9;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
+        }
+
+        .business-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            border-color: #ddd6fe;
+        }
+
+        .rating-chip {
+            padding: 7px 14px;
+            background: white;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #64748b;
+            user-select: none;
+        }
+
+        .rating-chip:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .rating-chip.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
+        }
+
+        .rating-chip.active i {
+            color: white !important;
+        }
+
+        .price-checkbox+label {
+            width: 52px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            color: #64748b;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .price-checkbox+label:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .price-checkbox:checked+label {
+            background: #f5f3ff;
+            border-color: var(--primary);
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .service-checkbox+label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: #475569;
+            padding: 4px 0;
+            user-select: none;
+        }
+
+        .service-checkbox+label:hover {
+            color: var(--primary);
+        }
+
+        .service-checkbox:checked+label .check-box {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .service-checkbox:checked+label {
+            color: var(--primary);
+        }
+
+        /* Estilo visual del cuadro de tick */
+        .check-box {
+            min-width: 18px;
+            min-height: 18px;
+            border: 2px solid #cbd5e1;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .modal-overlay {
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+        }
+
+        /* Custom scrollbar for main panel */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f8fafc;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        .map-container {
+            position: relative;
+            background: #eef2ff;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .map-marker {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: var(--primary);
+            border: 2px solid white;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(124, 58, 237, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .map-marker:hover {
+            transform: scale(1.3);
+            z-index: 10;
+        }
+
+        /* Floating Badge Heart */
+        .heart-btn {
+            background: rgba(15, 23, 42, 0.2);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .heart-btn.active i {
+            color: #ef4444;
+        }
+    </style>
+</head>
+
+<body class="h-screen flex overflow-hidden">
+
+    <!-- Modal Quick View (Inyectado con JS) -->
+    <div id="quick-view-modal" class="modal-overlay fixed inset-0 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl w-full max-w-4xl max-h-[90vh] overflow-hidden relative shadow-2xl scale-95 opacity-0 transition-all duration-300 transform"
+            id="modal-content">
+            <button onclick="closeModal()"
+                class="absolute top-6 right-6 w-10 h-10 bg-white border border-slate-100 rounded-full flex items-center justify-center text-slate-400 hover:text-red-500 shadow-sm z-50 transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="modal-body" class="h-full overflow-y-auto"></div>
+        </div>
+    </div>
+
+    <!-- Sidebar Left -->
+    <aside class="w-[260px] bg-[#141731] flex flex-col shrink-0">
+        <div class="p-8">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-10 h-10 bg-gradient-to-br from-cyan-400 via-indigo-400 to-purple-500 rounded-xl flex items-center justify-center shadow-lg">
+                    <i class="fa-solid fa-shapes text-white text-lg"></i>
+                </div>
+                <span class="text-white font-extrabold text-sm leading-tight">Red de <br>Innovación <br>Tecnológica
+                    <br><span class="text-slate-400 font-medium">en Turismo</span></span>
+            </div>
+        </div>
+
+        <nav class="flex-1 px-4 mt-2 space-y-1 overflow-y-auto custom-scrollbar">
+            <a href="index.html"
+                class="sidebar-link flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 font-semibold text-sm">
+                <i class="fa-solid fa-house w-5 text-center"></i>
+                <span>Inicio</span>
+            </a>
+            <a href="explorar.html"
+                class="sidebar-link active flex items-center gap-4 px-4 py-3 rounded-xl text-white font-bold text-sm">
+                <i class="fa-solid fa-compass w-5 text-center"></i>
+                <span>Explorar</span>
+            </a>
+            <a href="mensajeria.html"
+                class="sidebar-link flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 font-semibold text-sm">
+                <i class="fa-solid fa-message w-5 text-center"></i>
+                <span>Mensajes</span>
+            </a>
+            <a href="#"
+                class="sidebar-link flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 font-semibold text-sm relative">
+                <i class="fa-solid fa-bell w-5 text-center"></i>
+                <span>Notificaciones</span>
+                <span
+                    class="absolute right-4 top-1/2 -translate-y-1/2 bg-purple-600 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">3</span>
+            </a>
+            <a href="grupos.html"
+                class="sidebar-link flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 font-semibold text-sm">
+                <i class="fa-solid fa-users w-5 text-center"></i>
+                <span>Grupos</span>
+            </a>
+            <a href="eventos.html"
+                class="sidebar-link flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 font-semibold text-sm">
+                <i class="fa-solid fa-calendar-days w-5 text-center"></i>
+                <span>Eventos</span>
+            </a>
+            <a href="marketplace.html"
+                class="sidebar-link flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 font-semibold text-sm">
+                <i class="fa-solid fa-basket-shopping w-5 text-center"></i>
+                <span>Marketplace</span>
+            </a>
+            <a href="cursos.html"
+                class="sidebar-link flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 font-semibold text-sm">
+                <i class="fa-solid fa-graduation-cap w-5 text-center"></i>
+                <span>Capacitación</span>
+            </a>
+            <a href="innovacion.html"
+                class="sidebar-link flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 font-semibold text-sm">
+                <i class="fa-solid fa-lightbulb w-5 text-center"></i>
+                <span>Innovación</span>
+            </a>
+            <a href="analitica.html"
+                class="sidebar-link flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 font-semibold text-sm">
+                <i class="fa-solid fa-chart-line w-5 text-center"></i>
+                <span>Analítica</span>
+            </a>
+        </nav>
+
+        <div class="p-6 border-t border-white/5">
+            <div class="flex items-center gap-3 cursor-pointer group">
+                <img src="https://i.pravatar.cc/150?img=32"
+                    class="w-10 h-10 rounded-full border border-white/10 group-hover:border-white/30 transition-all">
+                <div class="flex-1 overflow-hidden">
+                    <p class="text-white font-bold text-xs truncate">María López</p>
+                    <p class="text-slate-500 text-[10px] font-medium truncate uppercase tracking-widest">Empresa
+                        Turística</p>
+                </div>
+                <i class="fa-solid fa-chevron-down text-[10px] text-slate-500"></i>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Section -->
+    <main class="flex-1 flex flex-col h-full bg-[#f8fafc] overflow-hidden">
+
+        <!-- Header Top -->
+        <header class="h-20 bg-white border-b border-slate-100 flex items-center justify-between px-10 shrink-0">
+            <div class="w-full max-w-2xl">
+                <div class="relative group">
+                    <i
+                        class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-purple-600 transition-colors"></i>
+                    <input type="text" id="main-search" placeholder="Buscar empresas, experiencias, destinos..."
+                        class="w-full bg-[#f8fafc] border border-transparent focus:bg-white focus:border-purple-200 rounded-2xl pl-12 pr-6 py-3 text-sm font-medium outline-none transition-all placeholder:text-slate-400">
+                </div>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <div class="flex items-center gap-6 pr-6 border-r border-slate-100">
+                    <button class="text-slate-400 hover:text-purple-600 transition-colors"><i
+                            class="fa-regular fa-circle-question text-lg"></i></button>
+                    <button class="text-slate-400 hover:text-purple-600 transition-colors relative">
+                        <i class="fa-solid fa-bell text-lg"></i>
+                        <span
+                            class="absolute -top-1 -right-1 w-2 h-2 bg-rose-500 rounded-full border-2 border-white"></span>
+                    </button>
+                    <button class="text-slate-400 hover:text-purple-600 transition-colors"><i
+                            class="fa-solid fa-comment-dots text-lg"></i></button>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-3 cursor-pointer group">
+                        <img src="https://i.pravatar.cc/150?img=32" class="w-8 h-8 rounded-full">
+                        <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 group-hover:text-purple-600"></i>
+                    </div>
+                    <button
+                        class="bg-[#7c3aed] hover:bg-[#6d28d9] text-white px-6 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2 shadow-lg shadow-purple-100 transition-all active:scale-95">
+                        <i class="fa-solid fa-plus"></i> Publicar
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex-1 flex overflow-hidden">
+            <!-- Content Area -->
+            <div class="flex-1 overflow-y-auto px-10 py-10 custom-scrollbar">
+                <h1 class="text-[32px] font-extrabold text-slate-900 mb-8">Explorar</h1>
+
+                <!-- Category Chips -->
+                <div class="flex flex-wrap gap-8 mb-12" id="category-container">
+                    <div class="category-item flex flex-col items-center gap-3 active" data-cat="Todos">
+                        <div class="icon-box"><i class="fa-solid fa-border-all text-lg"></i></div>
+                        <span class="text-xs font-semibold text-slate-400">Todos</span>
+                    </div>
+                    <div class="category-item flex flex-col items-center gap-3" data-cat="Hospedaje">
+                        <div class="icon-box"><i class="fa-solid fa-bed text-lg"></i></div>
+                        <span class="text-xs font-semibold text-slate-400">Hospedaje</span>
+                    </div>
+                    <div class="category-item flex flex-col items-center gap-3" data-cat="Alimentos y Bebidas">
+                        <div class="icon-box"><i class="fa-solid fa-utensils text-lg"></i></div>
+                        <span class="text-xs font-semibold text-slate-400 text-center">Alimentos<br>y Bebidas</span>
+                    </div>
+                    <div class="category-item flex flex-col items-center gap-3" data-cat="Experiencias">
+                        <div class="icon-box"><i class="fa-solid fa-mountain-sun text-lg"></i></div>
+                        <span class="text-xs font-semibold text-slate-400">Experiencias</span>
+                    </div>
+                    <div class="category-item flex flex-col items-center gap-3" data-cat="Transporte">
+                        <div class="icon-box"><i class="fa-solid fa-bus text-lg"></i></div>
+                        <span class="text-xs font-semibold text-slate-400">Transporte</span>
+                    </div>
+                    <div class="category-item flex flex-col items-center gap-3" data-cat="Artesanías">
+                        <div class="icon-box"><i class="fa-solid fa-jar text-lg"></i></div>
+                        <span class="text-xs font-semibold text-slate-400">Artesanías</span>
+                    </div>
+                    <div class="category-item flex flex-col items-center gap-3" data-cat="Guías">
+                        <div class="icon-box"><i class="fa-solid fa-user-tie text-lg"></i></div>
+                        <span class="text-xs font-semibold text-slate-400">Guías</span>
+                    </div>
+                    <div class="category-item flex flex-col items-center gap-3">
+                        <div class="icon-box"><i class="fa-solid fa-ellipsis text-lg"></i></div>
+                        <span class="text-xs font-semibold text-slate-400">Más</span>
+                    </div>
+                </div>
+
+                <!-- Featured Section -->
+                <section class="mb-14">
+                    <div class="flex items-center justify-between mb-8">
+                        <h2 class="text-[20px] font-extrabold text-slate-900">Empresas destacadas</h2>
+                        <a href="#" class="text-sm font-bold text-purple-600 hover:underline">Ver todas</a>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="featured-grid">
+                        <!-- Businesses injected here -->
+                    </div>
+                </section>
+
+                <!-- Destinations Section -->
+                <section>
+                    <div class="flex items-center justify-between mb-8">
+                        <h2 class="text-[20px] font-extrabold text-slate-900">Destinos populares</h2>
+                        <a href="#" class="text-sm font-bold text-purple-600 hover:underline">Ver todos</a>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6" id="destinations-grid">
+                        <!-- Destinations injected here -->
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Sidebar Filters -->
+            <aside class="w-[360px] bg-white border-l border-slate-100 p-8 overflow-y-auto custom-scrollbar shrink-0">
+                <div class="flex items-center justify-between mb-8">
+                    <h2 class="text-[18px] font-extrabold text-slate-900">Filtros</h2>
+                    <button onclick="resetFilters()"
+                        class="text-xs font-bold text-purple-600 flex items-center gap-2 hover:bg-purple-50 px-3 py-1.5 rounded-lg active:scale-95 transition-all">
+                        Limpiar <i class="fa-solid fa-rotate-right"></i>
+                    </button>
+                </div>
+
+                <div class="space-y-8">
+                    <!-- Location Filter -->
+                    <div>
+                        <label class="text-[13px] font-bold text-slate-800 block mb-3">Ubicación</label>
+                        <div class="relative">
+                            <i
+                                class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                            <input type="text" id="filter-location" placeholder="¿Dónde buscas?"
+                                class="w-full bg-[#f8fafc] border border-slate-100 rounded-xl pl-11 pr-12 py-3 text-sm focus:outline-none focus:ring-4 ring-purple-100 transition-all font-medium">
+                            <i
+                                class="fa-solid fa-location-crosshairs absolute right-4 top-1/2 -translate-y-1/2 text-purple-500 cursor-pointer"></i>
+                        </div>
+                    </div>
+
+                    <!-- Type Filter -->
+                    <div>
+                        <label class="text-[13px] font-bold text-slate-800 block mb-3">Tipo de empresa</label>
+                        <select id="filter-type"
+                            class="w-full bg-[#f8fafc] border border-slate-100 rounded-xl px-4 py-3 text-sm focus:outline-none transition-all font-medium appearance-none">
+                            <option value="Todos">Todos</option>
+                            <option value="Hospedaje">Hospedaje</option>
+                            <option value="Alimentos y Bebidas">Alimentos y Bebidas</option>
+                            <option value="Experiencias">Experiencias</option>
+                            <option value="Transporte">Transporte</option>
+                            <option value="Artesanías">Artesanías</option>
+                            <option value="Guías">Guías</option>
+                        </select>
+                    </div>
+
+                    <!-- Price Filter -->
+                    <div>
+                        <label class="text-[13px] font-bold text-slate-800 block mb-3">Rango de precio</label>
+                        <div class="flex gap-4">
+                            <div><input type="checkbox" id="p1" class="hidden price-checkbox p-filter" value="1"><label
+                                    for="p1">$</label></div>
+                            <div><input type="checkbox" id="p2" class="hidden price-checkbox p-filter" value="2"><label
+                                    for="p2">$$</label></div>
+                            <div><input type="checkbox" id="p3" class="hidden price-checkbox p-filter" value="3"><label
+                                    for="p3">$$$</label></div>
+                            <div><input type="checkbox" id="p4" class="hidden price-checkbox p-filter" value="4"><label
+                                    for="p4">$$$$</label></div>
+                        </div>
+                    </div>
+
+                    <!-- Rating Filter -->
+                    <div>
+                        <label class="text-[13px] font-bold text-slate-800 block mb-3">Calificación mínima</label>
+                        <div class="flex gap-3 mt-1">
+                            <div class="rating-chip r-filter" data-val="1"><i
+                                    class="fa-solid fa-star text-amber-400"></i> 1+</div>
+                            <div class="rating-chip r-filter" data-val="2"><i
+                                    class="fa-solid fa-star text-amber-400"></i> 2+</div>
+                            <div class="rating-chip r-filter" data-val="3"><i
+                                    class="fa-solid fa-star text-amber-400"></i> 3+</div>
+                            <div class="rating-chip r-filter active" data-val="4"><i
+                                    class="fa-solid fa-star text-white"></i> 4+</div>
+                        </div>
+                    </div>
+
+                    <!-- Services Filter -->
+                    <div>
+                        <label class="text-[13px] font-bold text-slate-800 block mb-3">Servicios</label>
+                        <div class="grid grid-cols-2 gap-y-4">
+                            <div class="flex">
+                                <input type="checkbox" id="service-wifi" class="hidden service-checkbox s-filter"
+                                    value="WiFi">
+                                <label for="service-wifi">
+                                    <div
+                                        class="w-5 h-5 border-2 border-slate-200 rounded-md flex items-center justify-center check-box transition-all">
+                                        <i class="fa-solid fa-check text-[10px] text-white"></i>
+                                    </div> WiFi
+                                </label>
+                            </div>
+                            <div class="flex">
+                                <input type="checkbox" id="service-pet" class="hidden service-checkbox s-filter"
+                                    value="Pet Friendly">
+                                <label for="service-pet">
+                                    <div
+                                        class="w-5 h-5 border-2 border-slate-200 rounded-md flex items-center justify-center check-box transition-all">
+                                        <i class="fa-solid fa-check text-[10px] text-white"></i>
+                                    </div> Pet Friendly
+                                </label>
+                            </div>
+                            <div class="flex">
+                                <input type="checkbox" id="service-park" class="hidden service-checkbox s-filter"
+                                    value="Estacionamiento">
+                                <label for="service-park">
+                                    <div
+                                        class="w-5 h-5 border-2 border-slate-200 rounded-md flex items-center justify-center check-box transition-all">
+                                        <i class="fa-solid fa-check text-[10px] text-white"></i>
+                                    </div> Estacionamiento
+                                </label>
+                            </div>
+                            <div class="flex">
+                                <input type="checkbox" id="service-pay" class="hidden service-checkbox s-filter"
+                                    value="Pago en línea">
+                                <label for="service-pay">
+                                    <div
+                                        class="w-5 h-5 border-2 border-slate-200 rounded-md flex items-center justify-center check-box transition-all">
+                                        <i class="fa-solid fa-check text-[10px] text-white"></i>
+                                    </div> Pago en línea
+                                </label>
+                            </div>
+                            <div class="flex">
+                                <input type="checkbox" id="service-access" class="hidden service-checkbox s-filter"
+                                    value="Accesible">
+                                <label for="service-access">
+                                    <div
+                                        class="w-5 h-5 border-2 border-slate-200 rounded-md flex items-center justify-center check-box transition-all">
+                                        <i class="fa-solid fa-check text-[10px] text-white"></i>
+                                    </div> Accesible
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Map Simulation -->
+                    <div>
+                        <label class="text-[13px] font-bold text-slate-800 block mb-4">Ubicación en el mapa</label>
+                        <div class="map-container h-[180px]">
+                            <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                class="w-full h-full object-cover opacity-60">
+                            <div class="absolute inset-0 bg-indigo-900/10 backdrop-blur-[1px]"></div>
+                            <!-- Markers -->
+                            <div class="map-marker" style="top: 20%; left: 45%;"></div>
+                            <div class="map-marker" style="top: 40%; left: 30%;"></div>
+                            <div class="map-marker" style="top: 35%; left: 70%;"></div>
+                            <div class="map-marker" style="top: 60%; left: 55%;"></div>
+                            <div class="map-marker" style="top: 70%; left: 25%;"></div>
+                            <div class="map-marker" style="top: 55%; left: 80%;"></div>
+
+                            <div class="absolute bottom-3 right-3 flex flex-col gap-1">
+                                <button
+                                    class="w-7 h-7 bg-white rounded-lg shadow-md flex items-center justify-center text-slate-600 hover:text-purple-600"><i
+                                        class="fa-solid fa-plus text-xs"></i></button>
+                                <button
+                                    class="w-7 h-7 bg-white rounded-lg shadow-md flex items-center justify-center text-slate-600 hover:text-purple-600"><i
+                                        class="fa-solid fa-minus text-xs"></i></button>
+                            </div>
+                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                <span
+                                    class="bg-white/80 px-4 py-2 rounded-full text-[12px] font-bold text-slate-900 shadow-sm border border-slate-100">Oaxaca
+                                    de Juárez</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-purple-50 p-6 rounded-2xl flex items-center justify-between border border-purple-100 group cursor-pointer transition-all hover:bg-purple-100 active:scale-95">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-purple-600 shadow-sm">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </div>
+                            <div>
+                                <p class="text-[13px] font-extrabold text-slate-900 leading-tight">¿No encuentras lo que
+                                    buscas?</p>
+                                <p class="text-[11px] text-purple-600 font-bold mt-1">Publica tu empresa o experiencia
+                                </p>
+                            </div>
+                        </div>
+                        <i
+                            class="fa-solid fa-chevron-right text-purple-400 group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <script>
+        // ============================================================
+        // 📌 DATOS SIMULADOS - ZONA DE PERSONALIZACIÓN
+        // ============================================================
+        // Para conectar con datos REALES, reemplaza este objeto con
+        // una llamada a tu API: fetch('/api/empresas').then(...)
+        //
+        // Estructura de cada empresa:
+        //   id        → número único (ej: 1, 2, 3...)
+        //   name      → Nombre real de la empresa
+        //   type      → Categoría: 'Hospedaje' | 'Alimentos y Bebidas' |
+        //               'Experiencias' | 'Transporte' | 'Artesanías' | 'Guías'
+        //   subType   → Subcategoría descriptiva (ej: 'Hotel Boutique')
+        //   location  → Dirección o municipio real
+        //   rating    → Calificación de 1.0 a 5.0
+        //   reviews   → Número de reseñas
+        //   priceLevel→ Nivel de precio: 1($) | 2($$) | 3($$$) | 4($$$$)
+        //   image     → URL de la foto. REEMPLAZA con tu imagen real:
+        //               - Opción A: Ruta local: 'images/mi-hotel.jpg'
+        //               - Opción B: URL externa: 'https://tuservidor.com/foto.jpg'
+        //   services  → Array de servicios disponibles:
+        //               'WiFi' | 'Pet Friendly' | 'Estacionamiento' |
+        //               'Pago en línea' | 'Accesible'
+        //   destaque  → true = aparece badge "Destacado" en la tarjeta
+        //   description → Descripción breve para el modal de detalle
+        //   phone     → (Opcional) Teléfono: '+52 951 000 0000'
+        //   website   → (Opcional) URL del sitio web
+        //   hours     → (Opcional) Horario: 'Lun-Sáb 8:00 - 22:00'
+        // ============================================================
+        const EXPLORE_DATA = {
+            empresas: [
+                { id: 1, name: 'Hierve el Agua', type: 'Experiencias', subType: 'Maravilla Natural', location: 'San Lorenzo Albarradas', rating: 4.9, reviews: 3450, priceLevel: 1, image: 'hierveagua.jpg', services: ['Estacionamiento', 'Pet Friendly'], destaque: true, description: 'Espectaculares cascadas petrificadas formadas a lo largo de miles de años, únicas en el continente. Disfruta de sus albercas naturales con vistas impresionantes a los valles.', phone: '+52 951 000 0000', hours: 'Lun-Dom 7:00 - 18:00' },
+                { id: 2, name: 'Laguna de Manialtepec', type: 'Experiencias', subType: 'Bioluminiscencia', location: 'Puerto Escondido', rating: 4.8, reviews: 1205, priceLevel: 2, image: 'laguna_manialtepec.jpg', services: ['Pago en línea', 'Estacionamiento'], destaque: true, description: 'Experimenta el fenómeno de la bioluminiscencia en esta impresionante laguna costera. Recorridos nocturnos guiados que te conectan directamente con la magia absoluta de la naturaleza.', phone: '+52 954 123 4567', hours: 'Lun-Dom 19:00 - 23:00' },
+                { id: 3, name: 'Templo de Santo Domingo', type: 'Experiencias', subType: 'Monumento Histórico', location: 'Oaxaca de Juárez', rating: 5.0, reviews: 5200, priceLevel: 1, image: 'templosantodomingo.jpg', services: ['Accesible'], destaque: true, description: 'Impresionante complejo arquitectónico colonial y máxima joya del barroco oaxaqueño. Alberga el museo de las culturas y un retablo bañado en oro que te dejará sin aliento.', phone: '', hours: 'Mar-Dom 10:00 - 18:00' },
+                { id: 4, name: 'Barrio de Jalatlaco', type: 'Experiencias', subType: 'Barrio Tradicional', location: 'Oaxaca de Juárez', rating: 4.9, reviews: 2150, priceLevel: 1, image: 'barrio_jalatlaco.jpg', services: ['Pet Friendly'], destaque: false, description: 'Camina por uno de los barrios más pintorescos y antiguos de la ciudad, famoso por sus calles adoquinadas, espectaculares murales de arte urbano y auténtico café de olla.', phone: '', hours: 'Abierto 24 hrs' },
+                { id: 5, name: 'Monte Albán', type: 'Experiencias', subType: 'Zona Arqueológica', location: 'Santa Cruz Xoxocotlán', rating: 4.9, reviews: 6890, priceLevel: 2, image: 'montealban.jpg', services: ['Estacionamiento'], destaque: true, description: 'La imponente y antigua capital de los zapotecas, construida sobre montañas con enormes plazas, canchas de juego de pelota e impresionantes tumbas repletas de tesoros.', phone: '', hours: 'Lun-Dom 8:00 - 17:00' },
+                { id: 6, name: 'Jardín Etnobotánico', type: 'Experiencias', subType: 'Reserva Natural', location: 'Oaxaca de Juárez', rating: 4.8, reviews: 1540, priceLevel: 2, image: 'jardin_etnobotanico.jpg', services: ['Accesible'], destaque: false, description: 'Un santuario de la biodiversidad oaxaqueña diseñado por el artista Francisco Toledo. Alberga cientos de especies endémicas en un entorno arquitectónico verdaderamente mágico.', phone: '+52 951 516 5325', hours: 'Lun-Sáb 10:00 - 16:00' },
+                { id: 7, name: 'Playa Zicatela', type: 'Experiencias', subType: 'Surf & Comunidad', location: 'Puerto Escondido', rating: 4.7, reviews: 4300, priceLevel: 2, image: 'playazicatela.jpg', services: ['WiFi', 'Pago en línea'], destaque: true, description: 'Conocida como el "Pipeline Mexicano", es una de las mejores playas del mundo para practicar surf profesional, rodeada de vibrantes eventos, restaurantes y agitada vida nocturna.', phone: '', hours: 'Abierto 24 hrs' },
+                { id: 8, name: 'Punta Cometa', type: 'Experiencias', subType: 'Mirador Espiritual', location: 'Mazunte', rating: 4.9, reviews: 2890, priceLevel: 1, image: 'puntacometa.jpg', services: [], destaque: true, description: 'La montaña más saliente de México en el Pacífico Sur. Ofrece los atardeceres y amaneceres más espectaculares en un entorno casi virgen con fuerte energía electromagnética.', phone: '', hours: 'Abierto 24 hrs' },
+                { id: 9, name: 'Bahías de Huatulco', type: 'Experiencias', subType: 'Destino Sustentable', location: 'Santa María Huatulco', rating: 4.9, reviews: 5400, priceLevel: 3, image: 'huatulco.jpg', services: ['Accesible', 'Estacionamiento'], destaque: true, description: 'Explora 9 bahías hermosas y 36 playas vírgenes. Disfruta de la máxima certificación ecológica EarthCheck Platinum, arrecifes de coral vivos y turismo responsable.', phone: '', hours: 'Abierto 24 hrs' },
+                { id: 10, name: 'Playa Carrizalillo', type: 'Experiencias', subType: 'Bahía Secreta', location: 'Puerto Escondido', rating: 4.8, reviews: 3100, priceLevel: 2, image: 'playa_carrizalillo.jpg', services: ['Pago en línea'], destaque: false, description: 'Pequeña, hermosa y rodeada de acantilados forrados de palmeras. Puedes nadar o aprender a hacer surf en aguas sumamente amigables de tonalidad azul turquesa.', phone: '', hours: 'Abierto 24 hrs' },
+                { id: 11, name: 'Mazunte', type: 'Experiencias', subType: 'Pueblo Mágico', location: 'Costa Chica', rating: 4.8, reviews: 4120, priceLevel: 2, image: 'mazunte.jpg', services: ['WiFi'], destaque: false, description: 'Comunidad con ambiente relajado y bohemio, hogar del Centro Mexicano de la Tortuga y famosa por acoger tribus de viajeros buscando conectar con el yoga y la naturaleza.', phone: '', hours: 'Abierto 24 hrs' },
+                { id: 12, name: 'Cascadas Mágicas de Copalita', type: 'Experiencias', subType: 'Oasis Selvático', location: 'Huatulco', rating: 4.7, reviews: 890, priceLevel: 2, image: 'cascada_magica_copalita.jpg', services: ['Estacionamiento'], destaque: false, description: 'Balneario natural inmerso en la selva baja de la región. El verde profundo de su vegetación contrasta maravillosamente con pozas refrescantes y fincas históricas.', phone: '', hours: 'Lun-Dom 8:00 - 17:00' },
+                { id: 13, name: 'Playa La Entrega', type: 'Experiencias', subType: 'Acuario Marino', location: 'Huatulco', rating: 4.8, reviews: 2200, priceLevel: 2, image: 'playalaentrega.jpg', services: ['Estacionamiento', 'Accesible'], destaque: false, description: 'El sitio perfecto para familias. Sus barreras coralinas casi al nivel de la costa otorgan la mejor experiencia de snorkel del estado de forma 100% segura.', phone: '', hours: 'Abierto 24 hrs' },
+                { id: 14, name: 'Playa San Agustín', type: 'Experiencias', subType: 'Expedición Marina', location: 'Huatulco', rating: 4.7, reviews: 1150, priceLevel: 2, image: 'playasanagustin.jpg', services: [], destaque: false, description: 'La bahía más pintoresca de todo el conjunto. Famosa por sus restaurantes de mariscos frescos sobre la arena y un espectacular arrecife somero.', phone: '', hours: 'Abierto 24 hrs' },
+                { id: 15, name: 'Puerto Escondido', type: 'Experiencias', subType: 'Capital del Surf', location: 'Costa Oaxaqueña', rating: 4.8, reviews: 8900, priceLevel: 3, image: 'puertoescondido.jpg', services: ['WiFi', 'Estacionamiento'], destaque: true, description: 'El paraíso vibrante de la Costa. Combina de manera increíble el espíritu de una comunidad de pescadores con la explosión cosmopolita de creadores digitales.', phone: '', hours: 'Abierto 24 hrs' },
+                { id: 16, name: 'Playa Bacocho', type: 'Experiencias', subType: 'Tortugas Marinas', location: 'Puerto Escondido', rating: 4.6, reviews: 1530, priceLevel: 3, image: 'playabacocho.jpg', services: ['Pet Friendly', 'Estacionamiento'], destaque: false, description: 'Inmensa playa virgen y certificada por sus normativas de limpieza. Cada atardecer es anfitriona de conmovedores campamentos de liberación de crías de tortuga marina.', phone: '', hours: 'Abierto 24 hrs' }
+            ],
+            destinos: [
+                { id: 1, name: 'Valle de Oaxaca', companies: 850, image: 'templosantodomingo.jpg' },
+                { id: 2, name: 'Puerto Escondido', companies: 940, image: 'puertoescondido.jpg' },
+                { id: 3, name: 'Bahías de Huatulco', companies: 620, image: 'huatulco.jpg' },
+                { id: 4, name: 'Ruta Mágica Mazunte', companies: 150, image: 'mazunte.jpg' },
+                { id: 5, name: 'Montañas Zapotecas', companies: 85, image: 'hierveagua.jpg' }
+            ]
+        };
+
+        // 2. LOGIC & STATE
+        let currentCategory = 'Todos';
+        let filters = { search: '', location: '', type: 'Todos', prices: [], rating: 0, services: [] };
+        let favorites = new Set();
+
+        function renderAll() {
+            const featuredGrid = document.getElementById('featured-grid');
+            const destGrid = document.getElementById('destinations-grid');
+
+            // Filter Logic
+            const filtered = EXPLORE_DATA.empresas.filter(emp => {
+                const matchCat = currentCategory === 'Todos' || emp.type === currentCategory;
+                const matchSearch = emp.name.toLowerCase().includes(filters.search.toLowerCase());
+                const matchLoc = emp.location.toLowerCase().includes(filters.location.toLowerCase());
+                const matchType = filters.type === 'Todos' || emp.type === filters.type;
+                const matchRating = emp.rating >= filters.rating;
+                const matchPrice = filters.prices.length === 0 || filters.prices.includes(emp.priceLevel.toString());
+                const matchServices = filters.services.length === 0 || filters.services.every(s => emp.services.includes(s));
+
+                return matchCat && matchSearch && matchLoc && matchType && matchRating && matchPrice && matchServices;
+            });
+
+            featuredGrid.innerHTML = filtered.map(emp => `
+                <div class="business-card group cursor-pointer" onclick="openQuickView(${emp.id})">
+                    <div class="relative h-44 overflow-hidden">
+                        <img src="${emp.image}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-black/5"></div>
+                        <div class="absolute top-3 left-3">
+                            ${emp.destaque ? '<span class="bg-purple-600 text-[9px] font-black text-white px-2 py-1 rounded-md tracking-wider">Destacado</span>' : ''}
+                        </div>
+                        <div class="absolute top-3 right-3">
+                            <button onclick="toggleFavorite(event, ${emp.id}, this)" class="w-8 h-8 rounded-full flex items-center justify-center heart-btn ${favorites.has(emp.id) ? 'active' : ''}">
+                                <i class="fa-solid fa-heart text-white text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-sm font-black text-slate-800 truncate mb-1">${emp.name}</h3>
+                        <p class="text-[11px] font-bold text-slate-400 mb-2">${emp.subType}</p>
+                        <div class="flex items-center gap-1.5 text-[10px] text-slate-500 mb-3">
+                            <i class="fa-solid fa-location-dot text-slate-400 text-[10px]"></i>
+                            <span class="truncate">${emp.location}</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 mb-4">
+                            <div class="flex items-center gap-1">
+                                <i class="fa-solid fa-star text-amber-400 text-[10px]"></i>
+                                <span class="text-[11px] font-black text-slate-800">${emp.rating}</span>
+                                <span class="text-[10px] text-slate-400 font-bold">(${emp.reviews})</span>
+                            </div>
+                        </div>
+                        <span class="inline-block bg-[#f5f3ff] text-purple-600 text-[9px] font-black px-3 py-1.5 rounded-lg uppercase tracking-wider">${emp.type}</span>
+                    </div>
+                </div>
+            `).join('') || '<div class="col-span-full py-12 text-center text-slate-400 font-bold">Sin resultados</div>';
+
+            destGrid.innerHTML = EXPLORE_DATA.destinos.map(dest => `
+                <div class="group cursor-pointer">
+                    <div class="relative h-48 rounded-[16px] overflow-hidden mb-3">
+                        <img src="${dest.image}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-black/10"></div>
+                    </div>
+                    <h4 class="text-[14px] font-black text-slate-900 mb-0.5">${dest.name}</h4>
+                    <p class="text-[11px] font-bold text-slate-400">${dest.companies} empresas</p>
+                </div>
+            `).join('');
+        }
+
+        function toggleFavorite(e, id, el) {
+            e.stopPropagation();
+            if (favorites.has(id)) {
+                favorites.delete(id);
+                el.classList.remove('active');
+            } else {
+                favorites.add(id);
+                el.classList.add('active');
+            }
+        }
+
+        function openQuickView(id) {
+            const emp = EXPLORE_DATA.empresas.find(e => e.id === id);
+            const modal = document.getElementById('quick-view-modal');
+            const inner = document.getElementById('modal-body');
+
+            inner.innerHTML = `
+                <div class="flex flex-col lg:flex-row h-full">
+                    <!-- 🖼️ FOTO PRINCIPAL: Sustituye emp.image con tu imagen real -->
+                    <div class="lg:w-1/2 min-h-[300px]">
+                        <img src="${emp.image}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="lg:w-1/2 p-10 overflow-y-auto">
+                        <span class="inline-block bg-purple-100 text-purple-600 px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest mb-4">${emp.type}</span>
+                        <!-- 🏷️ NOMBRE: emp.name -->
+                        <h2 class="text-3xl font-black text-slate-900 mb-3 tracking-tight leading-tight">${emp.name}</h2>
+                        <!-- 📍 UBICACIÓN: emp.location -->
+                        <p class="text-slate-400 font-bold mb-4 text-sm flex items-center gap-2"><i class="fa-solid fa-location-dot text-purple-500"></i> ${emp.location}</p>
+                        <!-- 📝 DESCRIPCIÓN: emp.description -->
+                        <p class="text-slate-600 font-medium leading-relaxed mb-8">${emp.description}</p>
+                        
+                        <div class="grid grid-cols-3 gap-4 mb-8">
+                            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                                <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Calificación</p>
+                                <div class="flex items-center gap-1.5">
+                                    <i class="fa-solid fa-star text-amber-500 text-sm"></i>
+                                    <span class="text-xl font-black text-slate-900">${emp.rating}</span>
+                                </div>
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                                <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Precio</p>
+                                <div class="flex gap-0.5">
+                                    ${Array(4).fill(0).map((_, i) => `<span class="text-base font-black ${i < emp.priceLevel ? 'text-slate-900' : 'text-slate-200'}">$</span>`).join('')}
+                                </div>
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                                <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Reseñas</p>
+                                <span class="text-xl font-black text-slate-900">${emp.reviews}</span>
+                            </div>
+                        </div>
+
+                        <!-- 📞 TELÉFONO Y HORARIO (campos opcionales del objeto) -->
+                        ${emp.phone ? `<div class="flex gap-4 mb-6">
+                            <div class="flex items-center gap-2 text-slate-600 text-sm font-semibold">
+                                <i class="fa-solid fa-phone text-purple-500"></i> ${emp.phone}
+                            </div>
+                            ${emp.hours ? `<div class="flex items-center gap-2 text-slate-600 text-sm font-semibold">
+                                <i class="fa-solid fa-clock text-purple-500"></i> ${emp.hours}
+                            </div>` : ''}
+                        </div>` : ''}
+
+                        <div class="space-y-3 mb-8">
+                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Servicios disponibles</p>
+                            <div class="flex flex-wrap gap-2">
+                                ${emp.services.map(s => `<span class="bg-white border border-slate-100 px-3 py-1.5 rounded-lg text-[11px] font-bold text-slate-600 shadow-sm">${s}</span>`).join('')}
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <button class="flex-1 bg-purple-600 text-white py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-purple-100 hover:bg-purple-700 transition-all active:scale-95">Solicitar Contacto</button>
+                            <button class="w-14 h-14 border-2 border-slate-100 rounded-2xl flex items-center justify-center text-slate-400 transition-all hover:bg-slate-50 hover:text-purple-600"><i class="fa-solid fa-share-nodes"></i></button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                document.getElementById('modal-content').classList.remove('scale-95', 'opacity-0');
+                document.getElementById('modal-content').classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('quick-view-modal');
+            const content = document.getElementById('modal-content');
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        function resetFilters() {
+            filters = { search: '', location: '', type: 'Todos', prices: [], rating: 4, services: [] };
+            currentCategory = 'Todos';
+            document.querySelectorAll('.p-filter, .s-filter').forEach(i => i.checked = false);
+            document.querySelectorAll('.r-filter').forEach(r => r.classList.remove('active'));
+            document.querySelector('.r-filter[data-val="4"]').classList.add('active');
+            document.getElementById('filter-type').value = 'Todos';
+            document.getElementById('filter-location').value = '';
+            document.getElementById('main-search').value = '';
+            document.querySelectorAll('.category-item').forEach(c => c.classList.remove('active'));
+            document.querySelector('.category-item[data-cat="Todos"]').classList.add('active');
+            renderAll();
+        }
+
+        // Init Interactions
+        document.querySelectorAll('.category-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.category-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                currentCategory = item.getAttribute('data-cat') || 'Todos';
+                renderAll();
+            });
+        });
+
+        document.getElementById('main-search').addEventListener('input', (e) => {
+            filters.search = e.target.value;
+            renderAll();
+        });
+
+        document.getElementById('filter-location').addEventListener('input', (e) => {
+            filters.location = e.target.value;
+            renderAll();
+        });
+
+        document.getElementById('filter-type').addEventListener('change', (e) => {
+            filters.type = e.target.value;
+            renderAll();
+        });
+
+        document.querySelectorAll('.p-filter').forEach(p => {
+            p.addEventListener('change', () => {
+                filters.prices = Array.from(document.querySelectorAll('.p-filter:checked')).map(i => i.value);
+                renderAll();
+            });
+        });
+
+        document.querySelectorAll('.r-filter').forEach(r => {
+            r.addEventListener('click', () => {
+                document.querySelectorAll('.r-filter').forEach(i => {
+                    i.classList.remove('active');
+                    i.querySelector('i').className = 'fa-solid fa-star text-amber-400';
+                });
+                r.classList.add('active');
+                r.querySelector('i').className = 'fa-solid fa-star text-white';
+                filters.rating = parseInt(r.getAttribute('data-val'));
+                renderAll();
+            });
+        });
+
+        document.querySelectorAll('.s-filter').forEach(s => {
+            s.addEventListener('change', () => {
+                filters.services = Array.from(document.querySelectorAll('.s-filter:checked')).map(i => i.value);
+                renderAll();
+            });
+        });
+
+        window.onload = () => {
+            renderAll();
+
+            // ── Animaciones de entrada ──────────────────────────────────
+            // Usamos gsap.fromTo con clearProps para garantizar que los
+            // elementos siempre terminen en su estado natural (visible)
+            // y no queden atrapados con opacity:0 si GSAP se interrumpe.
+
+            // Solo la barra lateral IZQUIERDA (el <aside> primero en el DOM)
+            const leftSidebar = document.querySelector('body > aside, main ~ aside, aside:first-of-type')
+                || document.querySelector('aside');
+            if (leftSidebar) {
+                gsap.fromTo(leftSidebar,
+                    { x: -60, autoAlpha: 0 },
+                    { x: 0, autoAlpha: 1, duration: 0.7, ease: "power3.out", clearProps: "all" }
+                );
+            }
+
+            // Cabecera
+            gsap.fromTo("header",
+                { y: -30, autoAlpha: 0 },
+                { y: 0, autoAlpha: 1, duration: 0.6, delay: 0.15, ease: "power3.out", clearProps: "all" }
+            );
+
+            // Categorías: sin delay inicial para que no sean invisibles
+            gsap.fromTo(".category-item",
+                { y: 16, autoAlpha: 0 },
+                { y: 0, autoAlpha: 1, stagger: 0.06, duration: 0.45, delay: 0.25, ease: "back.out(1.4)", clearProps: "all" }
+            );
+        };
+    </script>
+</body>
+
+</html>

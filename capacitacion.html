@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capacitación – Red de Innovación Tecnológica en Turismo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        *{font-family:'Plus Jakarta Sans',sans-serif;}
+        :root{--primary:#7c3aed;}
+        ::-webkit-scrollbar{width:4px;}
+        ::-webkit-scrollbar-thumb{background:#e2e8f0;border-radius:10px;}
+        .sidebar-link{transition:all .2s;}
+        .sidebar-link:hover{background:rgba(255,255,255,.06);color:white;}
+        .sidebar-link.active{background:var(--primary);color:white;box-shadow:0 4px 12px rgba(124,58,237,.35);}
+        .course-card{transition:all .35s cubic-bezier(.075,.82,.165,1);}
+        .course-card:hover{transform:translateY(-4px);box-shadow:0 16px 32px rgba(0,0,0,.08);}
+        .cat-item{transition:all .25s;cursor:pointer;}
+        .cat-item:hover .cat-icon{border-color:var(--primary);color:var(--primary);}
+        .cat-item.active .cat-icon{background:#f5f3ff;border-color:var(--primary);color:var(--primary);}
+        .modal-overlay{background:rgba(15,23,42,.45);backdrop-filter:blur(6px);z-index:50;}
+        @keyframes slideUp{from{opacity:0;transform:translateY(32px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+        .modal-box{animation:slideUp .3s ease-out;}
+        .step-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;border:2px solid #e2e8f0;color:#94a3b8;transition:all .3s;}
+        .step-dot.done{background:var(--primary);border-color:var(--primary);color:white;}
+        .step-dot.active{border-color:var(--primary);color:var(--primary);}
+        .step-line{flex:1;height:2px;background:#e2e8f0;transition:background .3s;}
+        .step-line.done{background:var(--primary);}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+        .fade-in{animation:fadeIn .25s ease-out;}
+    </style>
+</head>
+<body class="h-screen flex overflow-hidden bg-[#f8fafc]">
+
+<!-- Sidebar left (reuse from other pages) -->
+<aside class="w-[260px] bg-[#141731] flex flex-col shrink-0">
+    <div class="p-7">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-cyan-400 via-indigo-400 to-purple-500 rounded-xl flex items-center justify-center shadow-lg">
+                <i class="fa-solid fa-shapes text-white text-lg"></i>
+            </div>
+            <span class="text-white font-extrabold text-xs leading-tight">Red de<br>Innovación<br>Tecnológica<br><span class="text-slate-400 font-medium">en Turismo</span></span>
+        </div>
+    </div>
+    <nav class="flex-1 px-3 space-y-0.5 overflow-y-auto">
+        <a href="index.html"      class="sidebar-link flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 font-semibold text-sm"><i class="fa-solid fa-house w-5 text-center"></i><span>Inicio</span></a>
+        <a href="explorar.html"    class="sidebar-link flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 font-semibold text-sm"><i class="fa-solid fa-compass w-5 text-center"></i><span>Explorar</span></a>
+        <a href="mensajeria.html"  class="sidebar-link flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 font-semibold text-sm"><i class="fa-solid fa-message w-5 text-center"></i><span>Mensajes</span></a>
+        <a href="#"                class="sidebar-link flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 font-semibold text-sm relative"><i class="fa-solid fa-bell w-5 text-center"></i><span>Notificaciones</span><span class="absolute right-4 bg-purple-600 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">3</span></a>
+        <a href="grupos.html"      class="sidebar-link flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 font-semibold text-sm"><i class="fa-solid fa-users w-5 text-center"></i><span>Grupos</span></a>
+        <a href="eventos.html"     class="sidebar-link flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 font-semibold text-sm"><i class="fa-solid fa-calendar-days w-5 text-center"></i><span>Eventos</span></a>
+        <a href="marketplace.html" class="sidebar-link flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 font-semibold text-sm"><i class="fa-solid fa-bag-shopping w-5 text-center"></i><span>Marketplace</span></a>
+        <a href="cursos.html"      class="sidebar-link active flex items-center gap-4 px-4 py-3 rounded-xl text-white font-bold text-sm"><i class="fa-solid fa-user-graduate w-5 text-center"></i><span>Capacitación</span></a>
+        <a href="innovacion.html"  class="sidebar-link flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 font-semibold text-sm"><i class="fa-solid fa-lightbulb w-5 text-center"></i><span>Innovación</span></a>
+        <a href="analitica.html"   class="sidebar-link flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 font-semibold text-sm"><i class="fa-solid fa-chart-line w-5 text-center"></i><span>Analítica</span></a>
+    </nav>
+    <div class="p-6 border-t border-white/5">
+        <div class="flex items-center gap-3 cursor-pointer group" onclick="window.location.href='perfil.html'">
+            <img src="https://i.pravatar.cc/150?img=47" class="w-10 h-10 rounded-full border border-white/10">
+            <div class="flex-1 overflow-hidden">
+                <p class="text-white font-bold text-xs truncate">María López</p>
+                <p class="text-slate-500 text-[10px] font-medium truncate uppercase tracking-widest">Empresa Turística</p>
+            </div>
+            <i class="fa-solid fa-chevron-down text-[10px] text-slate-500"></i>
+        </div>
+    </div>
+</aside>
+
+<!-- Main content -->
+<main class="flex-1 flex h-full overflow-hidden">
+    <!-- Central column -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+        <!-- Header -->
+        <header class="h-20 bg-white border-b border-slate-100 flex items-center justify-between px-10 shrink-0">
+            <div class="w-full max-w-xl relative group">
+                <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                <input type="text" id="global-search" placeholder="Buscar cursos..." oninput="filterCourses(this.value)"
+                    class="w-full bg-[#f8fafc] border border-transparent focus:bg-white focus:border-purple-200 rounded-2xl pl-12 pr-6 py-3 text-sm font-medium outline-none transition-all placeholder:text-slate-400">
+            </div>
+            <div class="flex items-center gap-5">
+                <button class="text-slate-400 hover:text-purple-600 transition-colors relative">
+                    <i class="fa-solid fa-bell text-lg"></i>
+                    <span class="absolute -top-1 -right-1 w-2 h-2 bg-rose-500 rounded-full border-2 border-white"></span>
+                </button>
+                <button class="text-slate-400 hover:text-purple-600 transition-colors"><i class="fa-solid fa-comment-dots text-lg"></i></button>
+                <img src="https://i.pravatar.cc/150?img=47" class="w-8 h-8 rounded-full cursor-pointer">
+                <button onclick="openCreateCourseModal()" class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2 shadow-lg shadow-purple-100 transition-all active:scale-95">
+                    <i class="fa-solid fa-plus"></i> Crear curso
+                </button>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto px-10 py-8">
+            <div class="mb-7">
+                <h1 class="text-3xl font-extrabold text-slate-900 mb-1">Capacitación y Cursos</h1>
+                <p class="text-slate-500 text-sm font-medium">Formación de alta calidad para impulsar el turismo sostenible en Oaxaca.</p>
+            </div>
+
+            <!-- Filters -->
+            <div class="flex flex-wrap gap-4 mb-6">
+                <select id="filter-cat" class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 ring-purple-200" onchange="applyFilters()">
+                    <option value="">Todas las categorías</option>
+                    <option>Cocina Tradicional</option>
+                    <option>Artesanía</option>
+                    <option>Ecoturismo</option>
+                    <option>Tecnología</option>
+                    <option>Música y Danza</option>
+                </select>
+                <select id="filter-price" class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 ring-purple-200" onchange="applyFilters()">
+                    <option value="">Rango de precio</option>
+                    <option value="0-100">$0‑$100</option>
+                    <option value="101-200">$101‑$200</option>
+                    <option value="201-999">$201+</option>
+                </select>
+                <select id="filter-duration" class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 ring-purple-200" onchange="applyFilters()">
+                    <option value="">Duración</option>
+                    <option value="4">4 semanas</option>
+                    <option value="5">5 semanas</option>
+                    <option value="6">6 semanas</option>
+                </select>
+            </div>
+
+            <!-- Category carousel -->
+            <section class="mb-8">
+                <h2 class="text-[15px] font-extrabold text-slate-900 mb-4">Categorías de cursos</h2>
+                <div class="flex items-center gap-2">
+                    <button onclick="scrollCats(-1)" class="w-8 h-8 bg-white border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:text-purple-600 shrink-0">
+                        <i class="fa-solid fa-chevron-left text-xs"></i>
+                    </button>
+                    <div class="flex gap-5 overflow-x-auto pb-1 flex-1" id="cat-row" style="scrollbar-width:none;">
+                        <!-- Filled by JS -->
+                    </div>
+                    <button onclick="scrollCats(1)" class="w-8 h-8 bg-white border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:text-purple-600 shrink-0">
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Courses grid -->
+            <section>
+                <div class="flex items-center justify-between mb-5">
+                    <h2 class="text-[15px] font-extrabold text-slate-900">Cursos disponibles</h2>
+                    <a href="#" class="text-sm font-bold text-purple-600 hover:underline">Ver todos</a>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5" id="courses-grid"></div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Right sidebar -->
+    <aside class="w-[280px] shrink-0 bg-white border-l border-slate-100 overflow-y-auto p-6 flex flex-col gap-7">
+        <div>
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-[13px] font-extrabold text-slate-900">Cursos destacados</h3>
+                <a href="#" class="text-[11px] font-bold text-purple-600 hover:underline">Ver todos</a>
+            </div>
+            <div class="space-y-3" id="sidebar-featured"></div>
+        </div>
+        <div>
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-[13px] font-extrabold text-slate-900">Recomendados para ti</h3>
+                <a href="#" class="text-[11px] font-bold text-purple-600 hover:underline">Ver todos</a>
+            </div>
+            <div class="space-y-3" id="sidebar-recommended"></div>
+        </div>
+        <div class="bg-purple-50 border border-purple-100 rounded-2xl p-4 text-xs text-slate-600 font-medium leading-relaxed">
+            <i class="fa-solid fa-shield-halved text-purple-500 mr-1"></i>
+            Inscríbete y mejora tus habilidades. Verifica la disponibilidad antes de confirmar.
+            <a href="#" class="text-purple-600 font-bold block mt-2">Ver política de reembolso →</a>
+        </div>
+    </aside>
+</main>
+
+<!-- Modal crear curso (3‑step wizard) -->
+<div id="create-course-modal" class="modal-overlay fixed inset-0 hidden items-center justify-center p-4">
+    <div class="modal-box bg-white rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden">
+        <div class="flex items-center justify-between px-8 pt-7 pb-5 border-b border-slate-100">
+            <h2 class="text-xl font-extrabold text-slate-900">Crear nuevo curso</h2>
+            <button onclick="closeCreateCourseModal()" class="w-9 h-9 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:text-red-500 transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="flex items-center px-8 py-5 gap-2">
+            <div class="step-dot active" id="cs1">1</div>
+            <div class="step-line" id="cl1"></div>
+            <div class="step-dot" id="cs2">2</div>
+            <div class="step-line" id="cl2"></div>
+            <div class="step-dot" id="cs3">3</div>
+        </div>
+        <div class="px-8 pb-8">
+            <!-- Step 1 – Información básica -->
+            <div id="course-step-1" class="fade-in">
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-5">Paso 1 — Información básica</p>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-[13px] font-bold text-slate-700 mb-1.5">Título del curso *</label>
+                        <input id="c-title" type="text" placeholder="Ej: Taller de Mole Negro" maxlength="80"
+                            class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 ring-purple-200 font-medium transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-[13px] font-bold text-slate-700 mb-1.5">Descripción *</label>
+                        <textarea id="c-desc" rows="3" placeholder="Breve descripción del curso" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 ring-purple-200 font-medium transition-all resize-none"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-[13px] font-bold text-slate-700 mb-1.5">Categoría *</label>
+                        <select id="c-cat" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none font-medium">
+                            <option value="">Selecciona</option>
+                            <option>Cocina Tradicional</option>
+                            <option>Artesanía</option>
+                            <option>Ecoturismo</option>
+                            <option>Tecnología</option>
+                            <option>Música y Danza</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[13px] font-bold text-slate-700 mb-1.5">Duración (semanas) *</label>
+                        <input id="c-duration" type="number" min="1" placeholder="Ej: 4" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 ring-purple-200 font-medium transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-[13px] font-bold text-slate-700 mb-1.5">Precio (USD) *</label>
+                        <input id="c-price" type="number" min="0" placeholder="Ej: 120" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 ring-purple-200 font-medium transition-all">
+                    </div>
+                </div>
+            </div>
+            <!-- Step 2 – Imagen -->
+            <div id="course-step-2" class="fade-in hidden">
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-5">Paso 2 — Imagen del curso</p>
+                <div class="space-y-4">
+                    <div id="c-img-drop" onclick="document.getElementById('c-img').click()"
+                        class="border-2 border-dashed border-slate-200 rounded-2xl h-28 flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-purple-400 hover:bg-purple-50 transition-all">
+                        <i class="fa-solid fa-cloud-arrow-up text-2xl text-slate-400"></i>
+                        <span class="text-xs font-semibold text-slate-500">Haz clic o arrastra una imagen</span>
+                    </div>
+                    <input type="file" id="c-img" accept="image/*" class="hidden" onchange="previewCourseImg(this)">
+                    <img id="c-img-preview" class="mt-3 w-full h-28 object-cover rounded-2xl hidden">
+                </div>
+            </div>
+            <!-- Step 3 – Instructor & contacto -->
+            <div id="course-step-3" class="fade-in hidden">
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-5">Paso 3 — Instructor y contacto</p>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-[13px] font-bold text-slate-700 mb-1.5">Instructor *</label>
+                        <input id="c-instructor" type="text" placeholder="Ej: Chef María González" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 ring-purple-200 font-medium">
+                    </div>
+                    <div>
+                        <label class="block text-[13px] font-bold text-slate-700 mb-1.5">Contacto del instructor</label>
+                        <select id="c-contact" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none font-medium">
+                            <option value="">Selecciona contacto</option>
+                            <option>Carlos Mendoza – Coordinador</option>
+                            <option>Sofía Ruiz – Asistente</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="flex gap-3 mt-8">
+                <button id="c-btn-back" onclick="courseStepBack()" class="flex-1 border border-slate-200 text-slate-600 font-bold py-3.5 rounded-2xl hover:bg-slate-50 transition-all hidden">
+                    <i class="fa-solid fa-arrow-left mr-1.5"></i> Atrás
+                </button>
+                <button id="c-btn-next" onclick="courseStepNext()" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3.5 rounded-2xl shadow-lg shadow-purple-100 transition-all active:scale-95">
+                    Continuar <i class="fa-solid fa-arrow-right ml-1.5"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="fixed bottom-8 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-sm font-bold px-6 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 hidden z-50 transition-all">
+    <i class="fa-solid fa-circle-check text-green-400 text-lg"></i>
+    <span id="toast-msg"></span>
+</div>
+
+<script src="assets/capacitacion-data.js"></script>
+<script>
+// Helper animation
+function fadeInStagger(sel){
+    gsap.fromTo(sel,{autoAlpha:0,y:20},{autoAlpha:1,y:0,duration:0.4,stagger:0.1,ease:'power2.out'});
+}
+
+// Render categories carousel
+function renderCategories(){
+    const row=document.getElementById('cat-row');
+    row.innerHTML = CAP_CATEGORIES.map((c,i)=>`
+        <div class="cat-item flex flex-col items-center gap-2 shrink-0" onclick="filterByCat(${i})">
+            <div class="cat-icon w-14 h-14 ${c.color} border-2 border-white rounded-2xl flex items-center justify-center shadow-sm">
+                <i class="fa-solid ${c.icon} text-lg"></i>
+            </div>
+            <span class="text-[11px] font-bold text-slate-600 text-center leading-tight w-16">${c.label}</span>
+        </div>`).join('');
+    fadeInStagger('.cat-item');
+}
+
+// Render courses grid
+function renderCourses(list){
+    const grid=document.getElementById('courses-grid');
+    grid.innerHTML = list.map(c=>`
+        <div class="course-card bg-white rounded-2xl overflow-hidden border border-slate-100 flex flex-col">
+            <div class="relative h-48">
+                <img src="${c.photo}" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                <span class="absolute top-3 left-3 bg-white/90 text-slate-700 text-[10px] font-black px-2.5 py-1 rounded-full backdrop-blur-sm">
+                    <i class="fa-solid ${c.category==='Cocina Tradicional'?'fa-utensils':c.category==='Artesanía'?'fa-paintbrush':c.category==='Ecoturismo'?'fa-tree':c.category==='Tecnología'?'fa-microchip':'fa-music'} mr-1"></i>${c.category}
+                </span>
+                <button class="absolute top-3 right-3 w-7 h-7 bg-white/80 rounded-full flex items-center justify-center text-slate-500 hover:text-purple-600 backdrop-blur-sm">
+                    <i class="fa-solid fa-ellipsis text-xs"></i>
+                </button>
+                <div class="absolute -bottom-5 left-4 w-10 h-10 ${c.iconColor} rounded-xl flex items-center justify-center shadow-lg border-2 border-white">
+                    <i class="fa-solid ${c.icon} text-white text-sm"></i>
+                </div>
+            </div>
+            <div class="pt-8 px-4 pb-4 flex flex-col flex-1">
+                <h3 class="font-extrabold text-slate-900 text-sm mb-1 leading-tight">${c.title}</h3>
+                <p class="text-[11px] text-slate-500 font-medium leading-relaxed mb-2 flex-1">${c.desc}</p>
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-purple-600 font-bold text-lg">$${c.price}</span>
+                    <div class="flex items-center text-yellow-400">
+                        <i class="fa-solid fa-star"></i>
+                        <span class="ml-1 text-slate-700 font-medium">${c.rating}</span>
+                    </div>
+                </div>
+                <button onclick="enrollCourse(${c.id})" class="w-full py-2.5 rounded-xl text-xs font-bold bg-purple-50 text-purple-700 border border-purple-200 hover:bg-purple-100 transition-all active:scale-95">
+                    <i class="fa-solid fa-user-plus mr-1"></i> Inscribirme
+                </button>
+            </div>
+        </div>`).join('') || `<div class="col-span-3 py-16 text-center text-slate-400 font-semibold">No hay cursos que coincidan.</div>`;
+    fadeInStagger('.course-card');
+}
+
+// Sidebar render
+function renderSidebar(){
+    document.getElementById('sidebar-featured').innerHTML = CAP_COURSES.slice(0,3).map(c=>`
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 ${c.iconColor} rounded-xl flex items-center justify-center shrink-0">
+                <i class="fa-solid ${c.icon} text-white text-sm"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+                <p class="text-xs font-bold text-slate-800 truncate">${c.title}</p>
+                <p class="text-[10px] text-slate-400 font-semibold">$${c.price}</p>
+            </div>
+        </div>`).join('');
+    document.getElementById('sidebar-recommended').innerHTML = CAP_COURSES.slice(3,6).map(c=>`
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 ${c.iconColor} rounded-xl flex items-center justify-center shrink-0">
+                <i class="fa-solid ${c.icon} text-white text-sm"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+                <p class="text-xs font-bold text-slate-800 truncate">${c.title}</p>
+                <p class="text-[10px] text-slate-400 font-semibold">$${c.price}</p>
+            </div>
+        </div>`).join('');
+}
+
+// Filters
+function applyFilters(){
+    const cat=document.getElementById('filter-cat').value;
+    const price=document.getElementById('filter-price').value;
+    const dur=document.getElementById('filter-duration').value;
+    let filtered=CAP_COURSES;
+    if(cat) filtered=filtered.filter(c=>c.category===cat);
+    if(price){
+        const [min,max]=price.split('-');
+        filtered=filtered.filter(c=> c.price>=Number(min) && (max==='999'?true:c.price<=Number(max)) );
+    }
+    if(dur) filtered=filtered.filter(c=> c.duration.startsWith(dur));
+    renderCourses(filtered);
+}
+
+function filterByCat(idx){
+    const cat=CAP_CATEGORIES[idx].label;
+    if(cat==='Más'){ renderCourses(CAP_COURSES); return; }
+    const filtered=CAP_COURSES.filter(c=>c.category===cat);
+    renderCourses(filtered.length?filtered:CAP_COURSES);
+}
+
+function filterCourses(q){
+    const query=q.toLowerCase();
+    const filtered=CAP_COURSES.filter(c=>c.title.toLowerCase().includes(query)||c.desc.toLowerCase().includes(query));
+    renderCourses(filtered);
+}
+
+function scrollCats(dir){
+    const row=document.getElementById('cat-row');
+    row.scrollBy({left:dir*160,behavior:'smooth'});
+}
+
+// Enroll (toast)
+function enrollCourse(id){
+    const cur=CAP_COURSES.find(c=>c.id===id);
+    if(cur) showToast(`✅ Te has inscrito en "${cur.title}"`);
+}
+
+function showToast(msg){
+    const toast=document.getElementById('toast');
+    document.getElementById('toast-msg').textContent=msg;
+    toast.classList.remove('hidden');
+    toast.style.opacity='1';
+    setTimeout(()=>{toast.style.opacity='0'; setTimeout(()=>toast.classList.add('hidden'),300);},3000);
+}
+
+// Modal create course wizard
+let curStep=1;
+function openCreateCourseModal(){
+    curStep=1;
+    document.getElementById('c-img-preview').classList.add('hidden');
+    document.getElementById('c-img-drop').classList.remove('hidden');
+    document.getElementById('create-course-modal').classList.remove('hidden');
+    document.getElementById('create-course-modal').classList.add('flex');
+    updateCourseStepUI();
+}
+function closeCreateCourseModal(){
+    document.getElementById('create-course-modal').classList.add('hidden');
+    document.getElementById('create-course-modal').classList.remove('flex');
+}
+function courseStepNext(){
+    if(curStep===1){
+        if(!document.getElementById('c-title').value.trim()||!document.getElementById('c-cat').value||!document.getElementById('c-price').value){alert('Completa título, categoría y precio');return;}
+    }
+    if(curStep<3){curStep++; updateCourseStepUI();}
+    else saveNewCourse();
+}
+function courseStepBack(){
+    if(curStep>1){curStep--; updateCourseStepUI();}
+}
+function updateCourseStepUI(){
+    [1,2,3].forEach(n=>{
+        document.getElementById('course-step-'+n).classList.toggle('hidden', n!==curStep);
+        const dot=document.getElementById('cs'+n);
+        dot.classList.toggle('done', n<curStep);
+        dot.classList.toggle('active', n===curStep);
+        if(n>1) document.getElementById('cl'+(n-1)).classList.toggle('done', n<=curStep);
+    });
+    document.getElementById('c-btn-back').classList.toggle('hidden', curStep===1);
+    document.getElementById('c-btn-next').innerHTML = curStep<3 ? 'Continuar <i class="fa-solid fa-arrow-right ml-1.5"></i>' : '<i class="fa-solid fa-check mr-1.5"></i> Crear curso';
+}
+function previewCourseImg(input){
+    const file=input.files[0];
+    if(!file) return;
+    const reader=new FileReader();
+    reader.onload=e=>{
+        document.getElementById('c-img-preview').src=e.target.result;
+        document.getElementById('c-img-preview').classList.remove('hidden');
+        document.getElementById('c-img-drop').classList.add('hidden');
+    };
+    reader.readAsDataURL(file);
+}
+function saveNewCourse(){
+    const newCourse={
+        id:Date.now(),
+        title:document.getElementById('c-title').value.trim(),
+        desc:document.getElementById('c-desc').value.trim()||'Curso creado en la plataforma CVDR.',
+        category:document.getElementById('c-cat').value,
+        duration:document.getElementById('c-duration').value+' semanas',
+        price:Number(document.getElementById('c-price').value),
+        rating:4.5,
+        photo: document.getElementById('c-img-preview').src || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80',
+        icon: CAP_CATEGORIES.find(c=>c.label===document.getElementById('c-cat').value).icon,
+        iconColor: CAP_CATEGORIES.find(c=>c.label===document.getElementById('c-cat').value).color,
+        instructor: document.getElementById('c-instructor').value || 'Instructor Invitado'
+    };
+    CAP_COURSES.unshift(newCourse);
+    closeCreateCourseModal();
+    renderCourses(CAP_COURSES);
+    renderSidebar();
+    showToast(`🎉 Curso "${newCourse.title}" creado con éxito`);
+}
+
+// Init
+document.addEventListener('DOMContentLoaded',()=>{
+    renderCategories();
+    renderCourses(CAP_COURSES);
+    renderSidebar();
+    gsap.fromTo('aside',{x:-40,autoAlpha:0},{x:0,autoAlpha:1,duration:0.6, ease:'power3.out',clearProps:'all'});
+    gsap.fromTo('header',{y:-20,autoAlpha:0},{y:0,autoAlpha:1,duration:0.5,delay:0.15, ease:'power3.out',clearProps:'all'});
+});
+</script>
+</body>
+</html>
