@@ -6,6 +6,37 @@
     <title>Plataforma Turismo - Alianzas</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            200: '#fed7aa',
+                            300: '#fdba74',
+                            400: '#fb923c',
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            800: '#9a3412',
+                            900: '#7c2d12',
+                        },
+                        indigo: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                        },
+                        slate: {
+                            900: '#3E2723',
+                            800: '#4E342E',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="bg-slate-50 text-slate-800 h-screen flex overflow-hidden">
@@ -17,7 +48,7 @@
             <div class="logo-icon">
                 <i class="fa-solid fa-mountain-sun"></i>
             </div>
-            <div class="logo-text">Red de Innovación<br><span style="color: #a855f7;">Turística</span> CVDR</div>
+            <div class="logo-text">Red de Turismo<br><span style="color: #ea580c;">de Oaxaca</span></div>
         </div>
 
         <nav class="sidebar-nav">
@@ -48,7 +79,7 @@
             </a>
             <a href="marketplace.html" class="nav-link">
                 <i class="fa-solid fa-bag-shopping"></i>
-                <span>Marketplace</span>
+                <span>Productos Oaxaqueños</span>
             </a>
             <a href="alianzas.html" class="nav-link active">
                 <i class="fa-solid fa-handshake-angle"></i>
@@ -66,6 +97,10 @@
                 <i class="fa-solid fa-chart-line"></i>
                 <span>Analítica</span>
             </a>
+            <a href="https://cvdroaxaca.github.io/geoportalturistico/index.html" class="nav-link" target="_blank">
+                <i class="fa-solid fa-map-location-dot"></i>
+                <span>Geoportal</span>
+            </a>
         </nav>
 
         <div class="sidebar-footer">
@@ -80,7 +115,7 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 flex flex-col h-full overflow-hidden bg-[#f7f9fc]">
+    <main class="flex-1 flex flex-col h-full overflow-hidden bg-[#FFFBF7]">
         
         <!-- Header -->
         <header class="main-header">
@@ -89,7 +124,7 @@
             </button>
             <div class="flex items-center gap-4">
                 <h2 class="text-xl font-bold text-slate-800 flex items-center gap-3">
-                    <i class="fa-solid fa-handshake-angle text-purple-600"></i> Muro de Alianzas
+                    <i class="fa-solid fa-handshake-angle text-orange-600"></i> Muro de Alianzas
                 </h2>
             </div>
             
@@ -106,7 +141,7 @@
                 <!-- Main Feed: Oportunidades -->
                 <div class="flex-1 space-y-6">
                     <div class="flex gap-4 border-b border-slate-200 pb-2">
-                        <button class="text-purple-600 font-bold border-b-2 border-purple-600 pb-2">Oportunidades Abiertas</button>
+                        <button class="text-orange-600 font-bold border-b-2 border-purple-600 pb-2">Oportunidades Abiertas</button>
                         <button class="text-slate-500 font-medium pb-2 hover:text-slate-800">Mis Solicitudes</button>
                         <button class="text-slate-500 font-medium pb-2 hover:text-slate-800">Alianzas Exitosas</button>
                     </div>
@@ -137,7 +172,7 @@
                         
                         <div class="flex items-center justify-between border-t border-slate-100 pt-4">
                             <span class="text-xs text-slate-400">Publicado hace 3 días</span>
-                            <button class="bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold px-6 py-2 rounded-lg text-sm transition-colors flex items-center gap-2">
+                            <button class="bg-orange-50 hover:bg-orange-100 text-orange-700 font-bold px-6 py-2 rounded-lg text-sm transition-colors flex items-center gap-2">
                                 <i data-lucide="message-square" class="w-4 h-4"></i> Contactar
                             </button>
                         </div>
@@ -168,7 +203,7 @@
                         
                         <div class="flex items-center justify-between border-t border-slate-100 pt-4">
                             <span class="text-xs text-slate-400">Publicado hace 1 semana</span>
-                            <button class="bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold px-6 py-2 rounded-lg text-sm transition-colors flex items-center gap-2">
+                            <button class="bg-orange-50 hover:bg-orange-100 text-orange-700 font-bold px-6 py-2 rounded-lg text-sm transition-colors flex items-center gap-2">
                                 <i data-lucide="message-square" class="w-4 h-4"></i> Contactar
                             </button>
                         </div>
@@ -179,38 +214,38 @@
                 <div class="w-full lg:w-80 space-y-6">
                     <div class="bg-gradient-to-br from-purple-700 to-indigo-800 text-white p-6 rounded-2xl shadow-md border border-purple-600">
                         <div class="flex items-center gap-2 mb-4">
-                            <i data-lucide="info" class="w-5 h-5 text-purple-200"></i>
+                            <i data-lucide="info" class="w-5 h-5 text-orange-200"></i>
                             <h3 class="font-bold text-lg">Guía para Colaborar</h3>
                         </div>
-                        <p class="text-purple-100 text-sm mb-6">Sigue estos 4 pasos para formalizar alianzas exitosas dentro de la red.</p>
+                        <p class="text-orange-100 text-sm mb-6">Sigue estos 4 pasos para formalizar alianzas exitosas dentro de la red.</p>
                         
                         <div class="space-y-4">
                             <div class="flex gap-3">
-                                <div class="w-6 h-6 rounded-full bg-white text-purple-700 flex items-center justify-center font-bold text-xs shrink-0">1</div>
+                                <div class="w-6 h-6 rounded-full bg-white text-orange-700 flex items-center justify-center font-bold text-xs shrink-0">1</div>
                                 <div>
                                     <h4 class="font-bold text-sm">Identifica</h4>
-                                    <p class="text-xs text-purple-200">Revisa las oportunidades del muro.</p>
+                                    <p class="text-xs text-orange-200">Revisa las oportunidades del muro.</p>
                                 </div>
                             </div>
                             <div class="flex gap-3">
-                                <div class="w-6 h-6 rounded-full bg-white text-purple-700 flex items-center justify-center font-bold text-xs shrink-0">2</div>
+                                <div class="w-6 h-6 rounded-full bg-white text-orange-700 flex items-center justify-center font-bold text-xs shrink-0">2</div>
                                 <div>
                                     <h4 class="font-bold text-sm">Contacta</h4>
-                                    <p class="text-xs text-purple-200">Envía un mensaje directo a la empresa.</p>
+                                    <p class="text-xs text-orange-200">Envía un mensaje directo a la empresa.</p>
                                 </div>
                             </div>
                             <div class="flex gap-3">
-                                <div class="w-6 h-6 rounded-full bg-white text-purple-700 flex items-center justify-center font-bold text-xs shrink-0">3</div>
+                                <div class="w-6 h-6 rounded-full bg-white text-orange-700 flex items-center justify-center font-bold text-xs shrink-0">3</div>
                                 <div>
                                     <h4 class="font-bold text-sm">Acuerda</h4>
-                                    <p class="text-xs text-purple-200">Definan términos de ganancia mutua.</p>
+                                    <p class="text-xs text-orange-200">Definan términos de ganancia mutua.</p>
                                 </div>
                             </div>
                             <div class="flex gap-3">
-                                <div class="w-6 h-6 rounded-full bg-white text-purple-700 flex items-center justify-center font-bold text-xs shrink-0">4</div>
+                                <div class="w-6 h-6 rounded-full bg-white text-orange-700 flex items-center justify-center font-bold text-xs shrink-0">4</div>
                                 <div>
                                     <h4 class="font-bold text-sm">Registra</h4>
-                                    <p class="text-xs text-purple-200">Confirmen la alianza en la plataforma.</p>
+                                    <p class="text-xs text-orange-200">Confirmen la alianza en la plataforma.</p>
                                 </div>
                             </div>
                         </div>

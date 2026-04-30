@@ -6,6 +6,37 @@
     <title>Plataforma Turismo - Admin</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            200: '#fed7aa',
+                            300: '#fdba74',
+                            400: '#fb923c',
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            800: '#9a3412',
+                            900: '#7c2d12',
+                        },
+                        indigo: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                        },
+                        slate: {
+                            900: '#3E2723',
+                            800: '#4E342E',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="bg-slate-50 text-slate-800 h-screen flex overflow-hidden">
@@ -17,7 +48,7 @@
             <div class="logo-icon">
                 <i class="fa-solid fa-mountain-sun"></i>
             </div>
-            <div class="logo-text">Red de Innovación<br><span style="color: #a855f7;">Turística</span> CVDR</div>
+            <div class="logo-text">Red de Turismo<br><span style="color: #ea580c;">de Oaxaca</span></div>
         </div>
 
         <nav class="sidebar-nav">
@@ -48,7 +79,7 @@
             </a>
             <a href="marketplace.html" class="nav-link">
                 <i class="fa-solid fa-bag-shopping"></i>
-                <span>Marketplace</span>
+                <span>Productos Oaxaqueños</span>
             </a>
             <a href="cursos.html" class="nav-link">
                 <i class="fa-solid fa-user-graduate"></i>
@@ -66,6 +97,10 @@
                 <i class="fa-solid fa-user-shield"></i>
                 <span>Admin</span>
             </a>
+            <a href="https://cvdroaxaca.github.io/geoportalturistico/index.html" class="nav-link" target="_blank">
+                <i class="fa-solid fa-map-location-dot"></i>
+                <span>Geoportal</span>
+            </a>
         </nav>
 
         <div class="sidebar-footer">
@@ -80,7 +115,7 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 flex flex-col h-full overflow-hidden bg-[#f7f9fc]">
+    <main class="flex-1 flex flex-col h-full overflow-hidden bg-[#FFFBF7]">
         
         <!-- Header -->
         <header class="main-header">
@@ -113,7 +148,7 @@
                     </div>
                     
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex gap-4 items-center">
-                        <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center"><i data-lucide="hard-drive" class="w-6 h-6"></i></div>
+                        <div class="w-12 h-12 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center"><i data-lucide="hard-drive" class="w-6 h-6"></i></div>
                         <div>
                             <p class="text-xs text-slate-500 font-medium uppercase">Almacenamiento</p>
                             <p class="text-2xl font-bold text-slate-800">245 GB</p>
@@ -121,7 +156,7 @@
                     </div>
 
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex gap-4 items-center">
-                        <div class="w-12 h-12 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center"><i data-lucide="activity" class="w-6 h-6"></i></div>
+                        <div class="w-12 h-12 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center"><i data-lucide="activity" class="w-6 h-6"></i></div>
                         <div>
                             <p class="text-xs text-slate-500 font-medium uppercase">Solicitudes / min</p>
                             <p class="text-2xl font-bold text-slate-800">1,240</p>
@@ -172,7 +207,7 @@
                                         <span class="bg-green-100 text-green-700 font-bold px-2.5 py-1 rounded-full text-xs">Aprobado</span>
                                     </td>
                                     <td class="px-6 py-4 text-center">
-                                        <button class="text-slate-400 hover:text-purple-600"><i data-lucide="edit" class="w-4 h-4"></i></button>
+                                        <button class="text-slate-400 hover:text-orange-600"><i data-lucide="edit" class="w-4 h-4"></i></button>
                                     </td>
                                 </tr>
                                 
@@ -236,7 +271,7 @@
             badge.textContent = 'Aprobado';
             
             // Reemplazar botonera
-            btn.parentElement.innerHTML = `<button class="text-slate-400 hover:text-purple-600"><i data-lucide="edit" class="w-4 h-4"></i></button>`;
+            btn.parentElement.innerHTML = `<button class="text-slate-400 hover:text-orange-600"><i data-lucide="edit" class="w-4 h-4"></i></button>`;
             lucide.createIcons();
         }
 

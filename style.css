@@ -2,17 +2,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-    --primary: #7c3aed;
-    --primary-hover: #6d28d9;
-    --sidebar-bg: #1e1b4b;
-    --bg-main: #f7f9fc;
+    --primary: #ea580c;
+    --primary-hover: #9a3412;
+    --sidebar-bg: #0f172a;
+    --bg-main: #f8fafc;
     --text-main: #1e293b;
     --text-muted: #64748b;
     --border-color: #e2e8f0;
     --white: #ffffff;
-    --accent-terracotta: #cc5a27;
-    --accent-agave: #2d5a27;
-    --shadow-premium: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    --accent-gold: #f59e0b;
+    --accent-agave: #10b981;
+    --shadow-premium: 0 10px 40px -10px rgba(15, 23, 42, 0.1);
 }
 
 body {
@@ -139,14 +139,14 @@ body {
 .logo-icon {
     width: 3rem;
     height: 3rem;
-    background: linear-gradient(135deg, var(--primary) 0%, #a855f7 100%);
-    border-radius: 0.75rem;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent-gold) 100%);
+    border-radius: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.25rem;
     color: white;
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+    box-shadow: 0 8px 20px rgba(234, 88, 12, 0.3);
 }
 
 .logo-text {
@@ -236,14 +236,14 @@ body {
 }
 
 .ai-avatar {
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, #7c3aed, #4f46e5);
-    border-radius: 20px;
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, var(--primary), var(--accent-gold));
+    border-radius: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 10px 30px rgba(124, 58, 237, 0.4);
+    box-shadow: 0 15px 35px rgba(234, 88, 12, 0.4);
     cursor: pointer;
     border: 2px solid white;
     animation: floating 3s ease-in-out infinite;
@@ -353,7 +353,7 @@ body {
 
 /* Cards & Components */
 .guide-card {
-    background: #f8fafc;
+    background: #FFFBF7;
     border: 1px solid var(--slate-100);
     border-radius: 0.75rem;
     padding: 0.6rem;
@@ -455,7 +455,7 @@ body {
 }
 
 .badge {
-    background-color: #f5f3ff;
+    background-color: #fff7ed;
     color: var(--primary);
     font-size: 0.625rem;
     font-weight: 700;
@@ -659,9 +659,9 @@ body {
 
 .pulse-primary { animation: pulsePrimary 2s infinite; }
 @keyframes pulsePrimary {
-    0% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4); }
-    70% { box-shadow: 0 0 0 10px rgba(124, 58, 237, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0); }
+    0% { box-shadow: 0 0 0 0 rgba(234, 88, 12, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(234, 88, 12, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(234, 88, 12, 0); }
 }
 
 /* Leaflet Custom Div Icon */

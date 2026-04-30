@@ -6,6 +6,37 @@
     <title>Plataforma Turismo - Perfil</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            200: '#fed7aa',
+                            300: '#fdba74',
+                            400: '#fb923c',
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            800: '#9a3412',
+                            900: '#7c2d12',
+                        },
+                        indigo: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                        },
+                        slate: {
+                            900: '#3E2723',
+                            800: '#4E342E',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="bg-slate-50 text-slate-800 h-screen flex overflow-hidden">
@@ -17,7 +48,7 @@
             <div class="logo-icon">
                 <i class="fa-solid fa-mountain-sun"></i>
             </div>
-            <div class="logo-text">Red de Innovación<br><span style="color: #a855f7;">Turística</span> CVDR</div>
+            <div class="logo-text">Red de Turismo<br><span style="color: #ea580c;">de Oaxaca</span></div>
         </div>
 
         <nav class="sidebar-nav">
@@ -48,7 +79,7 @@
             </a>
             <a href="marketplace.html" class="nav-link">
                 <i class="fa-solid fa-bag-shopping"></i>
-                <span>Marketplace</span>
+                <span>Productos Oaxaqueños</span>
             </a>
             <a href="cursos.html" class="nav-link">
                 <i class="fa-solid fa-user-graduate"></i>
@@ -61,6 +92,10 @@
             <a href="analitica.html" class="nav-link">
                 <i class="fa-solid fa-chart-line"></i>
                 <span>Analítica</span>
+            </a>
+            <a href="https://cvdroaxaca.github.io/geoportalturistico/index.html" class="nav-link" target="_blank">
+                <i class="fa-solid fa-map-location-dot"></i>
+                <span>Geoportal</span>
             </a>
         </nav>
 
@@ -76,7 +111,7 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 flex flex-col h-full overflow-hidden bg-[#f7f9fc]">
+    <main class="flex-1 flex flex-col h-full overflow-hidden bg-[#FFFBF7]">
         
         <!-- Header -->
         <header class="main-header">
@@ -110,19 +145,19 @@
                             <span class="text-3xl font-bold text-white">CP</span>
                         </div>
                         <div class="flex-1 pb-2">
-                            <h1 class="text-2xl md:text-3xl font-bold text-slate-800 flex items-center justify-center md:justify-start gap-2">Casa de Piedra <i data-lucide="check-circle" class="w-6 h-6 text-blue-500 fill-blue-500"></i></h1>
+                            <h1 class="text-2xl md:text-3xl font-bold text-slate-800 flex items-center justify-center md:justify-start gap-2">Casa de Piedra <i data-lucide="check-circle" class="w-6 h-6 text-amber-500 fill-blue-500"></i></h1>
                             <p class="text-slate-500 font-medium mt-1">Hotel Boutique • Oaxaca de Juárez</p>
                         </div>
                         <div class="pb-2 flex flex-col sm:flex-row gap-3 w-full md:w-auto">
                             <button class="border border-slate-300 hover:bg-slate-50 text-slate-700 px-5 py-2 rounded-lg font-medium transition-colors">Seguir</button>
-                            <button class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2 rounded-lg font-medium shadow-sm transition-colors flex justify-center items-center gap-2"><i data-lucide="send" class="w-4 h-4"></i> Enviar Mensaje</button>
+                            <button class="bg-orange-600 hover:bg-orange-700 text-white px-5 py-2 rounded-lg font-medium shadow-sm transition-colors flex justify-center items-center gap-2"><i data-lucide="send" class="w-4 h-4"></i> Enviar Mensaje</button>
                         </div>
                     </div>
 
                     <!-- Acerca de y Tabs -->
                     <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
                         <div class="border-b border-slate-100 flex overflow-x-auto no-scrollbar px-6 space-x-6 md:space-x-8">
-                            <button class="text-purple-600 font-medium py-4 border-b-2 border-purple-600 whitespace-nowrap">Información</button>
+                            <button class="text-orange-600 font-medium py-4 border-b-2 border-purple-600 whitespace-nowrap">Información</button>
                             <button class="text-slate-500 font-medium py-4 hover:text-slate-800 whitespace-nowrap">Servicios</button>
                             <button class="text-slate-500 font-medium py-4 hover:text-slate-800 whitespace-nowrap">Reseñas</button>
                             <button class="text-slate-500 font-medium py-4 hover:text-slate-800 whitespace-nowrap">Colaboraciones</button>
@@ -135,10 +170,10 @@
                             
                             <h3 class="text-lg font-bold text-slate-800 mt-6 mb-3">Características de Habitaciones</h3>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <div class="flex items-center gap-3 text-slate-600 bg-slate-50 p-3 rounded-lg"><i data-lucide="wifi" class="w-5 h-5 text-purple-600"></i> WiFi Alta Velocidad</div>
-                                <div class="flex items-center gap-3 text-slate-600 bg-slate-50 p-3 rounded-lg"><i data-lucide="coffee" class="w-5 h-5 text-purple-600"></i> Desayuno Oaxaqueño</div>
-                                <div class="flex items-center gap-3 text-slate-600 bg-slate-50 p-3 rounded-lg"><i data-lucide="leaf" class="w-5 h-5 text-purple-600"></i> Amenidades Ecológicas</div>
-                                <div class="flex items-center gap-3 text-slate-600 bg-slate-50 p-3 rounded-lg"><i data-lucide="sun" class="w-5 h-5 text-purple-600"></i> Terraza con Vista</div>
+                                <div class="flex items-center gap-3 text-slate-600 bg-slate-50 p-3 rounded-lg"><i data-lucide="wifi" class="w-5 h-5 text-orange-600"></i> WiFi Alta Velocidad</div>
+                                <div class="flex items-center gap-3 text-slate-600 bg-slate-50 p-3 rounded-lg"><i data-lucide="coffee" class="w-5 h-5 text-orange-600"></i> Desayuno Oaxaqueño</div>
+                                <div class="flex items-center gap-3 text-slate-600 bg-slate-50 p-3 rounded-lg"><i data-lucide="leaf" class="w-5 h-5 text-orange-600"></i> Amenidades Ecológicas</div>
+                                <div class="flex items-center gap-3 text-slate-600 bg-slate-50 p-3 rounded-lg"><i data-lucide="sun" class="w-5 h-5 text-orange-600"></i> Terraza con Vista</div>
                             </div>
                         </div>
                     </div>
@@ -159,7 +194,7 @@
                                 </div>
                             </div>
                             <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center"><i data-lucide="award" class="w-5 h-5"></i></div>
+                                <div class="w-10 h-10 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center"><i data-lucide="award" class="w-5 h-5"></i></div>
                                 <div>
                                     <p class="text-sm font-bold text-slate-800">Turismo Sustentable</p>
                                     <p class="text-xs text-slate-500">SECTUR</p>
